@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>3D Viewer</title>
+    <meta name="description" content="WebGL 3D viewer" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #070a12;
+        --panel: rgba(255,255,255,0.06);
+        --border: rgba(255,255,255,0.14);
+        --text: rgba(255,255,255,0.92);
+        --muted: rgba(255,255,255,0.65);
+        --danger: #ef4444;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; margin: 0; background: var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+      #app { position: fixed; inset: 0; display: grid; grid-template-rows: auto 1fr; }
+      #bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+      }
+      #left { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+      #name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      #src { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      #right { display: flex; gap: 8px; align-items: center; }
+      .btn {
+        border: 1px solid var(--border);
+        background: rgba(255,255,255,0.06);
+        color: var(--text);
+        border-radius: 10px;
+        padding: 8px 10px;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .btn:hover { background: rgba(255,255,255,0.09); }
+      #canvas { width: 100%; height: 100%; display: block; }
+      #overlay {
+        position: absolute;
+        inset: 56px 0 0 0;
+        pointer-events: none;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      #error {
+        pointer-events: auto;
+        border: 1px solid rgba(239,68,68,0.40);
+        background: rgba(239,68,68,0.12);
+        border-radius: 12px;
+        padding: 10px 12px;
+        display: none;
+      }
+      #help {
+        pointer-events: none;
+        border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(255,255,255,0.05);
+        border-radius: 12px;
+        padding: 10px 12px;
+        color: rgba(255,255,255,0.78);
+        font-size: 12px;
+        max-width: 520px;
+      }
+      #help code { color: var(--text); }
+      a { color: inherit; }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="bar">
+        <div id="left">
+          <div id="name">3D Viewer</div>
+          <div id="src"></div>
+        </div>
+        <div id="right">
+          <button id="fit" class="btn" type="button">Fit</button>
+          <button id="reset" class="btn" type="button">Reset</button>
+          <a class="btn" href="./" title="Back to model list">Back</a>
+        </div>
+      </div>
+
+      <canvas id="canvas"></canvas>
+
+      <div id="overlay">
+        <div id="error"></div>
+        <div id="help">
+          <div><strong>Usage</strong>: <code>viewer.html?src=Models/your-model.glb</code></div>
+          <div style="margin-top:6px">Supported: <code>.glb</code>, <code>.gltf</code>, <code>.obj</code>, <code>.stl</code></div>
+          <div style="margin-top:6px">Controls: drag = orbit • wheel = zoom • right-drag = pan</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+      import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+      import { GLTFLoader } from "https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
+      import { OBJLoader } from "https://unpkg.com/three@0.160.0/examples/jsm/loaders/OBJLoader.js";
+      import { STLLoader } from "https://unpkg.com/three@0.160.0/examples/jsm/loaders/STLLoader.js";
+
+      const canvas = document.getElementById("canvas");
+      const elName = document.getElementById("name");
+      const elSrc = document.getElementById("src");
+      const elError = document.getElementById("error");
+      const btnFit = document.getElementById("fit");
+      const btnReset = document.getElementById("reset");
+
+      function showError(msg) {
+        elError.style.display = "block";
+        elError.innerHTML = msg;
+      }
+
+      function clearError() {
+        elError.style.display = "none";
+        elError.textContent = "";
+      }
+
+      const params = new URLSearchParams(location.search);
+      const src = (params.get("src") || "").trim();
+      const name = (params.get("name") || "").trim();
+
+      elName.textContent = name || "3D Viewer";
+      elSrc.textContent = src ? src : "Missing src param. Example: viewer.html?src=Models/model.glb";
+
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.0;
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x070a12);
+
+      const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 5000);
+      camera.position.set(2.2, 1.6, 2.2);
+
+      const controls = new OrbitControls(camera, canvas);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.08;
+      controls.screenSpacePanning = true;
+
+      const hemi = new THREE.HemisphereLight(0xffffff, 0x223344, 0.90);
+      scene.add(hemi);
+      const dir = new THREE.DirectionalLight(0xffffff, 1.25);
+      dir.position.set(5, 9, 4);
+      scene.add(dir);
+
+      const grid = new THREE.GridHelper(10, 10, 0x334155, 0x1f2937);
+      grid.material.opacity = 0.22;
+      grid.material.transparent = true;
+      scene.add(grid);
+
+      const root = new THREE.Group();
+      scene.add(root);
+
+      let loadedObject = null;
+      let defaultCam = camera.position.clone();
+      let defaultTarget = new THREE.Vector3(0, 0, 0);
+
+      function resize() {
+        const w = canvas.clientWidth;
+        const h = canvas.clientHeight;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / Math.max(1, h);
+        camera.updateProjectionMatrix();
+      }
+
+      function fitToObject(obj) {
+        const box = new THREE.Box3().setFromObject(obj);
+        if (!isFinite(box.min.x) || !isFinite(box.max.x)) return;
+
+        const size = box.getSize(new THREE.Vector3());
+        const center = box.getCenter(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const fov = (camera.fov * Math.PI) / 180;
+
+        // distance needed to fit max dimension in view (with margin)
+        const dist = (maxDim / (2 * Math.tan(fov / 2))) * 1.35;
+        const dir = new THREE.Vector3(1, 0.8, 1).normalize();
+
+        camera.position.copy(center).addScaledVector(dir, dist);
+        camera.near = Math.max(0.01, dist / 2000);
+        camera.far = Math.max(5000, dist * 50);
+        camera.updateProjectionMatrix();
+
+        controls.target.copy(center);
+        controls.update();
+
+        // also scale grid to something reasonable
+        const gridSize = Math.max(10, maxDim * 1.25);
+        const divisions = Math.max(10, Math.floor(gridSize));
+        const newGrid = new THREE.GridHelper(gridSize, divisions, 0x334155, 0x1f2937);
+        newGrid.material.opacity = 0.22;
+        newGrid.material.transparent = true;
+        scene.remove(grid);
+        scene.add(newGrid);
+      }
+
+      function resetView() {
+        camera.position.copy(defaultCam);
+        controls.target.copy(defaultTarget);
+        controls.update();
+      }
+
+      btnFit.addEventListener("click", () => {
+        if (loadedObject) fitToObject(loadedObject);
+      });
+      btnReset.addEventListener("click", resetView);
+
+      function withStandardMaterial(obj) {
+        obj.traverse((child) => {
+          if (!child.isMesh) return;
+          child.castShadow = false;
+          child.receiveShadow = false;
+          if (child.material) {
+            // If it already has PBR-like material, keep it.
+            const mats = Array.isArray(child.material) ? child.material : [child.material];
+            const shouldReplace = mats.some((m) => !("metalness" in m) && !("roughness" in m));
+            if (!shouldReplace) return;
+          }
+          child.material = new THREE.MeshStandardMaterial({
+            color: 0xdbeafe,
+            roughness: 0.75,
+            metalness: 0.05,
+          });
+        });
+      }
+
+      async function load() {
+        clearError();
+        if (!src) {
+          showError(`Missing <code>src</code> query parameter. Example: <code>viewer.html?src=Models/model.glb</code>`);
+          return;
+        }
+
+        const ext = src.split("?")[0].split("#")[0].toLowerCase().split(".").pop();
+
+        try {
+          if (loadedObject) {
+            root.remove(loadedObject);
+            loadedObject = null;
+          }
+
+          if (ext === "glb" || ext === "gltf") {
+            const loader = new GLTFLoader();
+            const gltf = await loader.loadAsync(src);
+            loadedObject = gltf.scene || gltf.scenes?.[0] || null;
+            if (!loadedObject) throw new Error("GLTF loaded but no scene found.");
+            root.add(loadedObject);
+          } else if (ext === "obj") {
+            const loader = new OBJLoader();
+            loadedObject = await loader.loadAsync(src);
+            withStandardMaterial(loadedObject);
+            root.add(loadedObject);
+          } else if (ext === "stl") {
+            const loader = new STLLoader();
+            const geom = await loader.loadAsync(src);
+            geom.computeVertexNormals();
+            const mat = new THREE.MeshStandardMaterial({ color: 0xdbeafe, roughness: 0.75, metalness: 0.05 });
+            loadedObject = new THREE.Mesh(geom, mat);
+            root.add(loadedObject);
+          } else {
+            throw new Error(`Unsupported file type: .${ext || "(none)"}`);
+          }
+
+          // Establish defaults based on loaded object.
+          defaultTarget = new THREE.Box3().setFromObject(loadedObject).getCenter(new THREE.Vector3());
+          defaultCam = camera.position.clone();
+          fitToObject(loadedObject);
+        } catch (e) {
+          showError(`Could not load <code>${escapeHtml(src)}</code>.<br/>Error: <code>${escapeHtml(e?.message || String(e))}</code>`);
+        }
+      }
+
+      function escapeHtml(s) {
+        return String(s)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function animate() {
+        resize();
+        controls.update();
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener("resize", resize);
+      resize();
+      await load();
+      animate();
+    </script>
+  </body>
+</html>
+

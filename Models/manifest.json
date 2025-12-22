@@ -1,0 +1,12 @@
+{
+  "models": [
+    {
+      "id": "cadwork-frame",
+      "name": "Cadwork Frame (sample)",
+      "type": "cadwork-html",
+      "href": "Models/cadwork-frame.html",
+      "description": "Sample Cadwork-exported HTML viewer moved from the previous site root."
+    }
+  ]
+}
+
