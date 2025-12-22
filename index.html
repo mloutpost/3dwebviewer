@@ -224,7 +224,7 @@
         const t = normalizeType(model);
         if (t === "cadwork-html") {
           const href = (model.href || "").toString().trim();
-          return href || null;
+          return href ? encodeURI(href) : null;
         }
         if (t === "asset") {
           const src = (model.src || model.href || "").toString().trim(); // allow href for convenience
