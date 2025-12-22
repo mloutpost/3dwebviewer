@@ -1,6 +1,34 @@
 {
   "models": [
     {
+      "id": "gwp-pavilion-1",
+      "name": "GWP pavilion (1)",
+      "type": "cadwork-html",
+      "href": "Models/GWP pavilion (1).html",
+      "description": ""
+    },
+    {
+      "id": "lone-oak-barn-5",
+      "name": "Lone Oak Barn (5)",
+      "type": "cadwork-html",
+      "href": "Models/Lone Oak Barn (5).html",
+      "description": ""
+    },
+    {
+      "id": "mccormick-barn-1",
+      "name": "McCormick Barn (1)",
+      "type": "cadwork-html",
+      "href": "Models/McCormick Barn (1).html",
+      "description": ""
+    },
+    {
+      "id": "pinewood-1",
+      "name": "Pinewood (1)",
+      "type": "cadwork-html",
+      "href": "Models/Pinewood (1).html",
+      "description": ""
+    },
+    {
       "id": "cadwork-frame",
       "name": "Cadwork Frame (sample)",
       "type": "cadwork-html",
