@@ -101,6 +101,14 @@
       }
       .card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.22); background: var(--panel2); }
       .card:active { transform: translateY(0); }
+      .card .thumb {
+        height: 160px;
+        background-color: rgba(0,0,0,0.2);
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-bottom: 1px solid var(--border);
+      }
       .card .inner { padding: 14px 14px 13px; display: grid; gap: 8px; }
       .card .name { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
       .card h2 { margin: 0; font-size: 15px; letter-spacing: 0.1px; }
@@ -220,6 +228,7 @@
           const u = new URL("viewer.html", window.location.href);
           u.searchParams.set("src", src);
           if (name) u.searchParams.set("name", name);
+          if (model.poster) u.searchParams.set("poster", model.poster);
           return u.pathname + u.search;
         }
         return null;
@@ -289,7 +298,13 @@
           card.rel = "noreferrer";
           card.setAttribute("role", "button");
 
+          let imgHtml = "";
+          if (raw.thumbnail) {
+            imgHtml = `<div class="thumb" style="background-image: url('${escapeHtml(raw.thumbnail)}')"></div>`;
+          }
+
           card.innerHTML = `
+            ${imgHtml}
             <div class="inner">
               <div class="name">
                 <h2>${escapeHtml(name)}</h2>
