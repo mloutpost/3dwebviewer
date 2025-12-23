@@ -8,16 +8,16 @@
     <style>
       :root {
         color-scheme: dark;
-        --bg: #0b1020;
-        --panel: rgba(255, 255, 255, 0.06);
-        --panel2: rgba(255, 255, 255, 0.09);
-        --text: rgba(255, 255, 255, 0.92);
-        --muted: rgba(255, 255, 255, 0.70);
-        --faint: rgba(255, 255, 255, 0.55);
+        --bg: #292929;
+        --panel: #273d2d;
+        --panel2: #2e4536;
+        --text: #fffcf1;
+        --muted: #768fa7;
+        --faint: rgba(255, 252, 241, 0.55);
         --border: rgba(255, 255, 255, 0.14);
         --shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
-        --accent: #7c3aed;
-        --accent2: #22c55e;
+        --accent: #768fa7;
+        --accent2: #273d2d;
         --danger: #ef4444;
       }
 
@@ -27,11 +27,7 @@
         margin: 0;
         font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
         color: var(--text);
-        background:
-          radial-gradient(1200px 700px at 12% 8%, rgba(124, 58, 237, 0.33), transparent 60%),
-          radial-gradient(900px 600px at 85% 30%, rgba(34, 197, 94, 0.20), transparent 55%),
-          radial-gradient(800px 600px at 55% 90%, rgba(59, 130, 246, 0.16), transparent 60%),
-          var(--bg);
+        background: var(--bg);
       }
 
       a { color: inherit; text-decoration: none; }
@@ -47,7 +43,7 @@
         gap: 8px;
         padding: 8px 12px;
         border: 1px solid var(--border);
-        background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+        background: var(--panel);
         border-radius: 999px;
         box-shadow: 0 10px 30px rgba(0,0,0,.25);
         color: var(--muted);
@@ -65,7 +61,7 @@
       }
       .input, .select, .btn {
         border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.06);
+        background: var(--panel);
         color: var(--text);
         border-radius: 12px;
         padding: 10px 12px;
@@ -81,10 +77,10 @@
         cursor: pointer;
         transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
       }
-      .btn:hover { transform: translateY(-1px); background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.22); }
+      .btn:hover { transform: translateY(-1px); background: var(--panel2); border-color: rgba(255,255,255,0.22); }
       .btn:active { transform: translateY(0); }
-      .btn.primary { border-color: rgba(124,58,237,0.55); background: rgba(124,58,237,0.20); }
-      .btn.primary:hover { background: rgba(124,58,237,0.30); }
+      .btn.primary { border-color: var(--accent); background: var(--accent); color: var(--bg); }
+      .btn.primary:hover { opacity: 0.9; }
       .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
 
       .grid {
@@ -96,21 +92,21 @@
       .card {
         grid-column: span 6;
         border: 1px solid var(--border);
-        background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+        background: var(--panel);
         border-radius: 16px;
         box-shadow: var(--shadow);
         overflow: hidden;
         cursor: pointer;
         transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
       }
-      .card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.22); background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05)); }
+      .card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.22); background: var(--panel2); }
       .card:active { transform: translateY(0); }
       .card .inner { padding: 14px 14px 13px; display: grid; gap: 8px; }
       .card .name { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
       .card h2 { margin: 0; font-size: 15px; letter-spacing: 0.1px; }
       .tag {
         font-size: 11px;
-        color: var(--muted);
+        color: var(--text);
         border: 1px solid rgba(255,255,255,0.16);
         background: rgba(255,255,255,0.05);
         padding: 4px 8px;
@@ -152,8 +148,8 @@
     <div class="wrap">
       <header>
         <div class="title">
-          <h1>3D Model Viewer</h1>
-          <p>Pick a model from the list below. Models are configured in <code>Models/manifest.json</code>.</p>
+          <h1>Timber Frame Kits</h1>
+          <p>Click on a model below to view in 3D</p>
         </div>
         <div class="pill">
           <span>Status:</span>
@@ -165,11 +161,9 @@
         <input id="q" class="input" placeholder="Search models…" autocomplete="off" />
         <select id="type" class="select" aria-label="Filter by type">
           <option value="">All types</option>
-          <option value="cadwork-html">Cadwork HTML</option>
+          <option value="cadwork-html">Frame</option>
           <option value="asset">3D asset (GLB/GLTF/OBJ/STL)</option>
         </select>
-        <button id="reload" class="btn" type="button" title="Reload manifest">Reload</button>
-        <a class="btn primary" href="Models/manifest.json" target="_blank" rel="noreferrer">Open manifest</a>
       </div>
 
       <div id="error" class="error" style="display:none"></div>
@@ -177,9 +171,6 @@
 
       <footer>
         <span>LC Timberframes • <code>build.lctimberframes.com</code></span>
-        <span>
-          Viewer for assets: <a href="viewer.html" target="_blank" rel="noreferrer">viewer.html</a>
-        </span>
       </footer>
     </div>
 
@@ -191,7 +182,6 @@
       const elErr = document.getElementById("error");
       const elQ = document.getElementById("q");
       const elType = document.getElementById("type");
-      const elReload = document.getElementById("reload");
 
       /** @type {{models: Array<any>} | null} */
       let manifest = null;
@@ -214,7 +204,6 @@
         if (!model || typeof model !== "object") return "";
         if (model.type === "cadwork-html") return "cadwork-html";
         if (model.type === "asset") return "asset";
-        // Back-compat: if it has a src (file), treat as asset; if href ends with .html, treat as cadwork
         if (typeof model.src === "string" && model.src.trim()) return "asset";
         if (typeof model.href === "string" && model.href.toLowerCase().endsWith(".html")) return "cadwork-html";
         return "";
@@ -227,7 +216,7 @@
           return href ? "wrapper.html?model=" + encodeURI(href) : null;
         }
         if (t === "asset") {
-          const src = (model.src || model.href || "").toString().trim(); // allow href for convenience
+          const src = (model.src || model.href || "").toString().trim();
           if (!src) return null;
           const name = (model.name || "").toString().trim();
           const u = new URL("viewer.html", window.location.href);
@@ -238,8 +227,9 @@
         return null;
       }
 
-      function typeLabel(t) {
-        if (t === "cadwork-html") return "Cadwork HTML";
+      function typeLabel(t, raw) {
+        if (raw && raw.tag) return raw.tag;
+        if (t === "cadwork-html") return "Frame";
         if (t === "asset") return "3D Asset";
         return "Unknown";
       }
@@ -258,7 +248,8 @@
             if (typeFilter && t !== typeFilter) return false;
             const name = (raw.name || raw.id || "").toString();
             const desc = (raw.description || "").toString();
-            const hay = (name + " " + desc + " " + (raw.href || "") + " " + (raw.src || "")).toLowerCase();
+            const tag = (raw.tag || "").toString();
+            const hay = (name + " " + desc + " " + tag + " " + (raw.href || "") + " " + (raw.src || "")).toLowerCase();
             return !q || hay.includes(q);
           });
 
@@ -266,7 +257,7 @@
           elGrid.innerHTML = `
             <div class="empty">
               <strong>No models configured.</strong>
-              Add entries to <code>Models/manifest.json</code> (and commit your model files under <code>Models/</code>).
+              Add entries to <code>Models/manifest.json</code>.
             </div>
           `;
           setStatus("0 models");
@@ -288,6 +279,7 @@
           const name = (raw.name || raw.id || "Untitled").toString();
           const desc = (raw.description || "").toString();
           const target = getModelTarget(raw);
+          const tag = typeLabel(t, raw);
 
           const metaPath = (t === "cadwork-html" ? raw.href : (raw.src || raw.href)) || "";
           const safeMeta = String(metaPath);
@@ -303,7 +295,7 @@
             <div class="inner">
               <div class="name">
                 <h2>${escapeHtml(name)}</h2>
-                <span class="tag">${escapeHtml(typeLabel(t))}</span>
+                <span class="tag">${escapeHtml(tag)}</span>
               </div>
               <p class="desc">${escapeHtml(desc || " ")}</p>
               <div class="meta">
@@ -316,7 +308,7 @@
           if (!target) {
             card.addEventListener("click", (e) => {
               e.preventDefault();
-              showError(`Model <code>${escapeHtml(name)}</code> is missing a valid <code>href</code> (cadwork-html) or <code>src</code> (asset) in <code>Models/manifest.json</code>.`);
+              showError(`Model <code>${escapeHtml(name)}</code> is missing a valid <code>href</code>.`);
             });
           }
 
@@ -338,7 +330,6 @@
       async function loadManifest() {
         clearError();
         setStatus("loading…");
-        elReload.disabled = true;
         try {
           const res = await fetch(MANIFEST_URL, { cache: "no-store" });
           if (!res.ok) throw new Error(`Failed to load manifest: ${res.status} ${res.statusText}`);
@@ -355,17 +346,13 @@
             `Error: <code>${escapeHtml(err && err.message ? err.message : String(err))}</code>` +
             `</span>`
           );
-        } finally {
-          elReload.disabled = false;
         }
       }
 
       elQ.addEventListener("input", render);
       elType.addEventListener("change", render);
-      elReload.addEventListener("click", loadManifest);
 
       loadManifest();
     </script>
   </body>
 </html>
-

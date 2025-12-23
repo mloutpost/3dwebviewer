@@ -8,11 +8,11 @@
     <style>
       :root {
         color-scheme: dark;
-        --bg: #070a12;
-        --panel: rgba(255,255,255,0.06);
+        --bg: #292929;
+        --panel: #273d2d;
         --border: rgba(255,255,255,0.14);
-        --text: rgba(255,255,255,0.92);
-        --muted: rgba(255,255,255,0.65);
+        --text: #fffcf1;
+        --muted: #768fa7;
         --danger: #ef4444;
       }
       * { box-sizing: border-box; }
@@ -25,7 +25,7 @@
         gap: 12px;
         padding: 10px 12px;
         border-bottom: 1px solid var(--border);
-        background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+        background: var(--panel);
       }
       #left { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
       #name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -137,7 +137,7 @@
       renderer.toneMappingExposure = 1.0;
 
       const scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x070a12);
+      scene.background = new THREE.Color(0x292929);
 
       const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 5000);
       camera.position.set(2.2, 1.6, 2.2);
@@ -303,4 +303,3 @@
     </script>
   </body>
 </html>
-
