@@ -1,6 +1,13 @@
 {
   "models": [
     {
+      "id": "cadwork-frame",
+      "name": "cadwork-frame",
+      "type": "cadwork-html",
+      "href": "Models/cadwork-frame.html",
+      "description": ""
+    },
+    {
       "id": "gwp-pavilion-1",
       "name": "GWP pavilion (1)",
       "type": "cadwork-html",
@@ -27,13 +34,6 @@
       "type": "cadwork-html",
       "href": "Models/Pinewood (1).html",
       "description": ""
-    },
-    {
-      "id": "cadwork-frame",
-      "name": "Cadwork Frame (sample)",
-      "type": "cadwork-html",
-      "href": "Models/cadwork-frame.html",
-      "description": "Sample Cadwork-exported HTML viewer moved from the previous site root."
     }
   ]
 }
