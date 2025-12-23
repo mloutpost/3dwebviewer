@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LC Timberframes • 3D Model Viewer</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --text: rgba(255, 255, 255, 0.92);
+      --border: rgba(255, 255, 255, 0.14);
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+    }
+    #lctf-nav {
+      background: rgba(11, 16, 32, 0.95);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      flex: 0 0 auto;
+      z-index: 10;
+    }
+    a.back-link {
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    a.back-link:hover {
+      color: white;
+    }
+    #lctf-model-select {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      outline: none;
+      font-size: 13px;
+      max-width: 300px;
+      cursor: pointer;
+    }
+    #lctf-model-select:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    #lctf-model-select option {
+      background: #1a2030;
+      color: white;
+    }
+    #viewer-frame {
+      flex: 1 1 auto;
+      border: none;
+      width: 100%;
+      height: 100%;
+      background: #fff; /* Models often expect white bg or handle their own */
+    }
+  </style>
+</head>
+<body>
+
+  <div id="lctf-nav">
+    <a href="index.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to all models
+    </a>
+    <select id="lctf-model-select">
+      <option value="" disabled selected>Select another model...</option>
+    </select>
+  </div>
+
+  <iframe id="viewer-frame" title="Model Viewer" allowfullscreen></iframe>
+
+  <script>
+    const MANIFEST_URL = "./Models/manifest.json";
+    
+    // Get 'model' param from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const modelPath = urlParams.get('model');
+    
+    if (!modelPath) {
+      alert("No model specified.");
+      window.location.href = "index.html";
+    }
+
+    const iframe = document.getElementById('viewer-frame');
+    iframe.src = modelPath;
+
+    // Load manifest for dropdown
+    fetch(MANIFEST_URL)
+      .then(r => r.json())
+      .then(data => {
+        const select = document.getElementById('lctf-model-select');
+        
+        // Sort models by name
+        const models = (data.models || []).sort((a, b) => a.name.localeCompare(b.name));
+        
+        models.forEach(m => {
+          // m.href is like "Models/file.html"
+          // We want the dropdown value to reload THIS page with ?model=Models/file.html
+          const opt = document.createElement('option');
+          opt.value = m.href;
+          opt.textContent = m.name;
+          
+          if (m.href === modelPath) {
+             opt.selected = true;
+          }
+          select.appendChild(opt);
+        });
+        
+        select.addEventListener('change', (e) => {
+          if (e.target.value) {
+            // Update URL and reload wrapper
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.set('model', e.target.value);
+            window.location.href = newUrl.toString();
+          }
+        });
+      })
+      .catch(e => console.error('Failed to load models manifest', e));
+  </script>
+</body>
+</html>
