@@ -161,8 +161,6 @@
         <input id="q" class="input" placeholder="Search models…" autocomplete="off" />
         <select id="type" class="select" aria-label="Filter by type">
           <option value="">All types</option>
-          <option value="cadwork-html">Frame</option>
-          <option value="asset">3D asset (GLB/GLTF/OBJ/STL)</option>
         </select>
       </div>
 
@@ -245,7 +243,7 @@
         const filtered = models
           .map((m) => ({ raw: m, t: normalizeType(m) }))
           .filter(({ raw, t }) => {
-            if (typeFilter && t !== typeFilter) return false;
+            if (typeFilter && raw.tag !== typeFilter) return false;
             const name = (raw.name || raw.id || "").toString();
             const desc = (raw.description || "").toString();
             const tag = (raw.tag || "").toString();
@@ -327,6 +325,30 @@
           .replaceAll("'", "&#039;");
       }
 
+      function populateTypes(models) {
+        const tags = new Set();
+        for (const m of models) {
+          if (m.tag) tags.add(m.tag);
+        }
+        const sorted = Array.from(tags).sort();
+
+        // Save current selection if possible
+        const current = elType.value;
+        
+        elType.innerHTML = '<option value="">All types</option>';
+        
+        for (const tag of sorted) {
+          const opt = document.createElement("option");
+          opt.value = tag;
+          opt.textContent = tag;
+          elType.appendChild(opt);
+        }
+        
+        if (tags.has(current)) {
+          elType.value = current;
+        }
+      }
+
       async function loadManifest() {
         clearError();
         setStatus("loading…");
@@ -335,6 +357,9 @@
           if (!res.ok) throw new Error(`Failed to load manifest: ${res.status} ${res.statusText}`);
           const json = await res.json();
           manifest = json;
+          if (manifest && Array.isArray(manifest.models)) {
+            populateTypes(manifest.models);
+          }
           render();
         } catch (err) {
           manifest = null;
