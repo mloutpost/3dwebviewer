@@ -31,6 +31,16 @@
       #name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       #src { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       #right { display: flex; gap: 8px; align-items: center; }
+      #img-view {
+        position: absolute;
+        inset: 56px 0 0 0;
+        z-index: 5;
+        background: var(--bg);
+        display: none;
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
       .btn {
         border: 1px solid var(--border);
         background: rgba(255,255,255,0.06);
@@ -81,12 +91,14 @@
           <div id="src"></div>
         </div>
         <div id="right">
+          <button id="toggle-view" class="btn" type="button" style="display:none">View Image</button>
           <button id="fit" class="btn" type="button">Fit</button>
           <button id="reset" class="btn" type="button">Reset</button>
           <a class="btn" href="./" title="Back to model list">Back</a>
         </div>
       </div>
 
+      <div id="img-view"></div>
       <canvas id="canvas"></canvas>
 
       <div id="overlay">
@@ -112,6 +124,8 @@
       const elError = document.getElementById("error");
       const btnFit = document.getElementById("fit");
       const btnReset = document.getElementById("reset");
+      const btnToggle = document.getElementById("toggle-view");
+      const elImgView = document.getElementById("img-view");
 
       function showError(msg) {
         elError.style.display = "block";
@@ -126,9 +140,36 @@
       const params = new URLSearchParams(location.search);
       const src = (params.get("src") || "").trim();
       const name = (params.get("name") || "").trim();
+      const poster = (params.get("poster") || "").trim();
 
       elName.textContent = name || "3D Viewer";
       elSrc.textContent = src ? src : "Missing src param. Example: viewer.html?src=Models/model.glb";
+
+      let showingImage = false;
+      if (poster) {
+        btnToggle.style.display = "inline-flex";
+        elImgView.style.backgroundImage = `url('${escapeHtml(poster)}')`;
+        
+        btnToggle.addEventListener("click", () => {
+          showingImage = !showingImage;
+          if (showingImage) {
+            elImgView.style.display = "block";
+            canvas.style.display = "none";
+            btnToggle.textContent = "View 3D";
+            // Hide overlay controls when in image mode if desired, or keep them
+            btnFit.style.display = "none";
+            btnReset.style.display = "none";
+          } else {
+            elImgView.style.display = "none";
+            canvas.style.display = "block";
+            btnToggle.textContent = "View Image";
+            btnFit.style.display = "inline-flex";
+            btnReset.style.display = "inline-flex";
+            // Trigger resize to ensure canvas is correct
+            resize();
+          }
+        });
+      }
 
       const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
