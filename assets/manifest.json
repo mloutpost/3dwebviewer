@@ -2,7 +2,7 @@
   "models": [
     {
       "id": "lc14-monitor-barn",
-      "name": "LC14 36x42 Monitor Barn",
+      "name": "36x42 Monitor Barn",
       "type": "cadwork-html",
       "href": "assets/Models/Copy of LC14 36x42 Monitor Barn Web Viewer/Copy of LC14 36x42 Monitor Barn Web Viewer.html",
       "description": "LC14 36x42 Monitor Barn Web Viewer",
@@ -14,10 +14,10 @@
     },
     {
       "id": "lctf-pf1",
-      "name": "LCTF PF1 Hammer Beam Pavilion 14x18 V1.1.1",
+      "name": "14x18 Hammer Beam Pavilion",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF1 Hammer Beam Pavilion 14x18 V1.1.1/LCTF PF1 Hammer Beam Pavilion 14x18 V1.1.1.html",
-      "description": "Hammer Beam Pavilion 14x18",
+      "description": "Hammer Beam Pavilion",
       "tag": "Pavilion",
       "price": "coming soon",
       "features": ["Hammer beam truss", "14x18 footprint", "Outdoor living space"],
@@ -25,7 +25,7 @@
     },
     {
       "id": "lctf-pf2",
-      "name": "LCTF PF2 Simple Curve Pavilion 10x16 V1.1.1",
+      "name": "10x16 Simple Curve Pavilion",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF2 Simple Curve Pavilion 10x16 V1.1.1/LCTF PF2 Simple Curve Pavilion 10x16 V1.1.1.html",
       "description": "Simple Curve Pavilion 10x16",
@@ -37,7 +37,7 @@
     },
     {
       "id": "lctf-pf3",
-      "name": "LCTF PF3 Cruck Pavilion 14x20 V1.2.1",
+      "name": "14x20 Cruck Pavilion",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF3 Cruck Pavilion 14x20 V1.2.1/LCTF PF3 Cruck Pavilion 14x20 V1.2.1.html",
       "description": "Cruck Pavilion 14x20",
@@ -49,7 +49,7 @@
     },
     {
       "id": "lctf-pf4",
-      "name": "LCTF PF4 Scissor Truss Pavilion 16x18 V1.2.1",
+      "name": "16x18 Sissor Truss Pavilion",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF4 Scissor Truss Pavilion 16x18 V1.2.1/LCTF PF4 Scissor Truss Pavilion 16x18 V1.2.1.html",
       "description": "Scissor Truss Pavilion 16x18",
@@ -61,7 +61,7 @@
     },
     {
       "id": "lctf-pf5",
-      "name": "LCTF PF5 Simple Corbel",
+      "name": "Simple Corbel",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF5 Simple Corbel/LCTF PF5 Simple Corbel.html",
       "description": "Simple Corbel",
@@ -73,7 +73,7 @@
     },
     {
       "id": "lctf-pf6",
-      "name": "LCTF PF6 Simple Corbel",
+      "name": "Simple Corbel",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF6 Simple Corbel/LCTF PF6 Simple Corbel.html",
       "description": "Simple Corbel",
@@ -85,19 +85,19 @@
     },
     {
       "id": "lctf-pf7",
-      "name": "LCTF PF7 One Piece Corbel",
+      "name": "Standalone Corbel",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF7 One Piece Corbel/LCTF PF7 One Piece Corbel.html",
       "description": "One Piece Corbel",
       "tag": "Corbels",
-      "price": "$300",
+      "price": "coming soon",
       "features": ["Single piece construction", "Elegant curve"],
       "gallery": [],
       "thumbnail": "https://via.placeholder.com/300x200?text=Corbel+7"
     },
     {
       "id": "lctf-pf9",
-      "name": "LCTF PF9 Simple Entryway",
+      "name": "Simple Entryway",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF9 Simple Entryway/LCTF PF9 Simple Entryway.html",
       "description": "Simple Entryway",
@@ -109,7 +109,7 @@
     },
     {
       "id": "lctf-pf10",
-      "name": "LCTF PF10 Scissor Truss Entryway",
+      "name": "Sissor Entryway",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF10 Scissor Truss Entryway/LCTF PF10 Scissor Truss Entryway.html",
       "description": "Scissor Truss Entryway",
@@ -121,7 +121,7 @@
     },
     {
       "id": "lctf-pf11",
-      "name": "LCTF PF11 Curved Truss Entryway",
+      "name": "Curved Truss Entryway",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF11 Curved Truss Entryway/LCTF PF11 Curved Truss Entryway.html",
       "description": "Curved Truss Entryway",
@@ -133,7 +133,7 @@
     },
     {
       "id": "lctf-pf12",
-      "name": "LCTF PF12 Simple Entryway",
+      "name": "Simple Entryway",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF12 Simple Entryway/LCTF PF12 Simple Entryway.html",
       "description": "Simple Entryway",
@@ -145,7 +145,7 @@
     },
     {
       "id": "lctf-pf14",
-      "name": "LCTF PF14 Simple Pergola 12x18 V1.1.1",
+      "name": "12x18 Pergola",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF14 Simple Pergola 12x18 V1.1.1/LCTF PF14 Simple Pergola 12x18 V1.1.1.html",
       "description": "Simple Pergola 12x18",
@@ -157,7 +157,7 @@
     },
     {
       "id": "lctf-pf15",
-      "name": "LCTF PF15 Slanted Pergola 12x16 V1.1.1",
+      "name": "12x16 Pergola",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF15 Slanted Pergola 12x16 V1.1.1/LCTF PF15 Slanted Pergola 12x16 V1.1.1.html",
       "description": "Slanted Pergola 12x16",
@@ -169,7 +169,7 @@
     },
     {
       "id": "lctf-pf16",
-      "name": "LCTF PF16 Simple Pergola 10x16 V1.1.1",
+      "name": "10x16 Simple Pergola",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF16 Simple Pergola 10x16 V1.1.1/LCTF PF16 Simple Pergola 10x16 V1.1.1.html",
       "description": "Simple Pergola 10x16",
@@ -181,7 +181,7 @@
     },
     {
       "id": "lctf-pf17",
-      "name": "LCTF PF17 Simple Pavilion 16x24 3.1.1",
+      "name": "16x24 King Post Pavilion",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF17 Simple Pavilion 16x24 3.1.1/LCTF PF17 Simple Pavilion 16x24 3.1.1.html",
       "description": "Simple Pavilion 16x24",
@@ -193,7 +193,7 @@
     },
     {
       "id": "lctf-pf18",
-      "name": "LCTF PF18 Simple Pergola 14x22 V1.1.1",
+      "name": "14x22 Pergola",
       "type": "cadwork-html",
       "href": "assets/Models/LCTF PF18 Simple Pergola 14x22 V1.1.1/LCTF PF18 Simple Pergola 14x22 V1.1.1.html",
       "description": "Simple Pergola 14x22",
@@ -205,7 +205,7 @@
     },
     {
       "id": "lone-oak-barn",
-      "name": "Lone Oak Barn",
+      "name": "48x60 Equestrian Barn",
       "type": "cadwork-html",
       "href": "assets/Models/Lone Oak Barn/Lone Oak Barn.html",
       "description": "Lone Oak Barn",
@@ -217,7 +217,7 @@
     },
     {
       "id": "notch-barn",
-      "name": "Notch Barn",
+      "name": "36x54 Dairy Barn",
       "type": "cadwork-html",
       "href": "assets/Models/Notch Barn/Notch Barn.html",
       "description": "Notch Barn",
