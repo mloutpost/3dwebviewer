@@ -21,8 +21,7 @@
       "tag": "Pavilion",
       "price": "$12,500",
       "features": ["Hammer beam truss", "14x18 footprint", "Outdoor living space"],
-      "gallery": ["https://via.placeholder.com/600x400?text=Pavilion+View+1"],
-      "thumbnail": "https://via.placeholder.com/300x200?text=Hammer+Beam"
+      "gallery": ["https://via.placeholder.com/600x400?text=Pavilion+View+1"]
     },
     {
       "id": "lctf-pf2",
