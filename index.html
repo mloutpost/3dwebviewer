@@ -194,7 +194,7 @@
     </div>
 
     <script>
-      const MANIFEST_URL = "./Models/manifest.json";
+      const MANIFEST_URL = "./assets/manifest.json";
 
       const elStatus = document.getElementById("status");
       const elGrid = document.getElementById("grid");
@@ -258,6 +258,36 @@
         return "Unknown";
       }
 
+      function getCoverCandidates(model, t) {
+        const rawPath = (t === "cadwork-html" ? model.href : (model.src || model.href || "")).toString().trim();
+        if (!rawPath) return [];
+        const lastSlash = rawPath.lastIndexOf("/");
+        if (lastSlash < 0) return [];
+        const dir = rawPath.slice(0, lastSlash + 1);
+
+        // Convention: each model folder may contain Cover.(webp|png|jpg|jpeg)
+        const base = dir + "Cover";
+        const exts = [".webp", ".png", ".jpg", ".jpeg"];
+        return exts.map((ext) => encodeURI(base + ext));
+      }
+
+      function applyThumbFromCandidates(elThumb, urls) {
+        if (!elThumb || !Array.isArray(urls) || urls.length === 0) return;
+
+        const tryLoad = (i) => {
+          if (i >= urls.length) return;
+          const url = urls[i];
+          const img = new Image();
+          img.onload = () => {
+            elThumb.style.backgroundImage = `url('${escapeHtml(url)}')`;
+          };
+          img.onerror = () => tryLoad(i + 1);
+          img.src = url;
+        };
+
+        tryLoad(0);
+      }
+
       function render() {
         clearError();
         elGrid.innerHTML = "";
@@ -281,7 +311,7 @@
           elGrid.innerHTML = `
             <div class="empty">
               <strong>No models configured.</strong>
-              Add entries to <code>Models/manifest.json</code>.
+              Add entries to <code>assets/manifest.json</code>.
             </div>
           `;
           setStatus("0 models");
@@ -315,13 +345,8 @@
           card.rel = "noreferrer";
           card.setAttribute("role", "button");
 
-          let imgHtml = "";
-          if (raw.thumbnail) {
-            imgHtml = `<div class="thumb" style="background-image: url('${escapeHtml(raw.thumbnail)}')"></div>`;
-          }
-
           card.innerHTML = `
-            ${imgHtml}
+            <div class="thumb"></div>
             <div class="inner">
               <div class="name">
                 <h2>${escapeHtml(name)}</h2>
@@ -334,6 +359,15 @@
               </div>
             </div>
           `;
+
+          const thumbEl = card.querySelector(".thumb");
+          if (thumbEl) {
+            if (raw.thumbnail) {
+              thumbEl.style.backgroundImage = `url('${escapeHtml(raw.thumbnail)}')`;
+            } else {
+              applyThumbFromCandidates(thumbEl, getCoverCandidates(raw, t));
+            }
+          }
 
           if (!target) {
             card.addEventListener("click", (e) => {

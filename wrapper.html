@@ -87,7 +87,7 @@
   <iframe id="viewer-frame" title="Model Viewer" allowfullscreen></iframe>
 
   <script>
-    const MANIFEST_URL = "./Models/manifest.json";
+    const MANIFEST_URL = "./assets/manifest.json";
     
     // Get 'model' param from URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -111,8 +111,8 @@
         const models = (data.models || []).sort((a, b) => a.name.localeCompare(b.name));
         
         models.forEach(m => {
-          // m.href is like "Models/file.html"
-          // We want the dropdown value to reload THIS page with ?model=Models/file.html
+          // m.href is like "assets/Models/<model-name>/<model-name>.html"
+          // We want the dropdown value to reload THIS page with ?model=assets/Models/<model-name>/<model-name>.html
           const opt = document.createElement('option');
           opt.value = m.href;
           opt.textContent = m.name;
