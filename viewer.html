@@ -103,7 +103,7 @@
       <div id="overlay">
         <div id="error"></div>
         <div id="help">
-          <div><strong>Usage</strong>: <code>viewer.html?src=Models/your-model.glb</code></div>
+          <div><strong>Usage</strong>: <code>viewer.html?src=assets/your-model.glb</code></div>
           <div style="margin-top:6px">Supported: <code>.glb</code>, <code>.gltf</code>, <code>.obj</code>, <code>.stl</code></div>
           <div style="margin-top:6px">Controls: drag = orbit • wheel = zoom • right-drag = pan</div>
         </div>
@@ -142,7 +142,7 @@
       const poster = (params.get("poster") || "").trim();
 
       elName.textContent = name || "3D Viewer";
-      elSrc.textContent = src ? src : "Missing src param. Example: viewer.html?src=Models/model.glb";
+      elSrc.textContent = src ? src : "Missing src param. Example: viewer.html?src=assets/model.glb";
 
       let showingImage = false;
       if (poster) {
@@ -277,7 +277,7 @@
       async function load() {
         clearError();
         if (!src) {
-          showError(`Missing <code>src</code> query parameter. Example: <code>viewer.html?src=Models/model.glb</code>`);
+          showError(`Missing <code>src</code> query parameter. Example: <code>viewer.html?src=assets/model.glb</code>`);
           return;
         }
 

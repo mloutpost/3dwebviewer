@@ -194,7 +194,7 @@
     </div>
 
     <script>
-      const MANIFEST_URL = "./Models/manifest.json";
+      const MANIFEST_URL = "./assets/manifest.json";
 
       const elStatus = document.getElementById("status");
       const elGrid = document.getElementById("grid");
@@ -281,7 +281,7 @@
           elGrid.innerHTML = `
             <div class="empty">
               <strong>No models configured.</strong>
-              Add entries to <code>Models/manifest.json</code>.
+              Add entries to <code>assets/manifest.json</code>.
             </div>
           `;
           setStatus("0 models");
