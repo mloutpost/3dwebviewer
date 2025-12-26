@@ -9,7 +9,7 @@ This repo is published as a static site at `build.lctimberframes.com`.
 
 ## Supported model types
 
-- **Cadwork-exported HTML**: add the exported `*.html` file under `assets/` and set `"type": "cadwork-html"` with `"href": "assets/your-file.html"`.
+- **Cadwork-exported HTML**: add the exported `*.html` file under `assets/Models/` and set `"type": "cadwork-html"` with `"href": "assets/Models/your-file.html"`.
 - **3D assets (optional)**: you can also host `*.glb`, `*.gltf`, `*.obj`, or `*.stl` under `assets/` and set `"type": "asset"` with `"src": "assets/your-file.glb"`. The splash page will open `viewer.html` for these.
 
 ## Example manifest entry
@@ -19,7 +19,7 @@ This repo is published as a static site at `build.lctimberframes.com`.
   "id": "shed-frame",
   "name": "Shed Frame",
   "type": "cadwork-html",
-  "href": "assets/shed-frame.html",
+  "href": "assets/Models/shed-frame.html",
   "description": "Cadwork export"
 }
 ```
