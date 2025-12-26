@@ -10,7 +10,6 @@
       "price": "$45,000",
       "features": ["36x42 footprint", "Monitor style roof", "Heavy timber construction"],
       "gallery": ["https://via.placeholder.com/600x400?text=Barn+View+1", "https://via.placeholder.com/600x400?text=Barn+View+2"],
-      "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
       "thumbnail": "https://via.placeholder.com/300x200?text=Monitor+Barn"
     },
     {
@@ -23,7 +22,6 @@
       "price": "$12,500",
       "features": ["Hammer beam truss", "14x18 footprint", "Outdoor living space"],
       "gallery": ["https://via.placeholder.com/600x400?text=Pavilion+View+1"],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Hammer+Beam"
     },
     {
@@ -36,7 +34,6 @@
       "price": "$9,800",
       "features": ["Curved aesthetic", "Compact design", "Easy assembly"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Curve+Pavilion"
     },
     {
@@ -49,7 +46,6 @@
       "price": "$15,000",
       "features": ["Cruck frame style", "Spacious interior", "Traditional joinery"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Cruck+Pavilion"
     },
     {
@@ -62,7 +58,6 @@
       "price": "$14,200",
       "features": ["Scissor truss design", "Vaulted ceiling feel", "Robust structure"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Scissor+Truss"
     },
     {
@@ -75,7 +70,6 @@
       "price": "$250",
       "features": ["Decorative element", "Solid wood"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Corbel+5"
     },
     {
@@ -88,7 +82,6 @@
       "price": "$250",
       "features": ["Decorative element", "Solid wood"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Corbel+6"
     },
     {
@@ -101,7 +94,6 @@
       "price": "$300",
       "features": ["Single piece construction", "Elegant curve"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Corbel+7"
     },
     {
@@ -114,7 +106,6 @@
       "price": "$3,500",
       "features": ["Enhances curb appeal", "Simple installation"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Entryway+9"
     },
     {
@@ -127,7 +118,6 @@
       "price": "$4,200",
       "features": ["Scissor truss detail", "Grand entrance"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Entryway+10"
     },
     {
@@ -140,7 +130,6 @@
       "price": "$4,500",
       "features": ["Curved truss", "Unique design"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Entryway+11"
     },
     {
@@ -153,7 +142,6 @@
       "price": "$3,200",
       "features": ["Classic look", "Sturdy"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Entryway+12"
     },
     {
@@ -166,7 +154,6 @@
       "price": "$6,500",
       "features": ["Open air design", "Garden feature", "12x18 size"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Pergola+14"
     },
     {
@@ -179,7 +166,6 @@
       "price": "$6,200",
       "features": ["Modern slant", "Shade provider"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Pergola+15"
     },
     {
@@ -192,7 +178,6 @@
       "price": "$5,800",
       "features": ["Compact pergola", "Backyard addition"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Pergola+16"
     },
     {
@@ -205,7 +190,6 @@
       "price": "$16,000",
       "features": ["Large pavilion", "Perfect for events"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Pavilion+17"
     },
     {
@@ -218,7 +202,6 @@
       "price": "$7,500",
       "features": ["Large pergola", "Defining space"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Pergola+18"
     },
     {
@@ -231,7 +214,6 @@
       "price": "$50,000",
       "features": ["Custom design", "Spacious", "Historic style"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Lone+Oak"
     },
     {
@@ -244,7 +226,6 @@
       "price": "$48,000",
       "features": ["Notched joinery", "Rugged construction"],
       "gallery": [],
-      "video": "",
       "thumbnail": "https://via.placeholder.com/300x200?text=Notch+Barn"
     }
   ]
