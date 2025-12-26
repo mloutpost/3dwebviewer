@@ -6,7 +6,12 @@
       "type": "cadwork-html",
       "href": "Models/Copy of LC14 36x42 Monitor Barn Web Viewer.html",
       "description": "LC14 36x42 Monitor Barn Web Viewer",
-      "tag": "Barns"
+      "tag": "Barns",
+      "price": "$45,000",
+      "features": ["36x42 footprint", "Monitor style roof", "Heavy timber construction"],
+      "gallery": ["https://via.placeholder.com/600x400?text=Barn+View+1", "https://via.placeholder.com/600x400?text=Barn+View+2"],
+      "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Monitor+Barn"
     },
     {
       "id": "lctf-pf1",
@@ -14,7 +19,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF1 Hammer Beam Pavilion 14x18 V1.1.1.html",
       "description": "Hammer Beam Pavilion 14x18",
-      "tag": "Pavilion"
+      "tag": "Pavilion",
+      "price": "$12,500",
+      "features": ["Hammer beam truss", "14x18 footprint", "Outdoor living space"],
+      "gallery": ["https://via.placeholder.com/600x400?text=Pavilion+View+1"],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Hammer+Beam"
     },
     {
       "id": "lctf-pf2",
@@ -22,7 +32,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF2 Simple Curve Pavilion 10x16 V1.1.1.html",
       "description": "Simple Curve Pavilion 10x16",
-      "tag": "Pavilion"
+      "tag": "Pavilion",
+      "price": "$9,800",
+      "features": ["Curved aesthetic", "Compact design", "Easy assembly"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Curve+Pavilion"
     },
     {
       "id": "lctf-pf3",
@@ -30,7 +45,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF3 Cruck Pavilion 14x20 V1.2.1.html",
       "description": "Cruck Pavilion 14x20",
-      "tag": "Pavilion"
+      "tag": "Pavilion",
+      "price": "$15,000",
+      "features": ["Cruck frame style", "Spacious interior", "Traditional joinery"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Cruck+Pavilion"
     },
     {
       "id": "lctf-pf4",
@@ -38,7 +58,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF4 Scissor Truss Pavilion 16x18 V1.2.1.html",
       "description": "Scissor Truss Pavilion 16x18",
-      "tag": "Pavilion"
+      "tag": "Pavilion",
+      "price": "$14,200",
+      "features": ["Scissor truss design", "Vaulted ceiling feel", "Robust structure"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Scissor+Truss"
     },
     {
       "id": "lctf-pf5",
@@ -46,7 +71,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF5 Simple Corbel.html",
       "description": "Simple Corbel",
-      "tag": "Corbels"
+      "tag": "Corbels",
+      "price": "$250",
+      "features": ["Decorative element", "Solid wood"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Corbel+5"
     },
     {
       "id": "lctf-pf6",
@@ -54,7 +84,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF6 Simple Corbel.html",
       "description": "Simple Corbel",
-      "tag": "Corbels"
+      "tag": "Corbels",
+      "price": "$250",
+      "features": ["Decorative element", "Solid wood"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Corbel+6"
     },
     {
       "id": "lctf-pf7",
@@ -62,7 +97,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF7 One Piece Corbel.html",
       "description": "One Piece Corbel",
-      "tag": "Corbels"
+      "tag": "Corbels",
+      "price": "$300",
+      "features": ["Single piece construction", "Elegant curve"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Corbel+7"
     },
     {
       "id": "lctf-pf9",
@@ -70,7 +110,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF9 Simple Entryway.html",
       "description": "Simple Entryway",
-      "tag": "Entries"
+      "tag": "Entries",
+      "price": "$3,500",
+      "features": ["Enhances curb appeal", "Simple installation"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Entryway+9"
     },
     {
       "id": "lctf-pf10",
@@ -78,7 +123,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF10 Scissor Truss Entryway.html",
       "description": "Scissor Truss Entryway",
-      "tag": "Entries"
+      "tag": "Entries",
+      "price": "$4,200",
+      "features": ["Scissor truss detail", "Grand entrance"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Entryway+10"
     },
     {
       "id": "lctf-pf11",
@@ -86,7 +136,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF11 Curved Truss Entryway.html",
       "description": "Curved Truss Entryway",
-      "tag": "Entries"
+      "tag": "Entries",
+      "price": "$4,500",
+      "features": ["Curved truss", "Unique design"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Entryway+11"
     },
     {
       "id": "lctf-pf12",
@@ -94,7 +149,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF12 Simple Entryway.html",
       "description": "Simple Entryway",
-      "tag": "Entries"
+      "tag": "Entries",
+      "price": "$3,200",
+      "features": ["Classic look", "Sturdy"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Entryway+12"
     },
     {
       "id": "lctf-pf14",
@@ -102,7 +162,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF14 Simple Pergola 12x18 V1.1.1.html",
       "description": "Simple Pergola 12x18",
-      "tag": "Pergola"
+      "tag": "Pergola",
+      "price": "$6,500",
+      "features": ["Open air design", "Garden feature", "12x18 size"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Pergola+14"
     },
     {
       "id": "lctf-pf15",
@@ -110,7 +175,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF15 Slanted Pergola 12x16 V1.1.1.html",
       "description": "Slanted Pergola 12x16",
-      "tag": "Pergola"
+      "tag": "Pergola",
+      "price": "$6,200",
+      "features": ["Modern slant", "Shade provider"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Pergola+15"
     },
     {
       "id": "lctf-pf16",
@@ -118,7 +188,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF16 Simple Pergola 10x16 V1.1.1.html",
       "description": "Simple Pergola 10x16",
-      "tag": "Pergola"
+      "tag": "Pergola",
+      "price": "$5,800",
+      "features": ["Compact pergola", "Backyard addition"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Pergola+16"
     },
     {
       "id": "lctf-pf17",
@@ -126,7 +201,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF17 Simple Pavilion 16x24 3.1.1.html",
       "description": "Simple Pavilion 16x24",
-      "tag": "Pavilion"
+      "tag": "Pavilion",
+      "price": "$16,000",
+      "features": ["Large pavilion", "Perfect for events"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Pavilion+17"
     },
     {
       "id": "lctf-pf18",
@@ -134,7 +214,12 @@
       "type": "cadwork-html",
       "href": "Models/LCTF PF18 Simple Pergola 14x22 V1.1.1.html",
       "description": "Simple Pergola 14x22",
-      "tag": "Pergola"
+      "tag": "Pergola",
+      "price": "$7,500",
+      "features": ["Large pergola", "Defining space"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Pergola+18"
     },
     {
       "id": "lone-oak-barn",
@@ -142,7 +227,12 @@
       "type": "cadwork-html",
       "href": "Models/Lone Oak Barn.html",
       "description": "Lone Oak Barn",
-      "tag": "Barns"
+      "tag": "Barns",
+      "price": "$50,000",
+      "features": ["Custom design", "Spacious", "Historic style"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Lone+Oak"
     },
     {
       "id": "notch-barn",
@@ -150,7 +240,12 @@
       "type": "cadwork-html",
       "href": "Models/Notch Barn.html",
       "description": "Notch Barn",
-      "tag": "Barns"
+      "tag": "Barns",
+      "price": "$48,000",
+      "features": ["Notched joinery", "Rugged construction"],
+      "gallery": [],
+      "video": "",
+      "thumbnail": "https://via.placeholder.com/300x200?text=Notch+Barn"
     }
   ]
 }

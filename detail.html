@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Model Details • LC Timberframes</title>
+    <meta name="description" content="View details for this timber frame model." />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #292929;
+        --panel: #273d2d;
+        --panel2: #2e4536;
+        --text: #fffcf1;
+        --muted: #768fa7;
+        --faint: rgba(255, 252, 241, 0.55);
+        --border: rgba(255, 255, 255, 0.14);
+        --shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
+        --accent: #768fa7;
+        --accent2: #273d2d;
+        --danger: #ef4444;
+        --primary-btn: #d4a373; /* Gold/wood tone for purchase */
+        --primary-btn-text: #292929;
+      }
+
+      * { box-sizing: border-box; }
+      html, body { min-height: 100%; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--text);
+        background-color: var(--bg);
+        background-image: 
+          linear-gradient(rgba(41, 41, 41, 0.8), rgba(41, 41, 41, 0.8)),
+          url('https://www.lctimberframes.com/wp-content/uploads/2025/12/LCTF-Web-Size-2025-ZF-6.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        padding-bottom: 40px;
+      }
+
+      a { color: inherit; text-decoration: none; }
+
+      .wrap { max-width: 800px; margin: 0 auto; padding: 20px 18px; }
+      
+      .nav-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 14px;
+        margin-bottom: 20px;
+        transition: color 0.2s;
+      }
+      .nav-back:hover { color: var(--text); }
+
+      .header-section {
+        margin-bottom: 24px;
+      }
+      .title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      h1 { margin: 0; font-size: 28px; letter-spacing: 0.2px; line-height: 1.2; }
+      .tag {
+        display: inline-block;
+        font-size: 12px;
+        color: var(--text);
+        border: 1px solid rgba(255,255,255,0.16);
+        background: rgba(255,255,255,0.05);
+        padding: 4px 10px;
+        border-radius: 999px;
+        vertical-align: middle;
+        margin-top: 8px;
+      }
+
+      .price-tag {
+        font-size: 24px;
+        font-weight: bold;
+        color: #e2e8f0;
+        margin: 10px 0;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 120ms ease, opacity 120ms ease;
+        text-decoration: none;
+        width: 100%;
+        margin-bottom: 12px;
+      }
+      .btn:hover { transform: translateY(-1px); opacity: 0.95; }
+      .btn:active { transform: translateY(0); }
+      
+      .btn-3d {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        color: var(--text);
+      }
+      .btn-purchase {
+        background: var(--primary-btn);
+        color: var(--primary-btn-text);
+        border: none;
+      }
+
+      .section {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: var(--shadow);
+      }
+      .section h2 { margin: 0 0 16px 0; font-size: 18px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+      .section p { line-height: 1.6; margin: 0; color: #d1d5db; }
+
+      .features-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .features-list li {
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        display: flex;
+        gap: 10px;
+      }
+      .features-list li:last-child { border-bottom: none; }
+      .features-list li::before {
+        content: "✓";
+        color: var(--muted);
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+      }
+      .gallery-item {
+        aspect-ratio: 4/3;
+        background-color: rgba(0,0,0,0.2);
+        background-size: cover;
+        background-position: center;
+        border-radius: 8px;
+        cursor: pointer;
+        border: 1px solid var(--border);
+      }
+
+      .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 */
+        height: 0;
+        overflow: hidden;
+        border-radius: 12px;
+        background: black;
+      }
+      .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+
+      .error {
+        margin-top: 20px;
+        border: 1px solid rgba(239,68,68,0.40);
+        background: rgba(239,68,68,0.12);
+        border-radius: 14px;
+        padding: 16px;
+        color: rgba(255,255,255,0.92);
+        text-align: center;
+      }
+
+      @media (min-width: 600px) {
+        .actions { display: flex; gap: 12px; }
+        .btn { width: auto; flex: 1; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <a href="index.html" class="nav-back">← Back to Models</a>
+
+      <div id="content" style="display: none;">
+        <div class="header-section">
+          <div class="title-row">
+            <div>
+              <h1 id="model-name">Model Name</h1>
+              <span id="model-tag" class="tag">Tag</span>
+            </div>
+            <div id="model-price" class="price-tag">$0.00</div>
+          </div>
+          <p id="model-desc" style="margin-top: 12px; color: var(--muted); line-height: 1.5;"></p>
+        </div>
+
+        <div class="actions">
+          <a id="btn-3d" href="#" class="btn btn-3d">View in 3D</a>
+          <button id="btn-purchase" class="btn btn-purchase">Purchase Now</button>
+        </div>
+
+        <div id="features-section" class="section">
+          <h2>Key Features</h2>
+          <ul id="features-list" class="features-list"></ul>
+        </div>
+
+        <div id="video-section" class="section" style="display:none">
+          <h2>Video Tour</h2>
+          <div class="video-container">
+            <iframe id="video-frame" src="" title="Video player" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <div id="gallery-section" class="section" style="display:none">
+          <h2>Gallery</h2>
+          <div id="gallery-grid" class="gallery"></div>
+        </div>
+      </div>
+
+      <div id="loading" style="text-align:center; padding: 40px; color: var(--muted);">
+        Loading details...
+      </div>
+
+      <div id="error" class="error" style="display:none"></div>
+    </div>
+
+    <script>
+      const MANIFEST_URL = "./Models/manifest.json";
+
+      function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+      }
+
+      function showError(msg) {
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("content").style.display = "none";
+        const elErr = document.getElementById("error");
+        elErr.style.display = "block";
+        elErr.innerHTML = msg;
+      }
+
+      function normalizeType(model) {
+        if (!model || typeof model !== "object") return "";
+        if (model.type === "cadwork-html") return "cadwork-html";
+        if (model.type === "asset") return "asset";
+        if (typeof model.src === "string" && model.src.trim()) return "asset";
+        if (typeof model.href === "string" && model.href.toLowerCase().endsWith(".html")) return "cadwork-html";
+        return "";
+      }
+
+      function getModelTarget(model) {
+        const t = normalizeType(model);
+        if (t === "cadwork-html") {
+          const href = (model.href || "").toString().trim();
+          return href ? "wrapper.html?model=" + encodeURI(href) : null;
+        }
+        if (t === "asset") {
+          const src = (model.src || model.href || "").toString().trim();
+          if (!src) return null;
+          const name = (model.name || "").toString().trim();
+          const u = new URL("viewer.html", window.location.href);
+          u.searchParams.set("src", src);
+          if (name) u.searchParams.set("name", name);
+          if (model.poster) u.searchParams.set("poster", model.poster);
+          return u.pathname + u.search;
+        }
+        return null;
+      }
+
+      async function init() {
+        const id = getQueryParam("id");
+        if (!id) {
+          showError("No model ID specified.");
+          return;
+        }
+
+        try {
+          const res = await fetch(MANIFEST_URL, { cache: "no-store" });
+          if (!res.ok) throw new Error("Failed to load manifest.");
+          const json = await res.json();
+          const model = json.models.find(m => m.id === id);
+
+          if (!model) {
+            showError("Model not found.");
+            return;
+          }
+
+          renderModel(model);
+        } catch (err) {
+          showError(err.message);
+        }
+      }
+
+      function renderModel(model) {
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("content").style.display = "block";
+
+        document.title = model.name + " • LC Timberframes";
+        document.getElementById("model-name").textContent = model.name;
+        document.getElementById("model-tag").textContent = model.tag || "Model";
+        document.getElementById("model-desc").textContent = model.description || "";
+        document.getElementById("model-price").textContent = model.price || "Contact for Pricing";
+
+        const target = getModelTarget(model);
+        const btn3d = document.getElementById("btn-3d");
+        if (target) {
+          btn3d.href = target;
+        } else {
+          btn3d.style.display = "none";
+        }
+
+        const btnPurchase = document.getElementById("btn-purchase");
+        btnPurchase.onclick = () => {
+          alert("Purchase functionality coming soon!\nInterested in: " + model.name);
+        };
+
+        // Features
+        const featuresList = document.getElementById("features-list");
+        if (model.features && model.features.length > 0) {
+          model.features.forEach(f => {
+            const li = document.createElement("li");
+            li.textContent = f;
+            featuresList.appendChild(li);
+          });
+        } else {
+          document.getElementById("features-section").style.display = "none";
+        }
+
+        // Video
+        if (model.video) {
+          document.getElementById("video-section").style.display = "block";
+          document.getElementById("video-frame").src = model.video;
+        }
+
+        // Gallery
+        if (model.gallery && model.gallery.length > 0) {
+          document.getElementById("gallery-section").style.display = "block";
+          const grid = document.getElementById("gallery-grid");
+          model.gallery.forEach(imgUrl => {
+            const div = document.createElement("div");
+            div.className = "gallery-item";
+            div.style.backgroundImage = `url('${imgUrl}')`;
+            div.onclick = () => window.open(imgUrl, '_blank');
+            grid.appendChild(div);
+          });
+        }
+      }
+
+      init();
+    </script>
+  </body>
+</html>
