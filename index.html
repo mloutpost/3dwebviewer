@@ -129,8 +129,31 @@
         white-space: nowrap;
       }
       .desc { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.35; }
-      .meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--faint); font-size: 12px; }
-      .meta code { color: var(--text); opacity: 0.9; }
+      .pricing {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+      }
+      .price-section { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+      .price-label { color: var(--muted); font-size: 12px; font-weight: 500; }
+      .price-display { display: flex; align-items: center; gap: 8px; }
+      .regular-price, .sale-price { font-size: 16px; font-weight: 600; color: var(--text); }
+      .original-price { font-size: 14px; color: var(--muted); text-decoration: line-through; }
+      .sale-price { color: var(--accent); }
+      .sale-badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: var(--danger);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        z-index: 1;
+      }
+      .thumb { position: relative; }
 
       .empty {
         grid-column: 1 / -1;
@@ -337,6 +360,7 @@
 
           const metaPath = (t === "cadwork-html" ? raw.href : (raw.src || raw.href)) || "";
           const safeMeta = String(metaPath);
+          const hasSale = raw.salePrice && raw.discountPercentage;
 
           const card = document.createElement("a");
           card.className = "card";
@@ -346,16 +370,27 @@
           card.setAttribute("role", "button");
 
           card.innerHTML = `
-            <div class="thumb"></div>
+            <div class="thumb">
+              ${hasSale ? `<div class="sale-badge">${raw.discountPercentage}% OFF</div>` : ''}
+            </div>
             <div class="inner">
               <div class="name">
                 <h2>${escapeHtml(name)}</h2>
                 <span class="tag">${escapeHtml(tag)}</span>
               </div>
               <p class="desc">${escapeHtml(desc || " ")}</p>
-              <div class="meta">
-                <span>Starting At</span>
-                <span>${escapeHtml(raw.price || "coming soon")}</span>
+              <div class="pricing">
+                <div class="price-section">
+                  <span class="price-label">Starting At</span>
+                  <div class="price-display">
+                    ${hasSale ? `
+                      <span class="original-price">${escapeHtml(raw.price || "coming soon")}</span>
+                      <span class="sale-price">${escapeHtml(raw.salePrice)}</span>
+                    ` : `
+                      <span class="regular-price">${escapeHtml(raw.price || "coming soon")}</span>
+                    `}
+                  </div>
+                </div>
               </div>
             </div>
           `;

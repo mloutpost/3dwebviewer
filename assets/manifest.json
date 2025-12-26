@@ -8,6 +8,8 @@
       "description": "LC14 36x42 Monitor Barn Web Viewer",
       "tag": "Barns",
       "price": "coming soon",
+      "salePrice": "$40,500",
+      "discountPercentage": 10,
       "features": ["36x42 footprint", "Monitor style roof", "Heavy timber construction"],
       "gallery": ["https://via.placeholder.com/600x400?text=Barn+View+1", "https://via.placeholder.com/600x400?text=Barn+View+2"],
       "thumbnail": "https://via.placeholder.com/300x200?text=Monitor+Barn"
@@ -20,6 +22,8 @@
       "description": "Hammer Beam Pavilion",
       "tag": "Pavilion",
       "price": "coming soon",
+      "salePrice": "$11,250",
+      "discountPercentage": 10,
       "features": ["Hammer beam truss", "14x18 footprint", "Outdoor living space"],
       "gallery": ["https://via.placeholder.com/600x400?text=Pavilion+View+1"]
     },
