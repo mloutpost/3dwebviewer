@@ -48,8 +48,7 @@
       "tag": "Pavilion",
       "price": "coming soon",
       "features": ["Cruck frame style", "Spacious interior", "Traditional joinery"],
-      "gallery": [],
-      "thumbnail": "https://via.placeholder.com/300x200?text=Cruck+Pavilion"
+      "gallery": []
     },
     {
       "id": "lctf-pf4",
@@ -94,7 +93,7 @@
       "href": "assets/Models/LCTF PF7 One Piece Corbel/LCTF PF7 One Piece Corbel.html",
       "description": "One Piece Corbel",
       "tag": "Corbels",
-      "price": "$300",
+      "price": "coming soon",
       "features": ["Single piece construction", "Elegant curve"],
       "gallery": [],
       "thumbnail": "https://via.placeholder.com/300x200?text=Corbel+7"
