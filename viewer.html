@@ -31,6 +31,7 @@
       #name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       #src { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       #right { display: flex; gap: 8px; align-items: center; }
+      #logo { height: 32px; width: auto; display: block; }
       #img-view {
         position: absolute;
         inset: 56px 0 0 0;
@@ -86,9 +87,12 @@
   <body>
     <div id="app">
       <div id="bar">
-        <div id="left">
-          <div id="name">3D Viewer</div>
-          <div id="src"></div>
+        <div style="display:flex; align-items:center; gap:12px; min-width:0">
+          <img id="logo" src="Graphics/logo.png" alt="Logo" />
+          <div id="left">
+            <div id="name">3D Viewer</div>
+            <div id="src"></div>
+          </div>
         </div>
         <div id="right">
           <button id="toggle-view" class="btn" type="button" style="display:none">View Image</button>
