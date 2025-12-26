@@ -182,6 +182,12 @@
       <div id="error" class="error" style="display:none"></div>
       <div id="grid" class="grid" aria-live="polite"></div>
 
+      <div style="margin-top: 40px; text-align: center;">
+        <button id="main-purchase-btn" class="btn primary" style="padding: 16px 32px; font-size: 18px; border-radius: 999px;">
+          Purchase Now
+        </button>
+      </div>
+
       <footer>
         <span>LC Timberframes • <code>build.lctimberframes.com</code></span>
       </footer>
@@ -223,6 +229,10 @@
       }
 
       function getModelTarget(model) {
+        if (model.id) {
+          return "detail.html?id=" + encodeURIComponent(model.id);
+        }
+        
         const t = normalizeType(model);
         if (t === "cadwork-html") {
           const href = (model.href || "").toString().trim();
@@ -398,6 +408,10 @@
 
       elQ.addEventListener("input", render);
       elType.addEventListener("change", render);
+
+      document.getElementById("main-purchase-btn").addEventListener("click", () => {
+        alert("Purchase functionality coming soon!");
+      });
 
       loadManifest();
     </script>

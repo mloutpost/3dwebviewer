@@ -19,133 +19,149 @@
         --accent: #768fa7;
         --accent2: #273d2d;
         --danger: #ef4444;
-        --primary-btn: #d4a373; /* Gold/wood tone for purchase */
+        --primary-btn: #d4a373;
         --primary-btn-text: #292929;
       }
 
       * { box-sizing: border-box; }
-      html, body { min-height: 100%; }
+      html, body { height: 100%; }
       body {
         margin: 0;
         font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
         color: var(--text);
         background-color: var(--bg);
-        background-image: 
-          linear-gradient(rgba(41, 41, 41, 0.8), rgba(41, 41, 41, 0.8)),
-          url('https://www.lctimberframes.com/wp-content/uploads/2025/12/LCTF-Web-Size-2025-ZF-6.jpg');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        background-repeat: no-repeat;
-        padding-bottom: 40px;
+        display: flex;
+        flex-direction: column;
       }
 
-      a { color: inherit; text-decoration: none; }
-
-      .wrap { max-width: 800px; margin: 0 auto; padding: 20px 18px; }
-      
+      /* Header / Nav */
+      header {
+        flex: 0 0 auto;
+        padding: 12px 20px;
+        background: rgba(39, 61, 45, 0.95);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        z-index: 10;
+      }
       .nav-back {
         display: inline-flex;
         align-items: center;
         gap: 6px;
         color: var(--muted);
         font-size: 14px;
-        margin-bottom: 20px;
+        font-weight: 500;
         transition: color 0.2s;
+        text-decoration: none;
       }
       .nav-back:hover { color: var(--text); }
+      .header-title {
+        font-size: 16px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 
-      .header-section {
-        margin-bottom: 24px;
+      /* Main Layout */
+      main {
+        flex: 1 1 auto;
+        display: grid;
+        grid-template-columns: 1fr; /* Mobile first: stacked */
+        grid-template-rows: minmax(300px, 40vh) auto;
+        overflow: hidden;
       }
-      .title-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 16px;
-        flex-wrap: wrap;
+
+      /* Viewer Area */
+      .viewer-container {
+        position: relative;
+        background: #000;
+        border-bottom: 1px solid var(--border);
       }
-      h1 { margin: 0; font-size: 28px; letter-spacing: 0.2px; line-height: 1.2; }
+      .viewer-frame {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+      }
+
+      /* Details Panel */
+      .details-panel {
+        background: var(--bg);
+        overflow-y: auto;
+        padding: 24px;
+        border-top: 1px solid var(--border); /* for mobile stack */
+      }
+      
+      .content-wrap {
+        max-width: 600px;
+        margin: 0 auto; /* Center content in panel */
+      }
+
+      h1 { margin: 0 0 8px 0; font-size: 24px; line-height: 1.2; }
+      
       .tag {
         display: inline-block;
-        font-size: 12px;
+        font-size: 11px;
         color: var(--text);
         border: 1px solid rgba(255,255,255,0.16);
         background: rgba(255,255,255,0.05);
-        padding: 4px 10px;
+        padding: 3px 8px;
         border-radius: 999px;
         vertical-align: middle;
-        margin-top: 8px;
+        margin-bottom: 12px;
       }
 
-      .price-tag {
-        font-size: 24px;
-        font-weight: bold;
-        color: #e2e8f0;
-        margin: 10px 0;
+      .price-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin: 16px 0 24px 0;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 16px;
       }
+      .price-tag { font-size: 28px; font-weight: bold; color: #e2e8f0; }
 
-      .btn {
+      .btn-purchase {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        padding: 12px 20px;
+        width: 100%;
+        padding: 14px 24px;
         border-radius: 12px;
         font-size: 16px;
-        font-weight: 600;
+        font-weight: 700;
         cursor: pointer;
-        transition: transform 120ms ease, opacity 120ms ease;
-        text-decoration: none;
-        width: 100%;
-        margin-bottom: 12px;
-      }
-      .btn:hover { transform: translateY(-1px); opacity: 0.95; }
-      .btn:active { transform: translateY(0); }
-      
-      .btn-3d {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        color: var(--text);
-      }
-      .btn-purchase {
         background: var(--primary-btn);
         color: var(--primary-btn-text);
         border: none;
+        transition: transform 120ms ease, opacity 120ms ease;
+        text-decoration: none;
+        margin-bottom: 24px;
       }
+      .btn-purchase:hover { transform: translateY(-1px); opacity: 0.95; }
+      .btn-purchase:active { transform: translateY(0); }
 
-      .section {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: var(--shadow);
-      }
-      .section h2 { margin: 0 0 16px 0; font-size: 18px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-      .section p { line-height: 1.6; margin: 0; color: #d1d5db; }
+      .section { margin-bottom: 32px; }
+      .section h2 { font-size: 16px; margin: 0 0 12px 0; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+      .section p { line-height: 1.6; margin: 0; color: #d1d5db; font-size: 15px; }
 
-      .features-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
+      .features-list { list-style: none; padding: 0; margin: 0; }
       .features-list li {
-        padding: 8px 0;
+        padding: 10px 0;
         border-bottom: 1px solid rgba(255,255,255,0.05);
         display: flex;
-        gap: 10px;
+        gap: 12px;
+        color: #d1d5db;
+        font-size: 15px;
       }
-      .features-list li:last-child { border-bottom: none; }
-      .features-list li::before {
-        content: "✓";
-        color: var(--muted);
-      }
+      .features-list li::before { content: "✓"; color: var(--accent); font-weight: bold; }
 
       .gallery {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 12px;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
       }
       .gallery-item {
         aspect-ratio: 4/3;
@@ -155,11 +171,13 @@
         border-radius: 8px;
         cursor: pointer;
         border: 1px solid var(--border);
+        transition: opacity 0.2s;
       }
+      .gallery-item:hover { opacity: 0.8; }
 
       .video-container {
         position: relative;
-        padding-bottom: 56.25%; /* 16:9 */
+        padding-bottom: 56.25%;
         height: 0;
         overflow: hidden;
         border-radius: 12px;
@@ -174,66 +192,89 @@
         border: 0;
       }
 
-      .error {
-        margin-top: 20px;
-        border: 1px solid rgba(239,68,68,0.40);
-        background: rgba(239,68,68,0.12);
-        border-radius: 14px;
-        padding: 16px;
-        color: rgba(255,255,255,0.92);
-        text-align: center;
+      .loading-overlay {
+        position: absolute;
+        inset: 0;
+        background: var(--bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
       }
 
-      @media (min-width: 600px) {
-        .actions { display: flex; gap: 12px; }
-        .btn { width: auto; flex: 1; }
+      /* Desktop Layout */
+      @media (min-width: 900px) {
+        main {
+          grid-template-columns: 400px 1fr; /* Sidebar fixed width, Viewer flex */
+          grid-template-rows: 1fr;
+        }
+
+        .details-panel {
+          order: 1; /* Sidebar on left */
+          border-right: 1px solid var(--border);
+          border-top: none;
+        }
+
+        .viewer-container {
+          order: 2; /* Viewer on right */
+          border-bottom: none;
+        }
+
+        .content-wrap { margin: 0; } /* Reset centering */
       }
     </style>
   </head>
   <body>
-    <div class="wrap">
-      <a href="index.html" class="nav-back">← Back to Models</a>
+    <header>
+      <a href="index.html" class="nav-back">← Back</a>
+      <div class="header-title" id="header-title">Loading...</div>
+    </header>
 
-      <div id="content" style="display: none;">
-        <div class="header-section">
-          <div class="title-row">
-            <div>
-              <h1 id="model-name">Model Name</h1>
-              <span id="model-tag" class="tag">Tag</span>
-            </div>
+    <main id="main-content" style="opacity: 0; transition: opacity 0.3s;">
+      <!-- Side Panel (Left on Desktop, Bottom on Mobile) -->
+      <div class="details-panel">
+        <div class="content-wrap">
+          <span id="model-tag" class="tag">Tag</span>
+          <h1 id="model-name">Model Name</h1>
+          
+          <div class="price-row">
             <div id="model-price" class="price-tag">$0.00</div>
           </div>
-          <p id="model-desc" style="margin-top: 12px; color: var(--muted); line-height: 1.5;"></p>
-        </div>
 
-        <div class="actions">
-          <a id="btn-3d" href="#" class="btn btn-3d">View in 3D</a>
-          <button id="btn-purchase" class="btn btn-purchase">Purchase Now</button>
-        </div>
+          <button id="btn-purchase" class="btn-purchase">Purchase Now</button>
 
-        <div id="features-section" class="section">
-          <h2>Key Features</h2>
-          <ul id="features-list" class="features-list"></ul>
-        </div>
+          <div class="section">
+            <h2>Description</h2>
+            <p id="model-desc"></p>
+          </div>
 
-        <div id="video-section" class="section" style="display:none">
-          <h2>Video Tour</h2>
-          <div class="video-container">
-            <iframe id="video-frame" src="" title="Video player" allowfullscreen></iframe>
+          <div id="features-section" class="section">
+            <h2>Key Features</h2>
+            <ul id="features-list" class="features-list"></ul>
+          </div>
+
+          <div id="gallery-section" class="section" style="display:none">
+            <h2>Gallery</h2>
+            <div id="gallery-grid" class="gallery"></div>
+          </div>
+
+          <div id="video-section" class="section" style="display:none">
+            <h2>Video Tour</h2>
+            <div class="video-container">
+              <iframe id="video-frame" src="" title="Video player" allowfullscreen></iframe>
+            </div>
           </div>
         </div>
-
-        <div id="gallery-section" class="section" style="display:none">
-          <h2>Gallery</h2>
-          <div id="gallery-grid" class="gallery"></div>
-        </div>
       </div>
 
-      <div id="loading" style="text-align:center; padding: 40px; color: var(--muted);">
-        Loading details...
+      <!-- Viewer (Right on Desktop, Top on Mobile) -->
+      <div class="viewer-container">
+        <iframe id="viewer-frame" class="viewer-frame" title="3D Viewer" allowfullscreen></iframe>
       </div>
+    </main>
 
-      <div id="error" class="error" style="display:none"></div>
+    <div id="loading" class="loading-overlay">
+      Loading...
     </div>
 
     <script>
@@ -242,14 +283,6 @@
       function getQueryParam(name) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(name);
-      }
-
-      function showError(msg) {
-        document.getElementById("loading").style.display = "none";
-        document.getElementById("content").style.display = "none";
-        const elErr = document.getElementById("error");
-        elErr.style.display = "block";
-        elErr.innerHTML = msg;
       }
 
       function normalizeType(model) {
@@ -261,11 +294,10 @@
         return "";
       }
 
-      function getModelTarget(model) {
+      function getModelSrc(model) {
         const t = normalizeType(model);
         if (t === "cadwork-html") {
-          const href = (model.href || "").toString().trim();
-          return href ? "wrapper.html?model=" + encodeURI(href) : null;
+          return (model.href || "").toString().trim();
         }
         if (t === "asset") {
           const src = (model.src || model.href || "").toString().trim();
@@ -283,7 +315,8 @@
       async function init() {
         const id = getQueryParam("id");
         if (!id) {
-          showError("No model ID specified.");
+          alert("No model ID specified.");
+          window.location.href = "index.html";
           return;
         }
 
@@ -294,37 +327,29 @@
           const model = json.models.find(m => m.id === id);
 
           if (!model) {
-            showError("Model not found.");
+            alert("Model not found.");
+            window.location.href = "index.html";
             return;
           }
 
           renderModel(model);
         } catch (err) {
-          showError(err.message);
+          console.error(err);
+          document.getElementById("loading").textContent = "Error loading model details.";
         }
       }
 
       function renderModel(model) {
-        document.getElementById("loading").style.display = "none";
-        document.getElementById("content").style.display = "block";
-
         document.title = model.name + " • LC Timberframes";
+        document.getElementById("header-title").textContent = model.name;
         document.getElementById("model-name").textContent = model.name;
         document.getElementById("model-tag").textContent = model.tag || "Model";
         document.getElementById("model-desc").textContent = model.description || "";
-        document.getElementById("model-price").textContent = model.price || "Contact for Pricing";
+        document.getElementById("model-price").textContent = model.price || "Contact Us";
 
-        const target = getModelTarget(model);
-        const btn3d = document.getElementById("btn-3d");
-        if (target) {
-          btn3d.href = target;
-        } else {
-          btn3d.style.display = "none";
-        }
-
-        const btnPurchase = document.getElementById("btn-purchase");
-        btnPurchase.onclick = () => {
-          alert("Purchase functionality coming soon!\nInterested in: " + model.name);
+        // Setup Purchase Button
+        document.getElementById("btn-purchase").onclick = () => {
+          alert("Purchase flow for " + model.name + " coming soon!");
         };
 
         // Features
@@ -339,12 +364,6 @@
           document.getElementById("features-section").style.display = "none";
         }
 
-        // Video
-        if (model.video) {
-          document.getElementById("video-section").style.display = "block";
-          document.getElementById("video-frame").src = model.video;
-        }
-
         // Gallery
         if (model.gallery && model.gallery.length > 0) {
           document.getElementById("gallery-section").style.display = "block";
@@ -357,6 +376,25 @@
             grid.appendChild(div);
           });
         }
+
+        // Video
+        if (model.video) {
+          document.getElementById("video-section").style.display = "block";
+          document.getElementById("video-frame").src = model.video;
+        }
+
+        // Viewer Iframe
+        const src = getModelSrc(model);
+        if (src) {
+          document.getElementById("viewer-frame").src = src;
+        } else {
+          document.querySelector(".viewer-container").innerHTML = 
+            '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#768fa7;">No 3D model available.</div>';
+        }
+
+        // Reveal content
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("main-content").style.opacity = "1";
       }
 
       init();
