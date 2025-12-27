@@ -111,10 +111,14 @@
       .card .thumb {
         height: 160px;
         background-color: rgba(0,0,0,0.2);
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
         border-bottom: 1px solid var(--border);
+        overflow: hidden;
+      }
+      .card .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
       }
       .card .inner { padding: 14px 14px 13px; display: grid; gap: 8px; }
       .card .name { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -354,15 +358,17 @@
 
           // Generate thumbnail URL first
           let thumbUrl = '';
+          let defaultLogoUrl = 'assets/global_graphics/Small%20Logo%20Cropped.png';
           if (raw.thumbnail) {
             thumbUrl = raw.thumbnail;
           } else {
             const coverUrls = getCoverCandidates(raw, t);
-            thumbUrl = coverUrls[0] || ''; // Use first available cover image
+            thumbUrl = coverUrls[0] || defaultLogoUrl; // Use first available cover image, or default logo
           }
 
           card.innerHTML = `
-            <div class="thumb" ${thumbUrl ? `style="background-image: url('${thumbUrl}')"` : ''}>
+            <div class="thumb">
+              <img src="${thumbUrl}" alt="${escapeHtml(name)}" onerror="this.src='${defaultLogoUrl}'" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
             </div>
             <div class="inner">
               <div class="name">
