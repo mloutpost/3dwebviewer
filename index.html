@@ -291,7 +291,7 @@
         // Convention: each model folder may contain Cover.(webp|png|jpg|jpeg)
         const base = dir + "Cover";
         const exts = [".webp", ".png", ".jpg", ".jpeg"];
-        return exts.map((ext) => encodeURI(base + ext));
+        return exts.map((ext) => (base + ext).replace(/ /g, '%20'));
       }
 
       function applyThumbFromCandidates(elThumb, urls) {
