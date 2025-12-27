@@ -1,3 +1,194 @@
 {
-  "models": []
+  "models": [
+    {
+      "id": "lc14-monitor-barn",
+      "name": "36x42 Monitor Barn",
+      "type": "cadwork-html",
+      "href": "assets/Models/Copy of LC14 36x42 Monitor Barn Web Viewer/Copy of LC14 36x42 Monitor Barn Web Viewer.html",
+      "description": "36x42 Monitor Barn with heavy timber construction",
+      "tag": "Barns",
+      "price": "coming soon",
+      "features": ["36x42 footprint", "Monitor style roof", "Heavy timber construction"]
+    },
+    {
+      "id": "lctf-pf1",
+      "name": "14x18 Hammer Beam Pavilion",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF1 Hammer Beam Pavilion 14x18 V1.1.1/LCTF PF1 Hammer Beam Pavilion 14x18 V1.1.1.html",
+      "description": "Hammer Beam Pavilion with traditional joinery",
+      "tag": "Pavilion",
+      "price": "coming soon",
+      "features": ["Hammer beam truss", "14x18 footprint", "Outdoor living space"]
+    },
+    {
+      "id": "lctf-pf2",
+      "name": "10x16 Simple Curve Pavilion",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF2 Simple Curve Pavilion 10x16 V1.1.1/LCTF PF2 Simple Curve Pavilion 10x16 V1.1.1.html",
+      "description": "Simple Curve Pavilion with elegant curved design",
+      "tag": "Pavilion",
+      "price": "coming soon",
+      "features": ["Curved aesthetic", "Compact design", "Easy assembly"]
+    },
+    {
+      "id": "lctf-pf3",
+      "name": "14x20 Cruck Pavilion",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF3 Cruck Pavilion 14x20 V1.2.1/LCTF PF3 Cruck Pavilion 14x20 V1.2.1.html",
+      "description": "Cruck Pavilion with traditional frame style",
+      "tag": "Pavilion",
+      "price": "coming soon",
+      "features": ["Cruck frame style", "Spacious interior", "Traditional joinery"]
+    },
+    {
+      "id": "lctf-pf4",
+      "name": "16x18 Scissor Truss Pavilion",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF4 Scissor Truss Pavilion 16x18 V1.2.1/LCTF PF4 Scissor Truss Pavilion 16x18 V1.2.1.html",
+      "description": "Scissor Truss Pavilion with vaulted ceiling",
+      "tag": "Pavilion",
+      "price": "coming soon",
+      "features": ["Scissor truss design", "Vaulted ceiling feel", "Robust structure"]
+    },
+    {
+      "id": "lctf-pf5",
+      "name": "Simple Corbel",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF5 Simple Corbel/LCTF PF5 Simple Corbel.html",
+      "description": "Decorative corbel for architectural detail",
+      "tag": "Corbels",
+      "price": "coming soon",
+      "features": ["Decorative element", "Solid wood"]
+    },
+    {
+      "id": "lctf-pf6",
+      "name": "Simple Corbel",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF6 Simple Corbel/LCTF PF6 Simple Corbel.html",
+      "description": "Decorative corbel for architectural detail",
+      "tag": "Corbels",
+      "price": "coming soon",
+      "features": ["Decorative element", "Solid wood"]
+    },
+    {
+      "id": "lctf-pf7",
+      "name": "Standalone Corbel",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF7 One Piece Corbel/LCTF PF7 One Piece Corbel.html",
+      "description": "One-piece corbel with elegant curve",
+      "tag": "Corbels",
+      "price": "coming soon",
+      "features": ["Single piece construction", "Elegant curve"]
+    },
+    {
+      "id": "lctf-pf9",
+      "name": "Simple Entryway",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF9 Simple Entryway/LCTF PF9 Simple Entryway.html",
+      "description": "Simple entryway to enhance curb appeal",
+      "tag": "Entries",
+      "price": "coming soon",
+      "features": ["Enhances curb appeal", "Simple installation"]
+    },
+    {
+      "id": "lctf-pf10",
+      "name": "Scissor Entryway",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF10 Scissor Truss Entryway/LCTF PF10 Scissor Truss Entryway.html",
+      "description": "Scissor Truss Entryway for grand entrance",
+      "tag": "Entries",
+      "price": "coming soon",
+      "features": ["Scissor truss detail", "Grand entrance"]
+    },
+    {
+      "id": "lctf-pf11",
+      "name": "Curved Truss Entryway",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF11 Curved Truss Entryway/LCTF PF11 Curved Truss Entryway.html",
+      "description": "Curved Truss Entryway with unique design",
+      "tag": "Entries",
+      "price": "coming soon",
+      "features": ["Curved truss", "Unique design"]
+    },
+    {
+      "id": "lctf-pf12",
+      "name": "Simple Entryway",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF12 Simple Entryway/LCTF PF12 Simple Entryway.html",
+      "description": "Simple entryway with classic look",
+      "tag": "Entries",
+      "price": "coming soon",
+      "features": ["Classic look", "Sturdy"]
+    },
+    {
+      "id": "lctf-pf14",
+      "name": "12x18 Pergola",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF14 Simple Pergola 12x18 V1.1.1/LCTF PF14 Simple Pergola 12x18 V1.1.1.html",
+      "description": "Simple Pergola perfect for garden spaces",
+      "tag": "Pergola",
+      "price": "coming soon",
+      "features": ["Open air design", "Garden feature", "12x18 size"]
+    },
+    {
+      "id": "lctf-pf15",
+      "name": "12x16 Pergola",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF15 Slanted Pergola 12x16 V1.1.1/LCTF PF15 Slanted Pergola 12x16 V1.1.1.html",
+      "description": "Slanted Pergola with modern design",
+      "tag": "Pergola",
+      "price": "coming soon",
+      "features": ["Modern slant", "Shade provider"]
+    },
+    {
+      "id": "lctf-pf16",
+      "name": "10x16 Simple Pergola",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF16 Simple Pergola 10x16 V1.1.1/LCTF PF16 Simple Pergola 10x16 V1.1.1.html",
+      "description": "Compact pergola for backyard spaces",
+      "tag": "Pergola",
+      "price": "coming soon",
+      "features": ["Compact pergola", "Backyard addition"]
+    },
+    {
+      "id": "lctf-pf17",
+      "name": "16x24 King Post Pavilion",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF17 Simple Pavilion 16x24 3.1.1/LCTF PF17 Simple Pavilion 16x24 3.1.1.html",
+      "description": "Large pavilion perfect for events",
+      "tag": "Pavilion",
+      "price": "coming soon",
+      "features": ["Large pavilion", "Perfect for events"]
+    },
+    {
+      "id": "lctf-pf18",
+      "name": "14x22 Pergola",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF18 Simple Pergola 14x22 V1.1.1/LCTF PF18 Simple Pergola 14x22 V1.1.1.html",
+      "description": "Large pergola for defining outdoor spaces",
+      "tag": "Pergola",
+      "price": "coming soon",
+      "features": ["Large pergola", "Defining space"]
+    },
+    {
+      "id": "lone-oak-barn",
+      "name": "48x60 Equestrian Barn",
+      "type": "cadwork-html",
+      "href": "assets/Models/Lone Oak Barn/Lone Oak Barn.html",
+      "description": "Equestrian barn with custom design",
+      "tag": "Barns",
+      "price": "coming soon",
+      "features": ["Custom design", "Spacious", "Historic style"]
+    },
+    {
+      "id": "notch-barn",
+      "name": "36x54 Dairy Barn",
+      "type": "cadwork-html",
+      "href": "assets/Models/Notch Barn/Notch Barn.html",
+      "description": "Dairy barn with notched joinery",
+      "tag": "Barns",
+      "price": "coming soon",
+      "features": ["Notched joinery", "Rugged construction"]
+    }
+  ]
 }
