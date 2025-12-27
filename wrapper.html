@@ -84,7 +84,7 @@
     </select>
   </div>
 
-  <iframe id="viewer-frame" title="Model Viewer" allowfullscreen></iframe>
+  <iframe id="viewer-frame" title="Model Viewer" allowfullscreen sandbox="allow-same-origin allow-scripts allow-popups allow-forms" referrerpolicy="no-referrer"></iframe>
 
   <script>
     const MANIFEST_URL = "./assets/manifest.json";
@@ -99,6 +99,32 @@
     }
 
     const iframe = document.getElementById('viewer-frame');
+    
+    // Prevent iframe from navigating parent window
+    // The sandbox attribute already prevents top-level navigation, but we add extra protection
+    iframe.addEventListener('load', function() {
+      try {
+        // Intercept any link clicks within the iframe that might try to navigate
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        if (iframeDoc) {
+          const links = iframeDoc.querySelectorAll('a[href]');
+          links.forEach(link => {
+            link.addEventListener('click', function(e) {
+              const href = this.getAttribute('href');
+              // If link tries to navigate to wrapper or detail pages, prevent it
+              if (href && (href.includes('wrapper.html') || href.includes('detail.html') || href.includes('index.html'))) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+              }
+            }, true);
+          });
+        }
+      } catch (e) {
+        // Cross-origin restrictions - expected for some models
+      }
+    });
+    
     iframe.src = modelPath;
 
     // Load manifest for dropdown
