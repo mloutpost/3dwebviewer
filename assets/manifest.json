@@ -28,7 +28,9 @@
         "Traditional design",
         "Versatile use"
       ],
-      "gallery": []
+      "gallery": [
+        "assets/Models/LCTF Barn/renders/IMG_2971.webp"
+      ]
     },
     {
       "id": "lone-oak-barn",
@@ -102,7 +104,9 @@
         "14x18 footprint",
         "Outdoor living space"
       ],
-      "gallery": []
+      "gallery": [
+        "assets/Models/LCTF PF1 Hammer Beam Pavilion 14x18 V1.1.1/renders/IMG_2972.webp"
+      ]
     },
     {
       "id": "lctf-pf2",
@@ -117,7 +121,9 @@
         "Compact design",
         "Easy assembly"
       ],
-      "gallery": []
+      "gallery": [
+        "assets/Models/LCTF PF2 Simple Curve Pavilion 10x16 V1.1.1/renders/IMG_2973.webp"
+      ]
     },
     {
       "id": "lctf-pf3",
@@ -132,7 +138,9 @@
         "Spacious interior",
         "Traditional joinery"
       ],
-      "gallery": []
+      "gallery": [
+        "assets/Models/LCTF PF3 Cruck Pavilion 14x20 V1.2.1/renders/IMG_2979.webp"
+      ]
     },
     {
       "id": "lctf-pf4",
@@ -147,7 +155,9 @@
         "Vaulted ceiling feel",
         "Robust structure"
       ],
-      "gallery": []
+      "gallery": [
+        "assets/Models/LCTF PF4 Scissor Truss Pavilion 16x18 V1.2.1/renders/IMG_2978.webp"
+      ]
     },
     {
       "id": "lctf-pf5",
@@ -162,7 +172,10 @@
         "Solid wood"
       ],
       "gallery": [
-        "assets/Models/LCTF PF5 Simple Corbel/renders/Screenshot 2025-10-24 124736.png"
+        "assets/Models/LCTF PF5 Simple Corbel/renders/Screenshot 2025-10-24 124557.webp",
+        "assets/Models/LCTF PF5 Simple Corbel/renders/Screenshot 2025-10-24 124636.webp",
+        "assets/Models/LCTF PF5 Simple Corbel/renders/Screenshot 2025-10-24 124736.png",
+        "assets/Models/LCTF PF5 Simple Corbel/renders/Screenshot 2025-10-24 124736.webp"
       ]
     },
     {
@@ -294,7 +307,9 @@
         "Garden feature",
         "12x18 size"
       ],
-      "gallery": []
+      "gallery": [
+        "assets/Models/LCTF PF14 Simple Pergola 12x18 V1.1.1/renders/IMG_2975.webp"
+      ]
     },
     {
       "id": "lctf-pf15",
@@ -308,7 +323,9 @@
         "Modern slant",
         "Shade provider"
       ],
-      "gallery": []
+      "gallery": [
+        "assets/Models/LCTF PF15 Slanted Pergola 12x16 V1.1.1/renders/IMG_2977.webp"
+      ]
     },
     {
       "id": "lctf-pf16",
@@ -322,7 +339,9 @@
         "Compact pergola",
         "Backyard addition"
       ],
-      "gallery": []
+      "gallery": [
+        "assets/Models/LCTF PF16 Simple Pergola 10x16 V1.1.1/renders/IMG_2974.webp"
+      ]
     },
     {
       "id": "lctf-pf17",
@@ -336,7 +355,9 @@
         "Large pavilion",
         "Perfect for events"
       ],
-      "gallery": []
+      "gallery": [
+        "assets/Models/LCTF PF17 Simple Pavilion 16x24 3.1.1/renders/IMG_2976.webp"
+      ]
     },
     {
       "id": "lctf-pf18",
