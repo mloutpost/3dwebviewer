@@ -302,7 +302,7 @@
           const url = urls[i];
           const img = new Image();
           img.onload = () => {
-            elThumb.style.backgroundImage = `url('${escapeHtml(url)}')`;
+            elThumb.style.backgroundImage = `url('${url}')`;
           };
           img.onerror = () => tryLoad(i + 1);
           img.src = url;
