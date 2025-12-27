@@ -294,22 +294,6 @@
         return exts.map((ext) => (base + ext).replace(/ /g, '%20'));
       }
 
-      function applyThumbFromCandidates(elThumb, urls) {
-        if (!elThumb || !Array.isArray(urls) || urls.length === 0) return;
-
-        const tryLoad = (i) => {
-          if (i >= urls.length) return;
-          const url = urls[i];
-          const img = new Image();
-          img.onload = () => {
-            elThumb.style.backgroundImage = `url('${url}')`;
-          };
-          img.onerror = () => tryLoad(i + 1);
-          img.src = url;
-        };
-
-        tryLoad(0);
-      }
 
       function render() {
         clearError();
@@ -388,12 +372,18 @@
             </div>
           `;
 
+          // Set thumbnail image
           const thumbEl = card.querySelector(".thumb");
           if (thumbEl) {
+            let thumbUrl = '';
             if (raw.thumbnail) {
-              thumbEl.style.backgroundImage = `url('${escapeHtml(raw.thumbnail)}')`;
+              thumbUrl = raw.thumbnail;
             } else {
-              applyThumbFromCandidates(thumbEl, getCoverCandidates(raw, t));
+              const coverUrls = getCoverCandidates(raw, t);
+              thumbUrl = coverUrls[0] || ''; // Use first available cover image
+            }
+            if (thumbUrl) {
+              thumbEl.style.backgroundImage = `url('${thumbUrl}')`;
             }
           }
 
