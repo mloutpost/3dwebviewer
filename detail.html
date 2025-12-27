@@ -273,7 +273,8 @@
       function getModelSrc(model) {
         const t = normalizeType(model);
         if (t === "cadwork-html") {
-          return (model.href || "").toString().trim();
+          const href = (model.href || "").toString().trim();
+          return href ? "wrapper.html?model=" + encodeURI(href) : null;
         }
         if (t === "asset") {
           const src = (model.src || model.href || "").toString().trim();
