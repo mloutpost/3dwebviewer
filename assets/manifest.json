@@ -161,7 +161,9 @@
         "Decorative element",
         "Solid wood"
       ],
-      "gallery": []
+      "gallery": [
+        "assets/Models/LCTF PF5 Simple Corbel/renders/Screenshot 2025-10-24 124736.png"
+      ]
     },
     {
       "id": "lctf-pf6",
@@ -260,7 +262,9 @@
         "Classic look",
         "Sturdy"
       ],
-      "gallery": []
+      "gallery": [
+        "assets/Models/LCTF PF12 Simple Entryway/renders/Scene 1_1.webp"
+      ]
     },
     {
       "id": "lctf-pf13",
