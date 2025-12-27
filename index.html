@@ -360,7 +360,6 @@
 
           const metaPath = (t === "cadwork-html" ? raw.href : (raw.src || raw.href)) || "";
           const safeMeta = String(metaPath);
-          const hasSale = raw.salePrice && raw.discountPercentage;
 
           const card = document.createElement("a");
           card.className = "card";
@@ -371,7 +370,6 @@
 
           card.innerHTML = `
             <div class="thumb">
-              ${hasSale ? `<div class="sale-badge">${raw.discountPercentage}% OFF</div>` : ''}
             </div>
             <div class="inner">
               <div class="name">
@@ -384,12 +382,7 @@
                 <div class="price-section">
                   <span class="price-label">Starting At</span>
                   <div class="price-display">
-                    ${hasSale ? `
-                      <span class="original-price">${escapeHtml(raw.price || "coming soon")}</span>
-                      <span class="sale-price">${escapeHtml(raw.salePrice)}</span>
-                    ` : `
-                      <span class="regular-price">${escapeHtml(raw.price || "coming soon")}</span>
-                    `}
+                    <span class="regular-price">Coming Soon</span>
                   </div>
                 </div>
 =======
