@@ -352,8 +352,17 @@
           card.rel = "noreferrer";
           card.setAttribute("role", "button");
 
+          // Generate thumbnail URL first
+          let thumbUrl = '';
+          if (raw.thumbnail) {
+            thumbUrl = raw.thumbnail;
+          } else {
+            const coverUrls = getCoverCandidates(raw, t);
+            thumbUrl = coverUrls[0] || ''; // Use first available cover image
+          }
+
           card.innerHTML = `
-            <div class="thumb">
+            <div class="thumb" ${thumbUrl ? `style="background-image: url('${thumbUrl}')"` : ''}>
             </div>
             <div class="inner">
               <div class="name">
@@ -371,21 +380,6 @@
               </div>
             </div>
           `;
-
-          // Set thumbnail image
-          const thumbEl = card.querySelector(".thumb");
-          if (thumbEl) {
-            let thumbUrl = '';
-            if (raw.thumbnail) {
-              thumbUrl = raw.thumbnail;
-            } else {
-              const coverUrls = getCoverCandidates(raw, t);
-              thumbUrl = coverUrls[0] || ''; // Use first available cover image
-            }
-            if (thumbUrl) {
-              thumbEl.style.backgroundImage = `url('${thumbUrl}')`;
-            }
-          }
 
           if (!target) {
             card.addEventListener("click", (e) => {
