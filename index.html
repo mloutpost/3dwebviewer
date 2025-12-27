@@ -340,6 +340,44 @@
         font-size: 0.875em;
       }
 
+      /* Pagination Styles */
+      .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin: 2rem 0;
+        padding: 1rem;
+      }
+
+      .pagination-btn {
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        color: var(--text);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+
+      .pagination-btn:hover:not(:disabled) {
+        background: var(--panel-hover);
+        border-color: var(--border-hover);
+      }
+
+      .pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .page-info {
+        color: var(--text-muted);
+        font-weight: 500;
+        min-width: 100px;
+        text-align: center;
+      }
+
       footer {
         margin-top: 4rem;
         padding-top: 2rem;
@@ -389,6 +427,23 @@
           text-align: center;
           gap: 0.5rem;
         }
+
+        /* Mobile pagination styles */
+        .pagination {
+          flex-direction: column;
+          gap: 0.75rem;
+          padding: 1rem 0.5rem;
+        }
+
+        .pagination-btn {
+          width: 100%;
+          max-width: 200px;
+        }
+
+        .page-info {
+          order: -1;
+          margin-bottom: 0.5rem;
+        }
       }
     </style>
   </head>
@@ -396,8 +451,8 @@
     <div class="wrap">
       <header>
         <div class="title">
-          <h1>Timber Frame Kits</h1>
-          <p>Click on a model below to view in 3D</p>
+          <h1>Visualize Your Timber Frame</h1>
+          <p>Click on a model below to visualize our carefully designed pre-fabricated structures. Inquire today about our promotional offer to design your own timber frame and receive a model just like these.</p>
         </div>
         <div class="pill">
           <span>Status:</span>
@@ -414,6 +469,13 @@
 
       <div id="error" class="error" style="display:none"></div>
       <div id="grid" class="grid" aria-live="polite"></div>
+
+      <!-- Pagination -->
+      <div id="pagination" class="pagination" style="display: none;">
+        <button id="prev-page" class="pagination-btn" disabled>&laquo; Previous</button>
+        <span id="page-info" class="page-info">Page 1 of 1</span>
+        <button id="next-page" class="pagination-btn" disabled>Next &raquo;</button>
+      </div>
 
       <div style="margin-top: 40px; text-align: center;">
         <button id="main-purchase-btn" class="btn primary" style="padding: 16px 32px; font-size: 18px; border-radius: 999px;">
@@ -437,6 +499,11 @@
 
       /** @type {{models: Array<any>} | null} */
       let manifest = null;
+
+      // Pagination variables
+      const ITEMS_PER_PAGE = 25;
+      let currentPage = 1;
+      let totalPages = 1;
 
       function setStatus(text) {
         elStatus.textContent = text;
@@ -509,6 +576,10 @@
         clearError();
         elGrid.innerHTML = "";
 
+        // Clear all existing gallery timers
+        cardTimers.forEach((timerId) => clearInterval(timerId));
+        cardTimers.clear();
+
         const models = (manifest && Array.isArray(manifest.models)) ? manifest.models : [];
         const q = elQ.value.trim().toLowerCase();
         const typeFilter = elType.value;
@@ -546,7 +617,16 @@
           return;
         }
 
-        for (const { raw, t } of filtered) {
+        // Calculate pagination
+        totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+        const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+        const endIndex = startIndex + ITEMS_PER_PAGE;
+        const pageItems = filtered.slice(startIndex, endIndex);
+
+        // Update pagination controls
+        updatePaginationControls(filtered.length);
+
+        for (const { raw, t } of pageItems) {
           const name = (raw.name || raw.id || "Untitled").toString();
           const desc = (raw.description || "").toString();
           const target = getModelTarget(raw);
@@ -562,19 +642,33 @@
           card.rel = "noreferrer";
           card.setAttribute("role", "button");
 
-          // Generate thumbnail URL first
-          let thumbUrl = '';
+          // Generate thumbnail URLs
+          let coverUrl = '';
           let defaultLogoUrl = 'assets/global_graphics/Small%20Logo%20Cropped.png';
+          let galleryImages = [];
+
           if (raw.thumbnail) {
-            thumbUrl = raw.thumbnail;
+            coverUrl = raw.thumbnail;
           } else {
             const coverUrls = getCoverCandidates(raw, t);
-            thumbUrl = coverUrls[0] || defaultLogoUrl; // Use first available cover image, or default logo
+            coverUrl = coverUrls[0] || defaultLogoUrl;
           }
+
+          // Get gallery images
+          if (raw.gallery && raw.gallery.length > 0) {
+            galleryImages = [...raw.gallery];
+          }
+
+          // Set initial thumb URL - start with cover image
+          let initialThumbUrl = coverUrl;
+
+          card.setAttribute('data-cover-url', coverUrl);
+          card.setAttribute('data-gallery-images', JSON.stringify(galleryImages));
+          card.setAttribute('data-current-index', '0');
 
           card.innerHTML = `
             <div class="thumb">
-              <img src="${thumbUrl}" alt="${escapeHtml(name)}" onerror="this.src='${defaultLogoUrl}'" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+              <img src="${initialThumbUrl}" alt="${escapeHtml(name)}" onerror="this.src='${defaultLogoUrl}'" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.3s ease;" />
             </div>
             <div class="inner">
               <div class="name">
@@ -600,10 +694,97 @@
             });
           }
 
+          // Add gallery cycling functionality
+          if (galleryImages.length > 0) {
+            // Start cycling when card is added to DOM
+            setTimeout(() => startGalleryCycling(card), 100);
+
+            // Add hover event listeners
+            card.addEventListener('mouseenter', () => {
+              stopGalleryCycling(card);
+              showCoverImage(card);
+            });
+
+            card.addEventListener('mouseleave', () => {
+              resumeGalleryCycling(card);
+            });
+          }
+
           elGrid.appendChild(card);
         }
 
-        setStatus(`${models.length} models • ${filtered.length} shown`);
+        setStatus(`${models.length} models • ${filtered.length} shown (page ${currentPage} of ${totalPages})`);
+      }
+
+      function updatePaginationControls(totalItems) {
+        const paginationEl = document.getElementById('pagination');
+        const prevBtn = document.getElementById('prev-page');
+        const nextBtn = document.getElementById('next-page');
+        const pageInfo = document.getElementById('page-info');
+
+        if (totalPages <= 1) {
+          paginationEl.style.display = 'none';
+          return;
+        }
+
+        paginationEl.style.display = 'flex';
+        pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+
+        prevBtn.disabled = currentPage <= 1;
+        nextBtn.disabled = currentPage >= totalPages;
+      }
+
+      function changePage(direction) {
+        const newPage = currentPage + direction;
+        if (newPage >= 1 && newPage <= totalPages) {
+          currentPage = newPage;
+          render();
+        }
+      }
+
+      // Gallery cycling functionality
+      const cardTimers = new Map();
+
+      function startGalleryCycling(card) {
+        const galleryImages = JSON.parse(card.getAttribute('data-gallery-images') || '[]');
+        if (galleryImages.length === 0) return; // No gallery images to cycle
+
+        const img = card.querySelector('.thumb img');
+        let currentIndex = parseInt(card.getAttribute('data-current-index') || '0');
+
+        const cycleImages = () => {
+          currentIndex = (currentIndex + 1) % galleryImages.length;
+          img.src = galleryImages[currentIndex];
+          card.setAttribute('data-current-index', currentIndex.toString());
+        };
+
+        // Start cycling every 3 seconds
+        const timerId = setInterval(cycleImages, 3000);
+        cardTimers.set(card, timerId);
+      }
+
+      function stopGalleryCycling(card) {
+        const timerId = cardTimers.get(card);
+        if (timerId) {
+          clearInterval(timerId);
+          cardTimers.delete(card);
+        }
+      }
+
+      function showCoverImage(card) {
+        const img = card.querySelector('.thumb img');
+        const coverUrl = card.getAttribute('data-cover-url');
+        img.src = coverUrl;
+        card.setAttribute('data-current-index', '-1'); // -1 indicates cover image
+      }
+
+      function resumeGalleryCycling(card) {
+        const galleryImages = JSON.parse(card.getAttribute('data-gallery-images') || '[]');
+        if (galleryImages.length > 1) {
+          // Resume from where we left off, or start fresh
+          const currentIndex = parseInt(card.getAttribute('data-current-index') || '0');
+          startGalleryCycling(card);
+        }
       }
 
       function escapeHtml(s) {
@@ -650,6 +831,7 @@
           if (manifest && Array.isArray(manifest.models)) {
             populateTypes(manifest.models);
           }
+          currentPage = 1; // Reset to first page when loading new manifest
           render();
         } catch (err) {
           manifest = null;
@@ -664,8 +846,18 @@
         }
       }
 
-      elQ.addEventListener("input", render);
-      elType.addEventListener("change", render);
+      elQ.addEventListener("input", () => {
+        currentPage = 1; // Reset to first page when searching
+        render();
+      });
+      elType.addEventListener("change", () => {
+        currentPage = 1; // Reset to first page when filtering
+        render();
+      });
+
+      // Pagination event listeners
+      document.getElementById("prev-page").addEventListener("click", () => changePage(-1));
+      document.getElementById("next-page").addEventListener("click", () => changePage(1));
 
       document.getElementById("main-purchase-btn").addEventListener("click", () => {
         alert("Purchase functionality coming soon!");
