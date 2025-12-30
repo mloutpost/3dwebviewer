@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Timber Frame Design | LC Timberframes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --franklin-green: #2C3E2F;
+            --slab-blue: #CDE3F2;
+            --forest-brown: #4F423A;
+            --pebble-grey: #DEDBCE;
+            --ivory-white: #F7F7F7;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--forest-brown);
+            background: var(--ivory-white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--franklin-green), #3a7d44);
+            color: var(--ivory-white);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(44, 62, 47, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .deposit-banner {
+            background: var(--franklin-green);
+            color: var(--ivory-white);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(44, 62, 47, 0.25);
+            border: 2px solid rgba(247, 247, 247, 0.1);
+        }
+
+        .timeline {
+            position: relative;
+            margin: 40px 0;
+            padding: 20px 0;
+        }
+
+        .timeline-line {
+            display: none;
+        }
+
+        .deposit-group {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .deposit-overlay {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--franklin-green);
+            color: var(--ivory-white);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(44, 62, 47, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            z-index: 5;
+        }
+
+        .deposit-overlay::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid var(--franklin-green);
+            transform: translateX(-50%);
+        }
+
+        .deposit-group:hover .deposit-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+
+
+        .timeline-steps {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            position: relative;
+            z-index: 3;
+            padding: 0 20px;
+            flex-wrap: wrap;
+        }
+
+        .timeline-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInScale 0.6s ease-out forwards;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 15px;
+        }
+
+        .timeline-step:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-step:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-step:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-step:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-step:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-step:nth-child(6) { animation-delay: 0.6s; }
+        .timeline-step:nth-child(7) { animation-delay: 0.7s; }
+        .timeline-step:nth-child(8) { animation-delay: 0.8s; }
+        .timeline-step:nth-child(9) { animation-delay: 0.9s; }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--slab-blue);
+            color: var(--forest-brown);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(205, 227, 242, 0.3);
+            border: 3px solid var(--ivory-white);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            z-index: 3;
+            position: relative;
+            top: 0;
+        }
+
+        .timeline-step:hover .step-number {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(205, 227, 242, 0.6);
+            background: var(--franklin-green);
+            color: var(--ivory-white);
+        }
+
+        .timeline-step.active .step-number {
+            background: var(--franklin-green);
+            color: var(--ivory-white);
+            box-shadow: 0 8px 25px rgba(44, 62, 47, 0.4);
+        }
+
+        .timeline-step.completed .step-number {
+            background: var(--franklin-green);
+            color: var(--ivory-white);
+            box-shadow: 0 6px 20px rgba(44, 62, 47, 0.4);
+        }
+
+        .step-content-area {
+            margin-top: 20px;
+            padding: 30px;
+            background: var(--ivory-white);
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(79, 66, 58, 0.1);
+            border: 2px solid var(--pebble-grey);
+            display: block;
+            text-align: center;
+        }
+
+
+        .step-content-area h3 {
+            color: var(--forest-brown);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .step-content-area p {
+            color: var(--forest-brown);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .step-content:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .step-content h3 {
+            color: #1f2937;
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .step-content p {
+            color: #4b5563;
+            margin-bottom: 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .step-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--forest-brown);
+            margin-top: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .step-actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .btn-contract {
+            background: linear-gradient(135deg, var(--franklin-green), #3a7d44);
+            color: var(--ivory-white);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-contract:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 62, 47, 0.4);
+        }
+
+        .installation-options {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .option-btn {
+            padding: 12px 25px;
+            border: 2px solid var(--slab-blue);
+            background: var(--ivory-white);
+            color: var(--forest-brown);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .option-btn:hover {
+            background: var(--slab-blue);
+            color: var(--forest-brown);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(205, 227, 242, 0.3);
+        }
+
+        .option-btn.selected {
+            background: var(--franklin-green);
+            border-color: var(--franklin-green);
+            color: var(--ivory-white);
+        }
+
+
+
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--franklin-green), #3a7d44);
+            color: var(--ivory-white);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(44, 62, 47, 0.2);
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .cta-section p {
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--franklin-green);
+            color: var(--ivory-white);
+            border: 2px solid var(--franklin-green);
+        }
+
+        .btn-primary:hover {
+            background: #3a7d44;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--ivory-white);
+            border: 2px solid var(--ivory-white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--ivory-white);
+            color: var(--franklin-green);
+        }
+
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        @media (max-width: 1200px) {
+            .timeline-steps {
+                gap: 15px;
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .timeline-steps {
+                gap: 10px;
+                padding: 0 10px;
+            }
+
+            .step-number {
+                width: 55px;
+                height: 55px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .step-number {
+                width: 50px;
+                height: 50px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .deposit-banner {
+                font-size: 1rem;
+                padding: 20px;
+            }
+
+            .timeline {
+                padding: 20px 0;
+            }
+
+            .timeline-steps {
+                flex-direction: column;
+                gap: 40px;
+                padding: 0 20px;
+            }
+
+            .timeline-line {
+                display: none;
+            }
+
+            .progress-indicator {
+                display: none;
+            }
+
+            .deposit-overlay {
+                font-size: 0.75rem;
+                padding: 6px 12px;
+            }
+
+            .step-number {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+                margin-bottom: 15px;
+            }
+
+            .step-label {
+                font-size: 0.8rem;
+                margin-bottom: 10px;
+            }
+
+            .step-content-area {
+                margin-top: 40px;
+                padding: 25px;
+            }
+
+            .step-content-area h3 {
+                font-size: 1.5rem;
+            }
+
+            .installation-options {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .option-btn {
+                width: 100%;
+                max-width: 250px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .back-link {
+                position: static;
+                margin-bottom: 20px;
+                display: inline-block;
+            }
+
+        }
+
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Models</a>
+
+    <div class="container">
+        <div class="header">
+            <h1>Custom Timber Frame Design</h1>
+            <p>Transform your vision into reality with our expert architects and craftsmen. From concept to completion, we guide you through every step.</p>
+        </div>
+
+        <div class="deposit-banner">
+            First 4 Steps: $500 Deposit Only - No Contract Required
+        </div>
+
+        <div class="timeline">
+            <div class="deposit-group">
+                <div class="deposit-overlay">First 4 Steps: $500 Deposit Only - No Contract Required</div>
+            </div>
+            <div class="timeline-steps">
+                <div class="timeline-step" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Deposit</div>
+                </div>
+
+                <div class="timeline-step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Design</div>
+                </div>
+
+                <div class="timeline-step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">3D Model</div>
+                </div>
+
+                <div class="timeline-step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Quote</div>
+                </div>
+
+                <div class="timeline-step completed" data-step="5">
+                    <div class="step-number">5</div>
+                    <div class="step-label">Manufacture</div>
+                </div>
+
+                <div class="timeline-step completed" data-step="6">
+                    <div class="step-number">6</div>
+                    <div class="step-label">Shipment</div>
+                </div>
+
+                <div class="timeline-step completed" data-step="7">
+                    <div class="step-number">7</div>
+                    <div class="step-label">Installation</div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+        <div id="step-content-area" class="step-content-area">
+            <div id="step-content-placeholder">
+                <h3>Welcome to Your Custom Timber Frame Journey</h3>
+                <p>Click on any step above to explore the detailed process of bringing your timber frame vision to life. Each step represents a crucial phase in creating your perfect structure.</p>
+            </div>
+        </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Ready to Start Your Custom Project?</h2>
+            <p>Take the first step towards your dream timber frame structure. Our team is ready to bring your vision to life.</p>
+            <div class="cta-buttons">
+                <a href="index.html" class="btn btn-primary">Back to Models</a>
+                <a href="sms:+15415206503?body=I%20would%20like%20a%20concept%20design%20of%20my%20timber%20frame!" class="btn btn-secondary">Contact Sales</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = null;
+
+        function setupDepositHover() {
+            // Set hover area to cover roughly the first half of the timeline
+            const depositGroup = document.querySelector('.deposit-group');
+            if (!depositGroup) return;
+
+            depositGroup.style.left = '0';
+            depositGroup.style.width = '50%';
+        }
+
+        // Step content data
+        const stepContent = {
+            1: {
+                title: "$500 Design Deposit",
+                description: "Secure your spot in our design queue with a $500 deposit. This covers the initial consultation and ensures your project gets our full attention from our experienced architects."
+            },
+            2: {
+                title: "Architectural Design",
+                description: "Our licensed architects will transform your ideas into detailed plans and engineering specifications. We'll work with you to refine the design until it perfectly matches your vision and meets all building codes."
+            },
+            3: {
+                title: "3D Model Creation",
+                description: "We'll create a detailed 3D model of your custom timber frame, just like the ones you see in our gallery. This interactive model lets you explore every angle and detail of your structure before we build it."
+            },
+            4: {
+                title: "Construction Quote",
+                description: "Choose from our flexible building options. We'll provide detailed bids for both kit-only packages (for DIY or contractor installation) and full kit-and-install services."
+            },
+            5: {
+                title: "Kit Manufacture",
+                description: "Your custom timber frame kit is precision-crafted in our workshop using traditional joinery techniques and modern CNC technology for perfect fit and finish."
+            },
+            6: {
+                title: "Shipment",
+                description: "Your completed timber frame kit is carefully packaged and shipped to your location. We coordinate delivery and provide white-glove service to ensure everything arrives safely."
+            },
+            7: {
+                title: "Installation",
+                description: "Choose your installation path: self-assembly with our detailed instructions, or professional installation by our certified craftsmen team."
+            },
+        };
+
+        function selectStep(stepElement) {
+            const stepNumber = parseInt(stepElement.dataset.step);
+
+            // Update active step visual state
+            document.querySelectorAll('.timeline-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            stepElement.classList.add('active');
+
+            // Update current step and show content
+            currentStep = stepNumber;
+
+            // Update line progress (7 steps total)
+            const progressPercent = (stepNumber / 7) * 100;
+            document.documentElement.style.setProperty('--line-progress', `${progressPercent}%`);
+
+            // Always show content in the shared area below timeline
+            showStepContent(stepNumber);
+        }
+
+
+
+        function showStepContent(stepNumber) {
+            const contentArea = document.getElementById('step-content-area');
+            const content = stepContent[stepNumber];
+
+            contentArea.innerHTML = `
+                <h3>${content.title}</h3>
+                <p>${content.description}</p>
+                ${content.actions || ''}
+            `;
+
+            contentArea.classList.add('show');
+        }
+
+
+
+
+
+        // Add some interactivity on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Interactive Horizontal Timeline Loaded Successfully');
+
+            // Add click handlers to timeline steps
+            document.querySelectorAll('.timeline-step').forEach(step => {
+                step.addEventListener('click', () => selectStep(step));
+            });
+
+            // All steps are now accessible from the start
+            document.querySelectorAll('.timeline-step').forEach(step => {
+                step.style.opacity = '1';
+                step.style.pointerEvents = 'auto';
+            });
+
+            // Setup deposit hover area
+            setupDepositHover();
+        });
+    </script>
+</body>
+</html>
