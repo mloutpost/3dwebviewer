@@ -212,6 +212,30 @@
         box-shadow: var(--shadow-hover);
       }
       .card:active { transform: translateY(0); }
+      .card.coming-soon {
+        opacity: 0.7;
+        cursor: default;
+      }
+      .card.coming-soon:hover {
+        transform: none;
+        border-color: var(--border);
+        background: var(--panel);
+        box-shadow: var(--shadow);
+      }
+      .card.coming-soon .thumb::after {
+        content: 'Coming Soon';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        z-index: 2;
+      }
       .card .thumb {
         height: 200px;
         background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--panel) 100%);
@@ -444,6 +468,47 @@
         text-decoration: underline;
       }
 
+      .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--franklin-green);
+        color: var(--ivory-white);
+        padding: 16px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(44, 62, 47, 0.3);
+        z-index: 1000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        max-width: 350px;
+      }
+
+      .notification.show {
+        transform: translateX(0);
+      }
+
+      .notification-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .notification-icon {
+        font-size: 1.2rem;
+        font-weight: bold;
+        flex-shrink: 0;
+      }
+
+      .notification-text {
+        font-size: 0.95rem;
+        line-height: 1.4;
+      }
+
+      .notification.info {
+        background: var(--slab-blue);
+        color: var(--forest-brown);
+      }
+
       @media (max-width: 768px) {
         .wrap { padding: 1.5rem 1rem 3rem; }
         .grid { grid-template-columns: 1fr; gap: 1rem; }
@@ -495,6 +560,7 @@
       }
 
     </style>
+  <script src="https://app.metricslite.com/tracker-1.0.js" data-site-id="7a184184-bbf4-4ec1-81ba-8d738decb242"></script>
   </head>
   <body>
     <div class="wrap">
@@ -585,17 +651,24 @@
         if (!model || typeof model !== "object") return "";
         if (model.type === "cadwork-html") return "cadwork-html";
         if (model.type === "asset") return "asset";
+        if (model.type === "coming-soon") return "coming-soon";
         if (typeof model.src === "string" && model.src.trim()) return "asset";
         if (typeof model.href === "string" && model.href.toLowerCase().endsWith(".html")) return "cadwork-html";
         return "";
       }
 
       function getModelTarget(model) {
+        const t = normalizeType(model);
+
+        // Coming soon models don't have a target
+        if (t === "coming-soon") {
+          return null;
+        }
+
         if (model.id) {
           return "detail.html?id=" + encodeURIComponent(model.id);
         }
-        
-        const t = normalizeType(model);
+
         if (t === "cadwork-html") {
           const href = (model.href || "").toString().trim();
           return href ? "wrapper.html?model=" + encodeURI(href) : null;
@@ -617,6 +690,7 @@
         if (raw && raw.tag) return raw.tag;
         if (t === "cadwork-html") return "Frame";
         if (t === "asset") return "3D Asset";
+        if (t === "coming-soon") return "Coming Soon";
         return "Unknown";
       }
 
@@ -707,7 +781,7 @@
           const safeMeta = String(metaPath);
 
           const card = document.createElement("a");
-          card.className = "card";
+          card.className = "card" + (t === "coming-soon" ? " coming-soon" : "");
           card.href = target || "#";
           card.target = "_self";
           card.rel = "noreferrer";
@@ -764,7 +838,11 @@
           if (!target) {
             card.addEventListener("click", (e) => {
               e.preventDefault();
-              showError(`Model <code>${escapeHtml(name)}</code> is missing a valid <code>href</code>.`);
+              if (t === "coming-soon") {
+                showNotification(`${escapeHtml(name)} is coming soon!`, 'info');
+              } else {
+                showError(`Model <code>${escapeHtml(name)}</code> is missing a valid <code>href</code>.`);
+              }
             });
           }
 
@@ -899,6 +977,32 @@
 
         // 0.5 second delay for smooth transition, then resume
         setTimeout(resumeToGallery, 500);
+      }
+
+      function showNotification(message, type = 'info') {
+        // Remove existing notifications
+        const existingNotifications = document.querySelectorAll('.notification');
+        existingNotifications.forEach(notification => notification.remove());
+
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+          <div class="notification-content">
+            <span class="notification-icon">${type === 'success' ? '✓' : 'ℹ'}</span>
+            <span class="notification-text">${message}</span>
+          </div>
+        `;
+
+        document.body.appendChild(notification);
+
+        // Trigger animation
+        setTimeout(() => notification.classList.add('show'), 100);
+
+        // Auto remove after 4 seconds
+        setTimeout(() => {
+          notification.classList.remove('show');
+          setTimeout(() => notification.remove(), 300);
+        }, 4000);
       }
 
       function escapeHtml(s) {
