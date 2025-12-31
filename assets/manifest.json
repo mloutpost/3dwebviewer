@@ -387,6 +387,62 @@
         "Special design"
       ],
       "gallery": []
+    },
+    {
+      "id": "20x36-cruck-pavilion",
+      "name": "20x36 Cruck Pavilion",
+      "type": "coming-soon",
+      "description": "Traditional cruck pavilion design - Coming Soon",
+      "tag": "Pavilion",
+      "price": "coming soon",
+      "features": [
+        "Cruck frame construction",
+        "20x36 footprint",
+        "Traditional timber framing"
+      ],
+      "gallery": []
+    },
+    {
+      "id": "24x30-cottage",
+      "name": "24x30 Cottage",
+      "type": "coming-soon",
+      "description": "Charming timber frame cottage design - Coming Soon",
+      "tag": "Homes",
+      "price": "coming soon",
+      "features": [
+        "Cozy cottage design",
+        "24x30 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": []
+    },
+    {
+      "id": "50-covered-bridge",
+      "name": "50' Covered Bridge",
+      "type": "coming-soon",
+      "description": "Majestic covered bridge design - Coming Soon",
+      "tag": "Bridges",
+      "price": "coming soon",
+      "features": [
+        "Covered bridge construction",
+        "50 foot span",
+        "Historic timber design"
+      ],
+      "gallery": []
+    },
+    {
+      "id": "bee-tree-hill",
+      "name": "Bee Tree Hill",
+      "type": "coming-soon",
+      "description": "Unique timber frame structure - Coming Soon",
+      "tag": "Custom",
+      "price": "coming soon",
+      "features": [
+        "Custom design",
+        "Bee Tree Hill inspired",
+        "Timber frame construction"
+      ],
+      "gallery": []
     }
   ]
 }
