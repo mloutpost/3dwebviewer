@@ -668,7 +668,7 @@
         if (model.id) {
           return "detail.html?id=" + encodeURIComponent(model.id);
         }
-
+        
         if (t === "cadwork-html") {
           const href = (model.href || "").toString().trim();
           return href ? "wrapper.html?model=" + encodeURI(href) : null;
@@ -841,7 +841,7 @@
               if (t === "coming-soon") {
                 showNotification(`${escapeHtml(name)} is coming soon!`, 'info');
               } else {
-                showError(`Model <code>${escapeHtml(name)}</code> is missing a valid <code>href</code>.`);
+              showError(`Model <code>${escapeHtml(name)}</code> is missing a valid <code>href</code>.`);
               }
             });
           }
