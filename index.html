@@ -789,7 +789,7 @@
 
           // Generate thumbnail URLs
           let coverUrl = '';
-          let defaultLogoUrl = 'assets/global_graphics/Small%20Logo%20Cropped.png';
+          let defaultLogoUrl = 'assets/global_graphics/Small%20Logo%20Cropped.png'.replace(/ /g, '%20');
           let galleryImages = [];
 
           if (raw.thumbnail) {
@@ -809,6 +809,8 @@
           if (galleryImages.length > 0) {
             initialThumbUrl = galleryImages[0]; // Always start with first gallery image for consistency
           }
+          // Encode for HTML img src
+          initialThumbUrl = encodeURI(initialThumbUrl);
 
           card.setAttribute('data-cover-url', coverUrl);
           card.setAttribute('data-gallery-images', JSON.stringify(galleryImages));
@@ -916,7 +918,8 @@
 
         const cycleImages = () => {
           currentIndex = (currentIndex + 1) % galleryImages.length;
-          img.src = galleryImages[currentIndex];
+          const encodedUrl = encodeURI(galleryImages[currentIndex]);
+          img.src = encodedUrl;
           card.setAttribute('data-current-index', currentIndex.toString());
         };
 
@@ -936,7 +939,7 @@
       function showCoverImage(card) {
         const img = card.querySelector('.thumb img');
         const coverUrl = card.getAttribute('data-cover-url');
-        img.src = coverUrl;
+        img.src = encodeURI(coverUrl);
         card.setAttribute('data-current-index', '-1'); // -1 indicates cover image
       }
 
@@ -951,7 +954,8 @@
         const resumeToGallery = () => {
           if (galleryImages.length === 1) {
             // Single image: just show the gallery image
-            img.src = galleryImages[0];
+            const encodedUrl = encodeURI(galleryImages[0]);
+            img.src = encodedUrl;
             card.setAttribute('data-current-index', '0');
           } else if (galleryImages.length > 1) {
             // Multiple images: start cycling again
