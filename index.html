@@ -6,6 +6,8 @@
     <meta name="color-scheme" content="light dark" />
     <title>LC Timberframes • 3D Models</title>
     <meta name="description" content="Select a 3D model to view." />
+    <link rel="dns-prefetch" href="//docs.google.com">
+    <link rel="preconnect" href="//docs.google.com" crossorigin>
     <style>
       :root {
         /* Franklin Timberframes Color Palette */
@@ -615,9 +617,196 @@
 
     <script>
       const MANIFEST_URL = "./assets/manifest.json";
+      // Pricing data source - Google Sheet (primary) or local CSV (fallback)
+      const PRICING_URL = "https://docs.google.com/spreadsheets/d/1763KWbOgtVHSFSDvOUW0NnXTIF3nyvZHqFDrN_BoQHw/export?format=csv&gid=0";
+      const FALLBACK_PRICING_URL = "./assets/pricing.csv";
 
       const elStatus = document.getElementById("status");
       const elGrid = document.getElementById("grid");
+
+      // Format price with dollar sign and commas
+      function formatPrice(priceStr) {
+        const num = parseInt(priceStr.replace(/,/g, ''), 10);
+        if (isNaN(num)) return priceStr;
+        return '$' + num.toLocaleString();
+      }
+
+      // Function to fetch and parse pricing from Google Sheets CSV with caching
+      async function fetchPricing() {
+        const CACHE_KEY = 'pricing_cache';
+        const CACHE_DURATION = 1 * 60 * 1000; // 1 minute (temporary for testing)
+        console.log('🔍 Full URL:', window.location.href);
+        console.log('🔍 URL pathname:', window.location.pathname);
+        console.log('🔍 URL search:', window.location.search);
+        const urlParams = new URLSearchParams(window.location.search);
+        const FORCE_REFRESH = urlParams.has('refresh') || urlParams.has('clearcache');
+        console.log('🔄 Force refresh detected:', FORCE_REFRESH);
+
+        // Manual cache clear option
+        if (urlParams.has('clearcache')) {
+          localStorage.removeItem(CACHE_KEY);
+          console.log('🗑️ Cache cleared manually');
+        }
+
+        // Check cache first (skip if force refresh)
+        if (!FORCE_REFRESH) {
+          const cached = localStorage.getItem(CACHE_KEY);
+          if (cached) {
+            try {
+              const { data, timestamp } = JSON.parse(cached);
+              if (Date.now() - timestamp < CACHE_DURATION) {
+                console.log('📋 Using cached pricing data (last updated:', new Date(timestamp).toLocaleString(), ')');
+                return data;
+              }
+            } catch (e) {
+              // Invalid cache, continue
+            }
+          }
+        } else {
+          console.log('🔄 Force refresh requested - bypassing cache');
+        }
+
+        let pricing = {};
+
+        // Try local CSV first (more reliable)
+        try {
+          console.log('📄 Loading local pricing CSV...');
+          const response = await fetch(FALLBACK_PRICING_URL);
+          if (response.ok) {
+            const csvText = await response.text();
+            pricing = parseLocalPricingCSV(csvText);
+            console.log('💰 Local pricing loaded:', pricing);
+          }
+        } catch (error) {
+          console.warn('Local pricing CSV failed:', error);
+        }
+
+        // Try Google Sheets as backup (if local fails or has no data)
+        if (Object.keys(pricing).length === 0) {
+          try {
+            console.log('🔄 Fetching pricing from Google Sheets...');
+            const response = await fetch(PRICING_URL, {
+              method: 'GET',
+              cache: 'no-cache'
+            });
+            console.log('📊 Response status:', response.status, response.statusText);
+
+            if (response.ok) {
+              const csvText = await response.text();
+              console.log('📄 CSV length:', csvText.length);
+
+            pricing = parsePricingCSV(csvText);
+            } else {
+              console.error('❌ Google Sheets response failed:', response.status);
+            }
+          } catch (error) {
+            console.error('❌ Google Sheets fetch failed:', error);
+          }
+        }
+
+        // Cache the result
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify({
+            data: pricing,
+            timestamp: Date.now()
+          }));
+        } catch (e) {
+          // localStorage might be full or unavailable
+        }
+
+        return pricing;
+      }
+
+      // Parse CSV text into pricing object - uses SN and Price columns
+      function parsePricingCSV(csvText) {
+        console.log('🔍 Starting CSV parsing...');
+        const lines = csvText.split('\n').filter(line => line.trim());
+        console.log('📊 Total lines:', lines.length);
+
+        if (lines.length < 2) {
+          console.warn('⚠️ Not enough lines in CSV');
+          return {};
+        }
+
+        const pricing = {};
+
+        // Parse each row (skip header row)
+        for (let i = 1; i < lines.length; i++) {
+          const cells = lines[i].split(',').map(cell => cell.trim().replace(/"/g, ''));
+          console.log(`📋 Row ${i}:`, cells);
+
+          if (cells.length >= 5 && cells[0]) { // SN in column 0, Price in column 4
+            const sn = cells[0];
+            const price = cells[4];
+
+            console.log(`🔍 Checking SN: "${sn}", Price: "${price}"`);
+
+            // Only add pricing if SN exists and price is not empty and not yes/no
+            if (sn && price && price.trim() !== '' &&
+                price.toLowerCase() !== 'yes' && price.toLowerCase() !== 'no') {
+
+              console.log(`✅ Valid pricing found: ${sn} = ${price}`);
+
+              // Convert SN format to match manifest IDs
+              let id = sn.toLowerCase();
+
+              // Handle specific SN to ID mappings
+              if (sn === 'LC_101') id = 'lone-oak-barn';
+              else if (sn === 'LC_102') id = 'notch-barn';
+              else if (sn === 'LC20') id = 'lctf-barn';
+              else if (sn === 'LC22') id = 'old-natchez-studio';
+              else if (sn === 'LC_19') id = 'old-natchez-trace';
+              else if (sn === 'LCTF_PF19') id = 'lctf-pf19';
+              else {
+                // General conversion for other SN formats
+                id = id.replace(/_/g, '-')  // Convert underscores to hyphens
+                       .replace(/lc14/, '36x42-monitor-barn')
+                       .replace(/lc20/, '33x39-lctf-barn')
+                       .replace(/lc22/, '21x24-old-natchez-studio')
+                       .replace(/pctf-pf8/, 'lctf-pf8')  // Fix typo in sheet
+                       .replace(/lctp-pf12/, 'lctf-pf12'); // Fix typo in sheet
+              }
+
+              pricing[id] = formatPrice(price);
+              console.log(`💰 Added pricing: ${sn} -> ${id} = ${pricing[id]}`);
+            } else {
+              console.log(`❌ Skipping row - invalid data`);
+            }
+          } else {
+            console.log(`❌ Skipping row - not enough columns or no SN`);
+          }
+        }
+
+        console.log('🏁 Final pricing object:', pricing);
+        return pricing;
+      }
+
+      // Parse local CSV text (id,price format) - handles commas in prices
+      function parseLocalPricingCSV(csvText) {
+        const lines = csvText.split('\n').filter(line => line.trim());
+        if (lines.length < 2) return {};
+
+        const pricing = {};
+
+        // Parse each row (skip header row)
+        for (let i = 1; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (!line) continue;
+
+          // Split on first comma only (since prices may contain commas)
+          const firstCommaIndex = line.indexOf(',');
+          if (firstCommaIndex === -1) continue;
+
+          const id = line.substring(0, firstCommaIndex).trim();
+          const price = line.substring(firstCommaIndex + 1).trim();
+
+          if (id && price) {
+            pricing[id] = price;
+          }
+        }
+
+        return pricing;
+      }
       const elErr = document.getElementById("error");
       const elQ = document.getElementById("q");
       const elType = document.getElementById("type");
@@ -731,13 +920,27 @@
             return !q || hay.includes(q);
           })
           .sort((a, b) => {
-            // Sort models with rendered images (gallery) first
-            const aHasGallery = a.raw.gallery && a.raw.gallery.length > 0;
-            const bHasGallery = b.raw.gallery && b.raw.gallery.length > 0;
+            // Sort by render/cover availability (descending priority):
+            // 1. Models with render images (gallery)
+            // 2. Models with cover images only
+            // 3. HTML viewer models with no cover/renders
+            // 4. Coming-soon models with no cover/renders
 
-            if (aHasGallery && !bHasGallery) return -1;
-            if (!aHasGallery && bHasGallery) return 1;
-            return 0; // Maintain original order for models with same gallery status
+            const getSortPriority = (model) => {
+              const hasGallery = model.raw.gallery && model.raw.gallery.length > 0;
+              const hasCover = !!model.raw.thumbnail;
+              const isHtmlViewer = model.t === 'cadwork-html';
+
+              if (hasGallery) return 1;                    // Highest: has render images
+              if (hasCover) return 2;                      // High: has cover only
+              if (isHtmlViewer) return 3;                  // Medium: HTML viewer, no visuals
+              return 4;                                    // Lowest: coming-soon, no visuals
+            };
+
+            const aPriority = getSortPriority(a);
+            const bPriority = getSortPriority(b);
+
+            return aPriority - bPriority;
           });
 
         if (models.length === 0) {
@@ -774,6 +977,7 @@
         for (const { raw, t } of pageItems) {
           const name = (raw.name || raw.id || "Untitled").toString();
           const desc = (raw.description || "").toString();
+          const price = raw.price || "Coming Soon";
           const target = getModelTarget(raw);
           const tag = typeLabel(t, raw);
 
@@ -809,8 +1013,18 @@
           if (galleryImages.length > 0) {
             initialThumbUrl = galleryImages[0]; // Always start with first gallery image for consistency
           }
-          // Encode for HTML img src
-          initialThumbUrl = encodeURI(initialThumbUrl);
+
+          // Special case: LC14 Monitor Barn should show default logo
+          if (raw.id === 'lc14-monitor-barn') {
+            initialThumbUrl = defaultLogoUrl;
+          }
+          // Encode for HTML img src (only if we have a URL)
+          if (initialThumbUrl) {
+            initialThumbUrl = initialThumbUrl.replace(/ /g, '%20');
+          }
+          if (raw.name.includes('Monitor Barn')) {
+            console.log(`🔍 ${raw.name}: thumbnail=${raw.thumbnail}, coverUrl=${coverUrl}, initial=${initialThumbUrl}, gallery=${galleryImages.length}`);
+          }
 
           card.setAttribute('data-cover-url', coverUrl);
           card.setAttribute('data-gallery-images', JSON.stringify(galleryImages));
@@ -818,7 +1032,7 @@
 
           card.innerHTML = `
             <div class="thumb">
-              <img src="${initialThumbUrl}" alt="${escapeHtml(name)}" onerror="this.src='${defaultLogoUrl}'" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.3s ease;" />
+              <img src="${initialThumbUrl || defaultLogoUrl}" alt="${escapeHtml(name)}" onerror="this.src='${defaultLogoUrl}'" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.3s ease;" />
             </div>
             <div class="inner">
               <div class="name">
@@ -830,7 +1044,7 @@
                 <div class="price-section">
                   <span class="price-label">Starting At</span>
                   <div class="price-display">
-                    <span class="regular-price">Coming Soon</span>
+                    <span class="regular-price">${escapeHtml(price || "Coming Soon")}</span>
                   </div>
                 </div>
               </div>
@@ -1046,9 +1260,23 @@
         clearError();
         setStatus("loading…");
         try {
-          const res = await fetch(MANIFEST_URL, { cache: "no-store" });
-          if (!res.ok) throw new Error(`Failed to load manifest: ${res.status} ${res.statusText}`);
-          const json = await res.json();
+          // Load manifest and pricing in parallel
+          const [manifestRes, pricing] = await Promise.all([
+            fetch(MANIFEST_URL), // Remove no-store to allow browser caching
+            fetchPricing()
+          ]);
+
+          if (!manifestRes.ok) throw new Error(`Failed to load manifest: ${manifestRes.status} ${manifestRes.statusText}`);
+          const json = await manifestRes.json();
+
+          // Merge pricing data into manifest
+          if (json.models) {
+            json.models = json.models.map(model => ({
+              ...model,
+              price: pricing[model.id] || model.price || "Call for pricing"
+            }));
+          }
+
           manifest = json;
           if (manifest && Array.isArray(manifest.models)) {
             populateTypes(manifest.models);
@@ -1056,6 +1284,7 @@
           currentPage = 1; // Reset to first page when loading new manifest
           render();
         } catch (err) {
+          console.warn('Error loading data:', err);
           manifest = null;
           elGrid.innerHTML = "";
           setStatus("error");
