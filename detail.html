@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Model Details • LC Timberframes</title>
     <meta name="description" content="View details for this timber frame model." />
+    <link rel="dns-prefetch" href="//docs.google.com">
+    <link rel="preconnect" href="//docs.google.com" crossorigin>
     <style>
       :root {
         color-scheme: dark;
@@ -446,6 +448,8 @@
 
     <script>
       const MANIFEST_URL = "./assets/manifest.json";
+      const PRICING_URL = "https://docs.google.com/spreadsheets/d/1763KWbOgtVHSFSDvOUW0NnXTIF3nyvZHqFDrN_BoQHw/export?format=csv&gid=0";
+      const FALLBACK_PRICING_URL = "./assets/pricing.csv";
 
 
       function getQueryParam(name) {
@@ -481,6 +485,166 @@
         return null;
       }
 
+      // Format price with dollar sign and commas
+      function formatPrice(priceStr) {
+        const num = parseInt(priceStr.replace(/,/g, ''), 10);
+        if (isNaN(num)) return priceStr;
+        return '$' + num.toLocaleString();
+      }
+
+      // Function to fetch and parse pricing from Google Sheets CSV with caching
+      async function fetchPricing() {
+        const CACHE_KEY = 'pricing_cache_detail';
+        const CACHE_DURATION = 1 * 60 * 1000; // 1 minute (temporary for testing)
+        const FORCE_REFRESH = new URLSearchParams(window.location.search).has('refresh');
+        console.log('🔍 Detail page URL params:', window.location.search);
+        console.log('🔄 Detail force refresh detected:', FORCE_REFRESH);
+
+        // Check cache first (skip if force refresh)
+        if (!FORCE_REFRESH) {
+          const cached = localStorage.getItem(CACHE_KEY);
+          if (cached) {
+            try {
+              const { data, timestamp } = JSON.parse(cached);
+              if (Date.now() - timestamp < CACHE_DURATION) {
+                console.log('Using cached pricing data');
+                return data;
+              }
+            } catch (e) {
+              // Invalid cache, continue
+            }
+          }
+        }
+
+        let pricing = {};
+
+        // Try local CSV first (more reliable)
+        try {
+          console.log('📄 Loading local pricing CSV...');
+          const response = await fetch(FALLBACK_PRICING_URL);
+          if (response.ok) {
+            const csvText = await response.text();
+            pricing = parseLocalPricingCSV(csvText);
+            console.log('💰 Local pricing loaded:', pricing);
+          }
+        } catch (error) {
+          console.warn('Local pricing CSV failed:', error);
+        }
+
+        // Try Google Sheets as backup
+        if (Object.keys(pricing).length === 0) {
+          try {
+            console.log('🔄 Fetching pricing from Google Sheets...');
+            const response = await fetch(PRICING_URL);
+            if (response.ok) {
+              const csvText = await response.text();
+              pricing = parsePricingCSV(csvText);
+              console.log('💰 Google Sheets pricing loaded:', pricing);
+            }
+          } catch (error) {
+            console.warn('Google Sheets pricing failed:', error);
+          }
+        }
+
+        // Fallback to local CSV if no pricing from Google Sheets
+        if (Object.keys(pricing).length === 0) {
+          try {
+            const response = await fetch(FALLBACK_PRICING_URL);
+            if (response.ok) {
+              const csvText = await response.text();
+              pricing = parseLocalPricingCSV(csvText);
+            }
+          } catch (error) {
+            console.warn('Local pricing CSV failed:', error);
+          }
+        }
+
+        // Cache the result
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify({
+            data: pricing,
+            timestamp: Date.now()
+          }));
+        } catch (e) {
+          // localStorage might be full or unavailable
+        }
+
+        return pricing;
+      }
+
+      // Parse CSV text into pricing object - uses SN and Price columns
+      function parsePricingCSV(csvText) {
+        const lines = csvText.split('\n').filter(line => line.trim());
+        if (lines.length < 2) return {};
+
+        const pricing = {};
+
+        // Parse each row (skip header row)
+        for (let i = 1; i < lines.length; i++) {
+          const cells = lines[i].split(',').map(cell => cell.trim().replace(/"/g, ''));
+          if (cells.length >= 5 && cells[0]) { // SN in column 0, Price in column 4
+            const sn = cells[0];
+            const price = cells[4];
+
+            // Only add pricing if SN exists and price is not empty and not yes/no
+            if (sn && price && price.trim() !== '' &&
+                price.toLowerCase() !== 'yes' && price.toLowerCase() !== 'no') {
+
+              // Convert SN format to match manifest IDs
+              let id = sn.toLowerCase();
+
+              // Handle specific SN to ID mappings
+              if (sn === 'LC_101') id = 'lone-oak-barn';
+              else if (sn === 'LC_102') id = 'notch-barn';
+              else if (sn === 'LC20') id = 'lctf-barn';
+              else if (sn === 'LC22') id = 'old-natchez-studio';
+              else if (sn === 'LC_19') id = 'old-natchez-trace';
+              else if (sn === 'LCTF_PF19') id = 'lctf-pf19';
+              else {
+                // General conversion for other SN formats
+                id = id.replace(/_/g, '-')  // Convert underscores to hyphens
+                       .replace(/lc14/, '36x42-monitor-barn')
+                       .replace(/lc20/, '33x39-lctf-barn')
+                       .replace(/lc22/, '21x24-old-natchez-studio')
+                       .replace(/pctf-pf8/, 'lctf-pf8')  // Fix typo in sheet
+                       .replace(/lctp-pf12/, 'lctf-pf12'); // Fix typo in sheet
+              }
+
+              pricing[id] = formatPrice(price);
+            }
+          }
+        }
+
+        return pricing;
+      }
+
+      // Parse local CSV text (id,price format) - handles commas in prices
+      function parseLocalPricingCSV(csvText) {
+        const lines = csvText.split('\n').filter(line => line.trim());
+        if (lines.length < 2) return {};
+
+        const pricing = {};
+
+        // Parse each row (skip header row)
+        for (let i = 1; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (!line) continue;
+
+          // Split on first comma only (since prices may contain commas)
+          const firstCommaIndex = line.indexOf(',');
+          if (firstCommaIndex === -1) continue;
+
+          const id = line.substring(0, firstCommaIndex).trim();
+          const price = line.substring(firstCommaIndex + 1).trim();
+
+          if (id && price) {
+            pricing[id] = price;
+          }
+        }
+
+        return pricing;
+      }
+
       async function init() {
         const id = getQueryParam("id");
         if (!id) {
@@ -490,9 +654,23 @@
         }
 
         try {
-          const res = await fetch(MANIFEST_URL, { cache: "no-store" });
-          if (!res.ok) throw new Error("Failed to load manifest.");
-          const json = await res.json();
+          // Load manifest and pricing in parallel
+          const [manifestRes, pricing] = await Promise.all([
+            fetch(MANIFEST_URL, { cache: "no-store" }),
+            fetchPricing()
+          ]);
+
+          if (!manifestRes.ok) throw new Error("Failed to load manifest.");
+          const json = await manifestRes.json();
+
+          // Merge pricing data into manifest
+          if (json.models) {
+            json.models = json.models.map(model => ({
+              ...model,
+              price: pricing[model.id] || model.price || "Call for pricing"
+            }));
+          }
+
           const model = json.models.find(m => m.id === id);
 
           if (!model) {
@@ -514,7 +692,10 @@
         document.getElementById("model-name").textContent = model.name;
         document.getElementById("model-tag").textContent = model.tag || "Model";
         document.getElementById("model-desc").textContent = model.description || "";
-        document.getElementById("model-price").textContent = "Coming Soon";
+        const priceText = model.price && model.price !== "Coming Soon" && model.price !== "Call for pricing"
+          ? `Starting At ${model.price}`
+          : "Coming Soon";
+        document.getElementById("model-price").textContent = priceText;
 
         // Setup Purchase Button
         document.getElementById("btn-purchase").onclick = () => {

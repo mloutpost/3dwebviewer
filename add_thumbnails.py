@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-Script to automatically add thumbnail fields to manifest.json
-for models that have Cover.webp files.
+Script to add thumbnail fields to manifest.json for models with Cover.webp files
 """
 
 import json
@@ -13,27 +12,29 @@ def add_thumbnails():
     with open('assets/manifest.json', 'r') as f:
         manifest = json.load(f)
 
-    # Update each model
+    # Check each model for Cover.webp
     for model in manifest['models']:
-        if 'href' in model and model.get('type') == 'cadwork-html':
+        if model['type'] == 'cadwork-html':
             # Extract directory from href
             href_parts = model['href'].split('/')
             if len(href_parts) >= 3:
                 model_dir_name = href_parts[2]
-                cover_path = f'assets/Models/{model_dir_name}/Cover.webp'
+                cover_paths = [
+                    f'assets/Models/{model_dir_name}/Cover.webp',
+                    f'assets/Models/{model_dir_name}/cover.webp'
+                ]
 
-                # Check if Cover.webp exists
-                if os.path.exists(cover_path):
-                    # Add thumbnail field if it doesn't exist
-                    if 'thumbnail' not in model:
+                for cover_path in cover_paths:
+                    if os.path.exists(cover_path):
                         model['thumbnail'] = cover_path
-                        print(f"Added thumbnail to {model['name']}: {cover_path}")
+                        print(f"✅ Added thumbnail to {model['name']}: {cover_path}")
+                        break
 
     # Save updated manifest
     with open('assets/manifest.json', 'w') as f:
         json.dump(manifest, f, indent=2)
 
-    print("Thumbnail update complete!")
+    print("Thumbnail addition complete!")
 
 if __name__ == '__main__':
     add_thumbnails()
