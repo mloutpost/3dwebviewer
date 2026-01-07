@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
-    <title>LC Timberframes • 3D Models</title>
+    <title>LC Timberframes • 3D Models (v2)</title>
     <meta name="description" content="Select a 3D model to view." />
     <link rel="dns-prefetch" href="//docs.google.com">
     <link rel="preconnect" href="//docs.google.com" crossorigin>
@@ -617,9 +617,6 @@
 
     <script>
       const MANIFEST_URL = "./assets/manifest.json";
-      // Pricing data source - Google Sheet (primary) or local CSV (fallback)
-      const PRICING_URL = "https://docs.google.com/spreadsheets/d/1763KWbOgtVHSFSDvOUW0NnXTIF3nyvZHqFDrN_BoQHw/export?format=csv&gid=0";
-      const FALLBACK_PRICING_URL = "./assets/pricing.csv";
 
       const elStatus = document.getElementById("status");
       const elGrid = document.getElementById("grid");
@@ -632,181 +629,8 @@
       }
 
       // Function to fetch and parse pricing from Google Sheets CSV with caching
-      async function fetchPricing() {
-        const CACHE_KEY = 'pricing_cache';
-        const CACHE_DURATION = 1 * 60 * 1000; // 1 minute (temporary for testing)
-        console.log('🔍 Full URL:', window.location.href);
-        console.log('🔍 URL pathname:', window.location.pathname);
-        console.log('🔍 URL search:', window.location.search);
-        const urlParams = new URLSearchParams(window.location.search);
-        const FORCE_REFRESH = urlParams.has('refresh') || urlParams.has('clearcache');
-        console.log('🔄 Force refresh detected:', FORCE_REFRESH);
 
-        // Manual cache clear option
-        if (urlParams.has('clearcache')) {
-          localStorage.removeItem(CACHE_KEY);
-          console.log('🗑️ Cache cleared manually');
-        }
 
-        // Check cache first (skip if force refresh)
-        if (!FORCE_REFRESH) {
-          const cached = localStorage.getItem(CACHE_KEY);
-          if (cached) {
-            try {
-              const { data, timestamp } = JSON.parse(cached);
-              if (Date.now() - timestamp < CACHE_DURATION) {
-                console.log('📋 Using cached pricing data (last updated:', new Date(timestamp).toLocaleString(), ')');
-                return data;
-              }
-            } catch (e) {
-              // Invalid cache, continue
-            }
-          }
-        } else {
-          console.log('🔄 Force refresh requested - bypassing cache');
-        }
-
-        let pricing = {};
-
-        // Try local CSV first (more reliable)
-        try {
-          console.log('📄 Loading local pricing CSV...');
-          const response = await fetch(FALLBACK_PRICING_URL);
-          if (response.ok) {
-            const csvText = await response.text();
-            pricing = parseLocalPricingCSV(csvText);
-            console.log('💰 Local pricing loaded:', pricing);
-          }
-        } catch (error) {
-          console.warn('Local pricing CSV failed:', error);
-        }
-
-        // Try Google Sheets as backup (if local fails or has no data)
-        if (Object.keys(pricing).length === 0) {
-          try {
-            console.log('🔄 Fetching pricing from Google Sheets...');
-            const response = await fetch(PRICING_URL, {
-              method: 'GET',
-              cache: 'no-cache'
-            });
-            console.log('📊 Response status:', response.status, response.statusText);
-
-            if (response.ok) {
-              const csvText = await response.text();
-              console.log('📄 CSV length:', csvText.length);
-
-            pricing = parsePricingCSV(csvText);
-            } else {
-              console.error('❌ Google Sheets response failed:', response.status);
-            }
-          } catch (error) {
-            console.error('❌ Google Sheets fetch failed:', error);
-          }
-        }
-
-        // Cache the result
-        try {
-          localStorage.setItem(CACHE_KEY, JSON.stringify({
-            data: pricing,
-            timestamp: Date.now()
-          }));
-        } catch (e) {
-          // localStorage might be full or unavailable
-        }
-
-        return pricing;
-      }
-
-      // Parse CSV text into pricing object - uses SN and Price columns
-      function parsePricingCSV(csvText) {
-        console.log('🔍 Starting CSV parsing...');
-        const lines = csvText.split('\n').filter(line => line.trim());
-        console.log('📊 Total lines:', lines.length);
-
-        if (lines.length < 2) {
-          console.warn('⚠️ Not enough lines in CSV');
-          return {};
-        }
-
-        const pricing = {};
-
-        // Parse each row (skip header row)
-        for (let i = 1; i < lines.length; i++) {
-          const cells = lines[i].split(',').map(cell => cell.trim().replace(/"/g, ''));
-          console.log(`📋 Row ${i}:`, cells);
-
-          if (cells.length >= 5 && cells[0]) { // SN in column 0, Price in column 4
-            const sn = cells[0];
-            const price = cells[4];
-
-            console.log(`🔍 Checking SN: "${sn}", Price: "${price}"`);
-
-            // Only add pricing if SN exists and price is not empty and not yes/no
-            if (sn && price && price.trim() !== '' &&
-                price.toLowerCase() !== 'yes' && price.toLowerCase() !== 'no') {
-
-              console.log(`✅ Valid pricing found: ${sn} = ${price}`);
-
-              // Convert SN format to match manifest IDs
-              let id = sn.toLowerCase();
-
-              // Handle specific SN to ID mappings
-              if (sn === 'LC_101') id = 'lone-oak-barn';
-              else if (sn === 'LC_102') id = 'notch-barn';
-              else if (sn === 'LC20') id = 'lctf-barn';
-              else if (sn === 'LC22') id = 'old-natchez-studio';
-              else if (sn === 'LC_19') id = 'old-natchez-trace';
-              else if (sn === 'LCTF_PF19') id = 'lctf-pf19';
-              else {
-                // General conversion for other SN formats
-                id = id.replace(/_/g, '-')  // Convert underscores to hyphens
-                       .replace(/lc14/, '36x42-monitor-barn')
-                       .replace(/lc20/, '33x39-lctf-barn')
-                       .replace(/lc22/, '21x24-old-natchez-studio')
-                       .replace(/pctf-pf8/, 'lctf-pf8')  // Fix typo in sheet
-                       .replace(/lctp-pf12/, 'lctf-pf12'); // Fix typo in sheet
-              }
-
-              pricing[id] = formatPrice(price);
-              console.log(`💰 Added pricing: ${sn} -> ${id} = ${pricing[id]}`);
-            } else {
-              console.log(`❌ Skipping row - invalid data`);
-            }
-          } else {
-            console.log(`❌ Skipping row - not enough columns or no SN`);
-          }
-        }
-
-        console.log('🏁 Final pricing object:', pricing);
-        return pricing;
-      }
-
-      // Parse local CSV text (id,price format) - handles commas in prices
-      function parseLocalPricingCSV(csvText) {
-        const lines = csvText.split('\n').filter(line => line.trim());
-        if (lines.length < 2) return {};
-
-        const pricing = {};
-
-        // Parse each row (skip header row)
-        for (let i = 1; i < lines.length; i++) {
-          const line = lines[i].trim();
-          if (!line) continue;
-
-          // Split on first comma only (since prices may contain commas)
-          const firstCommaIndex = line.indexOf(',');
-          if (firstCommaIndex === -1) continue;
-
-          const id = line.substring(0, firstCommaIndex).trim();
-          const price = line.substring(firstCommaIndex + 1).trim();
-
-          if (id && price) {
-            pricing[id] = price;
-          }
-        }
-
-        return pricing;
-      }
       const elErr = document.getElementById("error");
       const elQ = document.getElementById("q");
       const elType = document.getElementById("type");
@@ -1260,22 +1084,11 @@
         clearError();
         setStatus("loading…");
         try {
-          // Load manifest and pricing in parallel
-          const [manifestRes, pricing] = await Promise.all([
-            fetch(MANIFEST_URL), // Remove no-store to allow browser caching
-            fetchPricing()
-          ]);
+          // Load manifest directly (pricing is already baked into manifest.json)
+          const manifestRes = await fetch(MANIFEST_URL);
 
           if (!manifestRes.ok) throw new Error(`Failed to load manifest: ${manifestRes.status} ${manifestRes.statusText}`);
           const json = await manifestRes.json();
-
-          // Merge pricing data into manifest
-          if (json.models) {
-            json.models = json.models.map(model => ({
-              ...model,
-              price: pricing[model.id] || model.price || "Call for pricing"
-            }));
-          }
 
           manifest = json;
           if (manifest && Array.isArray(manifest.models)) {

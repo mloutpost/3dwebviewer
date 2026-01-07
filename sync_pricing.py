@@ -14,12 +14,30 @@ GOOGLE_SHEETS_URL = "https://docs.google.com/spreadsheets/d/1763KWbOgtVHSFSDvOUW
 
 # SN to ID mappings
 SN_MAPPING = {
+    'LC14': 'lc14-monitor-barn',
+    'LCTF_PF1': 'lctf-pf1',
+    'LCTF_PF2': 'lctf-pf2',
+    'LCTF_PF3': 'lctf-pf3',
+    'LCTF_PF4': 'lctf-pf4',
+    'LCTF_PF9': 'lctf-pf9',
+    'LCTF_PF10': 'lctf-pf10',
+    'LCTF_PF11': 'lctf-pf11',
+    'LCTF_PF12': 'lctf-pf12',
+    'LCTF_PF13': 'lctf-pf13',
+    'LCTF_PF14': 'lctf-pf14',
+    'LCTF_PF15': 'lctf-pf15',
+    'LCTF_PF16': 'lctf-pf16',
+    'LCTF_PF17': 'lctf-pf17',
+    'LCTF_PF18': 'lctf-pf18',
     'LC_101': 'lone-oak-barn',
     'LC_102': 'notch-barn',
     'LC20': 'lctf-barn',
     'LC22': 'old-natchez-studio',
+    'LC_103': '38x44-monitor-barn',  # Assuming this is the monitor barn
+    'LC_105': 'bee-tree-hill',  # Assuming this is bee tree hill barn
+    'LCTF_PF19': 'lctf-pf19',
     'LC_19': 'old-natchez-trace',
-    'LCTF_PF19': 'lctf-pf19'
+    'LC_107': '24x30-cottage'  # Assuming this is the cottage
 }
 
 def format_price(price_str):
@@ -64,6 +82,8 @@ def sync_pricing():
                         formatted_price = format_price(price)
                         pricing_data[model_id] = formatted_price
                         print(f"✅ {sn} → {model_id}: {formatted_price}")
+                    else:
+                        print(f"⚠️  {sn} not in mapping - skipping")
 
         if not pricing_data:
             print("❌ No valid pricing data found")
