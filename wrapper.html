@@ -33,6 +33,37 @@
   <iframe id="viewer-frame" title="Model Viewer" allowfullscreen sandbox="allow-same-origin allow-scripts allow-popups allow-forms" referrerpolicy="no-referrer"></iframe>
 
   <script>
+    // Suppress non-critical Cadwork viewer configuration errors
+    // Override console.error to filter out known non-critical errors
+    const originalConsoleError = console.error;
+    console.error = function(...args) {
+      const errorMessage = args.join(' ');
+      // Filter out "Application configuration not downloaded" errors from Cadwork viewers
+      // These are often non-critical - the viewer may still function without remote config
+      if (errorMessage.includes('Application configuration not downloaded')) {
+        // Suppress the error - don't log it
+        return;
+      }
+      // Log all other errors normally
+      originalConsoleError.apply(console, args);
+    };
+
+    // Also catch window errors
+    window.addEventListener('error', function(e) {
+      if (e.message && e.message.includes('Application configuration not downloaded')) {
+        e.preventDefault();
+        return true; // Suppress the error
+      }
+    }, true);
+
+    // Catch unhandled promise rejections
+    window.addEventListener('unhandledrejection', function(e) {
+      const reason = e.reason?.message || String(e.reason || '');
+      if (reason.includes('Application configuration not downloaded')) {
+        e.preventDefault();
+      }
+    });
+
     // Get 'model' param from URL
     const urlParams = new URLSearchParams(window.location.search);
     const modelPath = urlParams.get('model');
@@ -44,18 +75,78 @@
 
     const iframe = document.getElementById('viewer-frame');
     
-    // Prevent iframe from navigating parent window
-    // The sandbox attribute already prevents top-level navigation, but we add extra protection
-    iframe.addEventListener('load', function() {
+    // Try to override console.error in iframe BEFORE it loads
+    // Use a polling approach to catch it as early as possible
+    const tryOverrideIframeConsole = () => {
       try {
-        // Intercept any link clicks within the iframe that might try to navigate
+        const iframeWindow = iframe.contentWindow;
+        const iframeDoc = iframe.contentDocument;
+        
+        if (iframeWindow && iframeWindow.console && iframeDoc) {
+          // Override console.error in iframe
+          const iframeOriginalError = iframeWindow.console.error;
+          iframeWindow.console.error = function(...args) {
+            const errorMessage = args.join(' ');
+            // Suppress "Application configuration not downloaded" errors
+            if (errorMessage.includes('Application configuration not downloaded')) {
+              return; // Don't log the error
+            }
+            // Log all other errors normally
+            iframeOriginalError.apply(iframeWindow.console, args);
+          };
+
+          // Inject script at the very beginning of iframe head to catch errors early
+          const script = iframeDoc.createElement('script');
+          script.textContent = `
+            (function() {
+              const originalError = console.error;
+              console.error = function(...args) {
+                const msg = args.join(' ');
+                if (msg && msg.includes('Application configuration not downloaded')) {
+                  return; // Suppress
+                }
+                originalError.apply(console, args);
+              };
+            })();
+          `;
+          if (iframeDoc.head) {
+            iframeDoc.head.insertBefore(script, iframeDoc.head.firstChild);
+          } else if (iframeDoc.documentElement) {
+            iframeDoc.documentElement.insertBefore(script, iframeDoc.documentElement.firstChild);
+          }
+          
+          return true; // Successfully overrode
+        }
+      } catch (e) {
+        // Cross-origin or not ready yet
+      }
+      return false;
+    };
+
+    // Try immediately, then on load, and also poll briefly
+    if (!tryOverrideIframeConsole()) {
+      const pollInterval = setInterval(() => {
+        if (tryOverrideIframeConsole()) {
+          clearInterval(pollInterval);
+        }
+      }, 50);
+      
+      // Stop polling after 2 seconds
+      setTimeout(() => clearInterval(pollInterval), 2000);
+    }
+    
+    // Prevent iframe from navigating parent window
+    iframe.addEventListener('load', function() {
+      tryOverrideIframeConsole(); // Try again on load
+      
+      try {
+        // Intercept any link clicks within the iframe
         const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
         if (iframeDoc) {
           const links = iframeDoc.querySelectorAll('a[href]');
           links.forEach(link => {
             link.addEventListener('click', function(e) {
               const href = this.getAttribute('href');
-              // If link tries to navigate to wrapper or detail pages, prevent it
               if (href && (href.includes('wrapper.html') || href.includes('detail.html') || href.includes('index.html'))) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -65,7 +156,7 @@
           });
         }
       } catch (e) {
-        // Cross-origin restrictions - expected for some models
+        // Cross-origin restrictions
       }
     });
     
