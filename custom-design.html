@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Timber Frame Design | LC Timberframes</title>
+    <title>Custom Timber Frame Design - Only $500 | LC Timberframes</title>
+    <meta name="description" content="Get a professional timber frame design for just $500. Custom 3D models, architectural plans, and construction quotes. Risk-free design consultation.">
     <link rel="icon" type="image/png" href="assets/global_graphics/LCTF Profile.png">
     <style>
         * {
@@ -13,18 +14,129 @@
         }
 
         :root {
-            --franklin-green: #303d30;
-            --slab-blue: #CDE3F2;
-            --forest-brown: #4F423A;
-            --pebble-grey: #DEDBCE;
-            --ivory-white: #F7F7F7;
+            --primary-green: #303d30;
+            --secondary-green: #4a5a4a;
+            --accent-orange: #e67e22;
+            --success-green: #27ae60;
+            --warning-yellow: #f39c12;
+            --text-dark: #2c3e50;
+            --text-light: #ecf0f1;
+            --background-light: #f8f9fa;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --shadow-hover: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            color: var(--forest-brown);
-            background: var(--ivory-white);
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--background-light) 0%, #ffffff 100%);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.03)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.03)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.02)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero .price-highlight {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--accent-orange);
+            margin: 30px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 50px;
+        }
+
+        .hero-cta {
+            background: var(--accent-orange);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(230, 126, 34, 0.3);
+            border: 3px solid rgba(255,255,255,0.2);
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(230, 126, 34, 0.4);
+            background: #d35400;
+        }
+
+        .guarantee {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .guarantee h3 {
+            color: var(--accent-orange);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
         }
 
         .container {
@@ -33,40 +145,265 @@
             padding: 20px;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, var(--franklin-green), #4a5a4a);
-            color: var(--ivory-white);
+        .value-props {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .value-prop {
+            background: white;
+            padding: 40px 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(44, 62, 47, 0.2);
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .deposit-banner {
-            background: var(--franklin-green);
-            color: var(--ivory-white);
-            padding: 25px;
-            border-radius: 12px;
             text-align: center;
-            margin-bottom: 50px;
-            font-size: 1.2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid #e1e8ed;
+        }
+
+        .value-prop:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .value-prop-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 8px 25px rgba(48, 61, 48, 0.2);
+        }
+
+        .value-prop h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .value-prop p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .social-proof {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 60px 20px;
+            text-align: center;
+            margin: 60px 0;
+        }
+
+        .social-proof h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .stat {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--text-dark);
+            font-size: 1.1rem;
             font-weight: 600;
-            box-shadow: 0 8px 25px rgba(44, 62, 47, 0.25);
-            border: 2px solid rgba(247, 247, 247, 0.1);
+        }
+
+        .testimonials {
+            margin: 60px 0;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--primary-green);
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .faq {
+            margin: 60px 0;
+        }
+
+        .faq-item {
+            background: white;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .faq-question {
+            padding: 20px;
+            background: #f8f9fa;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #e9ecef;
+        }
+
+        .faq-answer {
+            padding: 0 20px 20px;
+            display: none;
+            color: #666;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .final-cta {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .final-cta p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .urgency-notice {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 40px auto;
+            max-width: 500px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .urgency-notice h4 {
+            color: var(--accent-orange);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .final-cta-button {
+            background: var(--accent-orange);
+            color: white;
+            padding: 20px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(230, 126, 34, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 8px 25px rgba(230, 126, 34, 0.3); }
+            50% { box-shadow: 0 8px 25px rgba(230, 126, 34, 0.5); }
+            100% { box-shadow: 0 8px 25px rgba(230, 126, 34, 0.3); }
+        }
+
+        .final-cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(230, 126, 34, 0.4);
+            background: #d35400;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 500;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .price-highlight {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .value-props {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
         }
 
         .timeline {
@@ -531,179 +868,215 @@
 <body>
     <a href="index.html" class="back-link">← Back to Models</a>
 
-    <div class="container">
-        <div class="header">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🔥 Limited Time Offer</div>
             <h1>Custom Timber Frame Design</h1>
-            <p>Transform your vision into reality with our expert architects and craftsmen. From concept to completion, we guide you through every step.</p>
-        </div>
-
-        <div class="deposit-banner">
-            First 4 Steps: $500 Deposit Only - No Contract Required
-        </div>
-
-        <div class="timeline">
-            <div class="deposit-group">
-                <div class="deposit-overlay">First 4 Steps: $500 Deposit Only - No Contract Required</div>
-            </div>
-            <div class="timeline-steps">
-                <div class="timeline-step" data-step="1">
-                    <div class="step-number">1</div>
-                    <div class="step-label">Deposit</div>
-                </div>
-
-                <div class="timeline-step" data-step="2">
-                    <div class="step-number">2</div>
-                    <div class="step-label">Design</div>
-                </div>
-
-                <div class="timeline-step" data-step="3">
-                    <div class="step-number">3</div>
-                    <div class="step-label">3D Model</div>
-                </div>
-
-                <div class="timeline-step" data-step="4">
-                    <div class="step-number">4</div>
-                    <div class="step-label">Quote</div>
-                </div>
-
-                <div class="timeline-step completed" data-step="5">
-                    <div class="step-number">5</div>
-                    <div class="step-label">Manufacture</div>
-                </div>
-
-                <div class="timeline-step completed" data-step="6">
-                    <div class="step-number">6</div>
-                    <div class="step-label">Shipment</div>
-                </div>
-
-                <div class="timeline-step completed" data-step="7">
-                    <div class="step-number">7</div>
-                    <div class="step-label">Installation</div>
-                </div>
-            </div>
-
+            <div class="price-highlight">$500</div>
+            <p>Get a professional architectural design, detailed 3D model, and construction quote for your dream timber frame structure. No commitment required.</p>
+            <a href="https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=build.lc&utm_campaign=%24500product" class="hero-cta" target="_blank">
+                🚀 Start Your Design - Only $500
+            </a>
+            <div class="guarantee">
+                <h3>✓ 100% Satisfaction Guarantee</h3>
+                <p>Love your design or get your money back. No questions asked.</p>
             </div>
         </div>
+    </section>
 
-        <div id="step-content-area" class="step-content-area">
-            <div id="step-content-placeholder">
-                <h3>Welcome to Your Custom Timber Frame Journey</h3>
-                <p>Click on any step above to explore the detailed process of bringing your timber frame vision to life. Each step represents a crucial phase in creating your perfect structure.</p>
+    <div class="container">
+        <!-- Value Propositions -->
+        <section class="value-props">
+            <div class="value-prop">
+                <div class="value-prop-icon">🏗️</div>
+                <h3>Licensed Architects</h3>
+                <p>Professional architectural plans that meet all building codes and permit requirements. No more guesswork or DIY headaches.</p>
             </div>
-        </div>
+            <div class="value-prop">
+                <div class="value-prop-icon">🎨</div>
+                <h3>Interactive 3D Models</h3>
+                <p>Explore your timber frame from every angle before construction begins. Walk through your space virtually.</p>
             </div>
-        </div>
+            <div class="value-prop">
+                <div class="value-prop-icon">💰</div>
+                <h3>Accurate Pricing</h3>
+                <p>Get precise construction quotes with transparent pricing. Know exactly what your project will cost before you commit.</p>
+            </div>
+            <div class="value-prop">
+                <div class="value-prop-icon">⚡</div>
+                <h3>Fast Turnaround</h3>
+                <p>Complete design package delivered in just 2-3 weeks. No waiting months for basic plans.</p>
+            </div>
+            <div class="value-prop">
+                <div class="value-prop-icon">🛡️</div>
+                <h3>Full Support</h3>
+                <p>Unlimited revisions and direct access to our design team throughout the process.</p>
+            </div>
+            <div class="value-prop">
+                <div class="value-prop-icon">🔄</div>
+                <h3>Flexible Options</h3>
+                <p>Choose from kit-only packages for DIY installation or full turnkey construction services.</p>
+            </div>
+        </section>
 
-        <div class="cta-section">
-            <h2>Ready to Start Your Custom Project?</h2>
-            <p>Take the first step towards your dream timber frame structure. Our team is ready to bring your vision to life.</p>
-            <div class="cta-buttons">
-                <a href="index.html" class="btn btn-primary">Back to Models</a>
-                <a href="https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=build.lc&utm_campaign=%24500product" class="btn btn-secondary" target="_blank">Contact Sales</a>
+        <!-- Social Proof -->
+        <section class="social-proof">
+            <h2>Trusted by Timber Frame Enthusiasts Nationwide</h2>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Custom Designs Completed</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">25+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Client Satisfaction</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">States Served</div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials">
+            <div class="testimonial">
+                <div class="testimonial-text">
+                    "The custom design process was incredible. They took our rough sketches and created something absolutely stunning. The 3D model helped us visualize exactly how it would look. Worth every penny!"
+                </div>
+                <div class="testimonial-author">- Sarah & Mike Johnson, Vermont</div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-text">
+                    "As a first-time timber frame builder, I was nervous about the design process. LC Timberframes made it so easy. Their team guided us through every decision and the final plans were perfect."
+                </div>
+                <div class="testimonial-author">- David Chen, California</div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-text">
+                    "The level of detail in our custom design package was unbelievable. Every timber joint, every angle, perfectly documented. The construction went flawlessly thanks to their plans."
+                </div>
+                <div class="testimonial-author">- Robert Martinez, Texas</div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: var(--text-dark);">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <div class="faq-question">
+                    What's included in the $500 design package?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Everything you need to build your dream timber frame: architectural plans, engineering calculations, interactive 3D model, material specifications, construction details, and multiple construction quotes.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    How long does the design process take?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Most custom designs are completed within 2-3 weeks from your initial consultation. We'll work closely with you to refine the design until it's perfect.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    What if I don't like the design?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    We offer unlimited revisions during the design phase. If you're not completely satisfied, you get a full refund. Your satisfaction is 100% guaranteed.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    Do you only work in certain areas?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    We serve customers nationwide! Our timber frame kits ship anywhere in the continental US, and our installation crews can travel anywhere.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    Can I use the plans to build myself?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Absolutely! Our design packages include detailed construction plans perfect for DIY builders. We also provide contractor referrals if you prefer professional construction.
+                </div>
+            </div>
+        </section>
     </div>
 
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <h2>Ready to Build Your Dream Timber Frame?</h2>
+        <p>Don't wait another day dreaming about your perfect space. Start your custom design today for just $500.</p>
+
+        <div class="urgency-notice">
+            <h4>⚡ Popular Service - Limited Designer Availability</h4>
+            <p>Our design team books up quickly. Secure your spot now before the next opening fills up.</p>
+        </div>
+
+        <a href="https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=build.lc&utm_campaign=%24500product" class="final-cta-button" target="_blank">
+            🎯 Claim Your $500 Design Package Now
+        </a>
+    </section>
+
     <script>
-        let currentStep = null;
-
-        function setupDepositHover() {
-            // Set hover area to cover roughly the first half of the timeline
-            const depositGroup = document.querySelector('.deposit-group');
-            if (!depositGroup) return;
-
-            depositGroup.style.left = '0';
-            depositGroup.style.width = '50%';
-        }
-
-        // Step content data
-        const stepContent = {
-            1: {
-                title: "$500 Design Deposit",
-                description: "Secure your spot in our design queue with a $500 deposit. This covers the initial consultation and ensures your project gets our full attention from our experienced architects."
-            },
-            2: {
-                title: "Architectural Design",
-                description: "Our licensed architects will transform your ideas into detailed plans and engineering specifications. We'll work with you to refine the design until it perfectly matches your vision and meets all building codes."
-            },
-            3: {
-                title: "3D Model Creation",
-                description: "We'll create a detailed 3D model of your custom timber frame, just like the ones you see in our gallery. This interactive model lets you explore every angle and detail of your structure before we build it."
-            },
-            4: {
-                title: "Construction Quote",
-                description: "Choose from our flexible building options. We'll provide detailed bids for both kit-only packages (for DIY or contractor installation) and full kit-and-install services."
-            },
-            5: {
-                title: "Kit Manufacture",
-                description: "Your custom timber frame kit is precision-crafted in our workshop using traditional joinery techniques and modern CNC technology for perfect fit and finish."
-            },
-            6: {
-                title: "Shipment",
-                description: "Your completed timber frame kit is carefully packaged and shipped to your location. We coordinate delivery and provide white-glove service to ensure everything arrives safely."
-            },
-            7: {
-                title: "Installation",
-                description: "Choose your installation path: self-assembly with our detailed instructions, or professional installation by our certified craftsmen team."
-            },
-        };
-
-        function selectStep(stepElement) {
-            const stepNumber = parseInt(stepElement.dataset.step);
-
-            // Update active step visual state
-            document.querySelectorAll('.timeline-step').forEach(step => {
-                step.classList.remove('active');
-            });
-            stepElement.classList.add('active');
-
-            // Update current step and show content
-            currentStep = stepNumber;
-
-            // Update line progress (7 steps total)
-            const progressPercent = (stepNumber / 7) * 100;
-            document.documentElement.style.setProperty('--line-progress', `${progressPercent}%`);
-
-            // Always show content in the shared area below timeline
-            showStepContent(stepNumber);
-        }
-
-
-
-        function showStepContent(stepNumber) {
-            const contentArea = document.getElementById('step-content-area');
-            const content = stepContent[stepNumber];
-
-            contentArea.innerHTML = `
-                <h3>${content.title}</h3>
-                <p>${content.description}</p>
-                ${content.actions || ''}
-            `;
-
-            contentArea.classList.add('show');
-        }
+        // FAQ Toggle Functionality
 
 
 
 
 
-        // Add some interactivity on page load
+
+
+
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Interactive Horizontal Timeline Loaded Successfully');
+            const faqQuestions = document.querySelectorAll('.faq-question');
 
-            // Add click handlers to timeline steps
-            document.querySelectorAll('.timeline-step').forEach(step => {
-                step.addEventListener('click', () => selectStep(step));
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    const toggle = this.querySelector('.faq-toggle');
+
+                    // Toggle answer visibility
+                    if (answer.style.display === 'block') {
+                        answer.style.display = 'none';
+                        toggle.textContent = '+';
+                        toggle.style.transform = 'rotate(0deg)';
+                    } else {
+                        answer.style.display = 'block';
+                        toggle.textContent = '−';
+                        toggle.style.transform = 'rotate(180deg)';
+                    }
+                });
             });
 
-            // All steps are now accessible from the start
-            document.querySelectorAll('.timeline-step').forEach(step => {
-                step.style.opacity = '1';
-                step.style.pointerEvents = 'auto';
+            // Add smooth scroll behavior for better UX
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
             });
 
-            // Setup deposit hover area
-            setupDepositHover();
+            console.log('Custom Design Page Loaded - Conversion Optimized!');
         });
     </script>
 </body>
