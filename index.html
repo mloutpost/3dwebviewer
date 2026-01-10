@@ -420,7 +420,7 @@
       .promo-banner {
         margin: 2rem 0;
         padding: 2rem;
-        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+        background: #303d30;
         border-radius: var(--radius-lg);
         text-align: center;
         color: white;
@@ -568,7 +568,7 @@
   <body>
     <div class="wrap">
       <header>
-        <img src="assets/global_graphics/Small Logo Cropped.png" alt="LC Timberframes Logo" class="logo">
+        <img src="assets/global_graphics/LCTF Profile.png" alt="LC Timberframes Logo" class="logo">
         <div class="title">
           <h1>Visualize Your Timber Frame</h1>
           <p>Click on a model below to visualize our carefully designed pre-fabricated structures. Kits are pre-fabricated and ready to ship</p>
@@ -936,6 +936,8 @@
         if (newPage >= 1 && newPage <= totalPages) {
           currentPage = newPage;
           render();
+          // Scroll to top of page when changing pages
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       }
 
@@ -1125,7 +1127,7 @@
       document.getElementById("next-page").addEventListener("click", () => changePage(1));
 
       document.getElementById("main-purchase-btn").addEventListener("click", () => {
-        alert("Purchase functionality coming soon!");
+        window.open("https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=build.lc&utm_campaign=3Dkit&utm_term=motivated", "_blank");
       });
 
       loadManifest();
