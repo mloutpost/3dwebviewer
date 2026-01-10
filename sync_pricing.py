@@ -14,7 +14,7 @@ GOOGLE_SHEETS_URL = "https://docs.google.com/spreadsheets/d/1763KWbOgtVHSFSDvOUW
 
 # SN to ID mappings
 SN_MAPPING = {
-    'LC14': 'lc14-monitor-barn',
+    'LC14': '38x44-monitor-barn',
     'LCTF_PF1': 'lctf-pf1',
     'LCTF_PF2': 'lctf-pf2',
     'LCTF_PF3': 'lctf-pf3',
@@ -33,11 +33,12 @@ SN_MAPPING = {
     'LC_102': 'notch-barn',
     'LC20': 'lctf-barn',
     'LC22': 'old-natchez-studio',
-    'LC_103': '38x44-monitor-barn',  # Assuming this is the monitor barn
-    'LC_105': 'bee-tree-hill',  # Assuming this is bee tree hill barn
+    'LC_103': '24x30-cottage',  # Assuming this is the monitor barn
+    'LC_105': 'bee-tree-hill',  # Bee Tree Hill Barn
+    'LC_106': '20x36-cruck-pavilion',  # 20x36 Cruck Pavilion
     'LCTF_PF19': 'lctf-pf19',
     'LC_19': 'old-natchez-trace',
-    'LC_107': '24x30-cottage'  # Assuming this is the cottage
+    'LC_107': '36x42-monitor-barn'  # 36x42 Monitor Barn Web Viewer
 }
 
 def format_price(price_str):

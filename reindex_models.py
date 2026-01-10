@@ -29,73 +29,94 @@ def get_model_name(model_dir):
     """Extract model name from directory name with some cleaning"""
     name = model_dir.name
 
-    # Handle specific known mappings
+    # Handle new SN-prefixed directory names (e.g., "LC_101 - 48x60 Equestrian Barn")
+    if " - " in name:
+        # Extract the part after " - "
+        sn_part, model_part = name.split(" - ", 1)
+        name = model_part.strip()
+
+    # Handle specific known mappings for the cleaned names
     name_mappings = {
-        "LC14 36x42 Monitor Barn Web Viewer": "36x42 Monitor Barn",
+        "36x42 Monitor Barn Web Viewer": "36x42 Monitor Barn",
         "33x39 LCTF Barn": "LCTF Barn",
         "48x60 Equestrian Barn": "48x60 Equestrian Barn",
         "36x52 Dairy Barn": "36x52 Dairy Barn",
         "21x24 Old Natchez Studio": "24x21 Studio Shed",
         "22x66 Old Natchez Trace (Full Size)": "Old Natchez Trace",
-        "LCTF PF1 Hammer Beam Pavilion 14x18 V1.1.1": "14x18 Hammer Beam Pavilion",
-        "LCTF PF2 Simple Curve Pavilion 10x16 V1.1.1": "10x16 Simple Curve Pavilion",
-        "LCTF PF3 Cruck Pavilion 14x20 V1.2.1": "14x20 Cruck Pavilion",
-        "LCTF PF4 Scissor Truss Pavilion 16x18 V1.2.1": "16x18 Scissor Truss Pavilion",
-        "LCTF PF5 Simple Corbel": "Simple Corbel",
-        "LCTF PF6 Simple Corbel": "Simple Corbel",
-        "LCTF PF7 One Piece Corbel": "Standalone Corbel",
-        "LCTF PF8 Angled Corbel": "Angled Corbel",
-        "LCTF PF9 Simple Entryway": "Simple Entryway",
-        "LCTF PF10 Scissor Truss Entryway": "Scissor Entryway",
-        "LCTF PF11 Curved Truss Entryway": "Curved Truss Entryway",
-        "LCTF PF12 Simple Entryway": "Simple Entryway",
-        "LCTF PF13 Simple Pergola 12x16": "12x16 Simple Pergola",
-        "LCTF PF14 Simple Pergola 12x18 V1.1.1": "12x18 Pergola",
-        "LCTF PF15 Slanted Pergola 12x16 V1.1.1": "12x16 Pergola",
-        "LCTF PF16 Simple Pergola 10x16 V1.1.1": "10x16 Simple Pergola",
-        "LCTF PF17 Simple Pavilion 16x24 3.1.1": "16x24 King Post Pavilion",
-        "LCTF PF18 Simple Pergola 14x22 V1.1.1": "14x22 Pergola",
-        "LCTF PF19 Simple 14x22 Modified": "14x22 Modified Pergola"
+        "38x44 Monitor Barn": "38x44 Monitor Barn",
+        "24x30 Cottage": "24x30 Cottage",
+        "Bee Tree Hill": "Bee Tree Hill Barn",
+        "50' Covered Bridge": "50' Covered Bridge",
+        "Old Natchez Decorative Element": "Old Natchez Decorative Element",
+        "Old Natchez Reduced": "Old Natchez Reduced",
+        "Hammer Beam Pavilion 14x18 V1.1.1": "14x18 Hammer Beam Pavilion",
+        "Simple Curve Pavilion 10x16 V1.1.1": "10x16 Simple Curve Pavilion",
+        "Cruck Pavilion 14x20 V1.2.1": "14x20 Cruck Pavilion",
+        "Scissor Truss Pavilion 16x18 V1.2.1": "16x18 Scissor Truss Pavilion",
+        "Simple Corbel": "Simple Corbel",
+        "One Piece Corbel": "Standalone Corbel",
+        "Angled Corbel": "Angled Corbel",
+        "Simple Entryway": "Simple Entryway",
+        "Scissor Truss Entryway": "Scissor Entryway",
+        "Curved Truss Entryway": "Curved Truss Entryway",
+        "Simple Pergola 12x16": "12x16 Simple Pergola",
+        "Simple Pergola 12x18 V1.1.1": "12x18 Pergola",
+        "Slanted Pergola 12x16 V1.1.1": "12x16 Pergola",
+        "Simple Pergola 10x16 V1.1.1": "10x16 Simple Pergola",
+        "Simple Pavilion 16x24 3.1.1": "16x24 King Post Pavilion",
+        "Simple Pergola 14x22 V1.1.1": "14x22 Pergola",
+        "Simple 14x22 Modified": "14x22 Modified Pergola"
     }
 
     return name_mappings.get(name, name)
 
 def get_model_id(model_dir):
-    """Generate model ID from directory name"""
-    name = model_dir.name.lower()
+    """Generate model ID from directory name using SN codes"""
+    name = model_dir.name
 
-    # Handle specific ID mappings
+    # Extract SN code from directory name (e.g., "LC_101 - 48x60 Equestrian Barn" -> "LC_101")
+    if " - " in name:
+        sn_code = name.split(" - ")[0].strip()
+    else:
+        sn_code = name
+
+    # Handle specific ID mappings based on SN codes
     id_mappings = {
-        "lc14 36x42 monitor barn web viewer": "lc14-monitor-barn",
-        "33x39 lctf barn": "lctf-barn",
-        "48x60 equestrian barn": "lone-oak-barn",
-        "36x52 dairy barn": "notch-barn",
-        "21x24 old natchez studio": "old-natchez-studio",
-        "22x66 old natchez trace (full size)": "old-natchez-trace",
-        "lctf pf1 hammer beam pavilion 14x18 v1.1.1": "lctf-pf1",
-        "lctf pf2 simple curve pavilion 10x16 v1.1.1": "lctf-pf2",
-        "lctf pf3 cruck pavilion 14x20 v1.2.1": "lctf-pf3",
-        "lctf pf4 scissor truss pavilion 16x18 v1.2.1": "lctf-pf4",
-        "lctf pf5 simple corbel": "lctf-pf5",
-        "lctf pf6 simple corbel": "lctf-pf6",
-        "lctf pf7 one piece corbel": "lctf-pf7",
-        "lctf pf8 angled corbel": "lctf-pf8",
-        "lctf pf9 simple entryway": "lctf-pf9",
-        "lctf pf10 scissor truss entryway": "lctf-pf10",
-        "lctf pf11 curved truss entryway": "lctf-pf11",
-        "lctf pf12 simple entryway": "lctf-pf12",
-        "lctf pf13 simple pergola 12x16": "lctf-pf13",
-        "lctf pf14 simple pergola 12x18 v1.1.1": "lctf-pf14",
-        "lctf pf15 slanted pergola 12x16 v1.1.1": "lctf-pf15",
-        "lctf pf16 simple pergola 10x16 v1.1.1": "lctf-pf16",
-        "lctf pf17 simple pavilion 16x24 3.1.1": "lctf-pf17",
-        "lctf pf18 simple pergola 14x22 v1.1.1": "lctf-pf18",
-        "lctf pf19 simple 14x22 modified": "lctf-pf19"
+        "LC_101": "lone-oak-barn",
+        "LC_102": "notch-barn",
+        "LC_103": "24x30-cottage",
+        "LC_104": "50-covered-bridge",
+        "LC_105": "bee-tree-hill",
+        "LC_106": "20x36-cruck-pavilion",
+        "LC_107": "36x42-monitor-barn",
+        "LC14": "38x44-monitor-barn",
+        "LC19": "old-natchez-trace",
+        "LC19_1": "lc19-1-old-natchez-decorative-element",
+        "LC19_R": "lc19-old-natchez-reduced",
+        "LC20": "lctf-barn",
+        "LC22": "old-natchez-studio",
+        "LCTF PF1": "lctf-pf1",
+        "LCTF PF2": "lctf-pf2",
+        "LCTF PF3": "lctf-pf3",
+        "LCTF PF4": "lctf-pf4",
+        "LCTF PF5": "lctf-pf5",
+        "LCTF PF6": "lctf-pf6",
+        "LCTF PF7": "lctf-pf7",
+        "LCTF PF8": "lctf-pf8",
+        "LCTF PF9": "lctf-pf9",
+        "LCTF PF10": "lctf-pf10",
+        "LCTF PF11": "lctf-pf11",
+        "LCTF PF12": "lctf-pf12",
+        "LCTF PF13": "lctf-pf13",
+        "LCTF PF14": "lctf-pf14",
+        "LCTF PF15": "lctf-pf15",
+        "LCTF PF16": "lctf-pf16",
+        "LCTF PF17": "lctf-pf17",
+        "LCTF PF18": "lctf-pf18",
+        "LCTF PF19": "lctf-pf19"
     }
 
-    # Convert to ID format
-    id = name.replace(' ', '-').replace('_', '-')
-    return id_mappings.get(name, id)
+    return id_mappings.get(sn_code, sn_code.lower().replace(' ', '-').replace('_', '-'))
 
 def get_model_tag(model_name):
     """Determine model tag/category"""
@@ -144,6 +165,11 @@ def reindex_models():
             ],
             "gallery": []
         }
+
+        # Add thumbnail if Cover.webp exists
+        cover_path = model_dir / "Cover.webp"
+        if cover_path.exists():
+            model["thumbnail"] = f"assets/Models/{model_dir.name}/Cover.webp"
 
         # Add gallery images if they exist
         renders_dir = model_dir / "renders"

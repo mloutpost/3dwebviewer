@@ -745,21 +745,23 @@
             return !q || hay.includes(q);
           })
           .sort((a, b) => {
-            // Sort by render/cover availability (descending priority):
-            // 1. Models with render images (gallery)
-            // 2. Models with cover images only
-            // 3. HTML viewer models with no cover/renders
-            // 4. Coming-soon models with no cover/renders
+            // Sort by content availability (descending priority):
+            // 1. With renders, pricing, and cover page
+            // 2. With pricing and cover page
+            // 3. With cover page only
+            // 4. With html viewer only
 
             const getSortPriority = (model) => {
               const hasGallery = model.raw.gallery && model.raw.gallery.length > 0;
               const hasCover = !!model.raw.thumbnail;
+              const hasPricing = model.raw.price && model.raw.price !== 'coming soon' && model.raw.price !== 'Call for pricing';
               const isHtmlViewer = model.t === 'cadwork-html';
 
-              if (hasGallery) return 1;                    // Highest: has render images
-              if (hasCover) return 2;                      // High: has cover only
-              if (isHtmlViewer) return 3;                  // Medium: HTML viewer, no visuals
-              return 4;                                    // Lowest: coming-soon, no visuals
+              if (hasGallery && hasPricing && hasCover) return 1;     // Highest: renders + pricing + cover
+              if (hasPricing && hasCover) return 2;                   // High: pricing + cover
+              if (hasCover) return 3;                                 // Medium: cover only
+              if (isHtmlViewer) return 4;                             // Low: HTML viewer only
+              return 5;                                               // Lowest: coming-soon, no content
             };
 
             const aPriority = getSortPriority(a);

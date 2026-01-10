@@ -1,40 +1,25 @@
 {
   "models": [
     {
-      "id": "20x36-cruck-pavilion",
-      "name": "20x36 Cruck Pavilion",
+      "id": "38x44-monitor-barn",
+      "name": "38x44 Monitor Barn",
       "type": "cadwork-html",
-      "href": "assets/Models/20x36 Cruck Pavilion/Cruck Pavilion 20x36 V1.1.1.html",
-      "description": "20x36 Cruck Pavilion with timber frame construction",
-      "tag": "Pavilion/Pergola",
-      "price": "coming soon",
+      "href": "assets/Models/LC14 - 38x44 Monitor Barn/LC14 38x44 Monitor Barn V5.1.1.html",
+      "description": "38x44 Monitor Barn with timber frame construction",
+      "tag": "Barns",
+      "price": "$118,999",
       "features": [
-        "20x36 footprint",
+        "38x44 footprint",
         "Timber frame construction"
       ],
       "gallery": [],
-      "thumbnail": "assets/Models/20x36 Cruck Pavilion/Cover.webp"
-    },
-    {
-      "id": "old-natchez-studio",
-      "name": "24x21 Studio Shed",
-      "type": "cadwork-html",
-      "href": "assets/Models/21x24 Old Natchez Studio/LC22 Shed 24x21 V2.1.1.html",
-      "description": "24x21 Studio Shed with timber frame construction",
-      "tag": "Other",
-      "price": "$54,999",
-      "features": [
-        "24x21 footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [],
-      "thumbnail": "assets/Models/21x24 Old Natchez Studio/Cover.webp"
+      "thumbnail": "assets/Models/LC14 - 38x44 Monitor Barn/Cover.webp"
     },
     {
       "id": "old-natchez-trace",
       "name": "Old Natchez Trace",
       "type": "cadwork-html",
-      "href": "assets/Models/22x66 Old Natchez Trace (Full Size)/LC19 Old Natchez Trace V5.1.1.html",
+      "href": "assets/Models/LC19 - 22x66 Old Natchez Trace (Full Size)/LC19 Old Natchez Trace V5.1.1.html",
       "description": "Old Natchez Trace with timber frame construction",
       "tag": "Other",
       "price": "$102,999",
@@ -43,28 +28,43 @@
         "Timber frame construction"
       ],
       "gallery": [],
-      "thumbnail": "assets/Models/22x66 Old Natchez Trace (Full Size)/Cover.webp"
+      "thumbnail": "assets/Models/LC19 - 22x66 Old Natchez Trace (Full Size)/Cover.webp"
     },
     {
-      "id": "24x30-cottage",
-      "name": "24x30 Cottage",
+      "id": "lc19-1-old-natchez-decorative-element",
+      "name": "Old Natchez Decorative Element",
       "type": "cadwork-html",
-      "href": "assets/Models/24x30 Cottage/24x30 Cottage V1.1.1.html",
-      "description": "24x30 Cottage with timber frame construction",
+      "href": "assets/Models/LC19_1 - Old Natchez Decorative Element/LC19 Old Natchez Trace V5.1.1 - Decorative Element Only.html",
+      "description": "Old Natchez Decorative Element with timber frame construction",
       "tag": "Other",
-      "price": "$106,399",
+      "price": "coming soon",
       "features": [
-        "24x30 footprint",
+        "Old footprint",
         "Timber frame construction"
       ],
       "gallery": [],
-      "thumbnail": "assets/Models/24x30 Cottage/Cover.webp"
+      "thumbnail": "assets/Models/LC19_1 - Old Natchez Decorative Element/Cover.webp"
+    },
+    {
+      "id": "lc19-old-natchez-reduced",
+      "name": "Old Natchez Reduced",
+      "type": "coming-soon",
+      "href": "",
+      "description": "Old Natchez Reduced with timber frame construction",
+      "tag": "Other",
+      "price": "coming soon",
+      "features": [
+        "Old footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [],
+      "thumbnail": "assets/Models/LC19_R - Old Natchez Reduced/Cover.webp"
     },
     {
       "id": "lctf-barn",
       "name": "LCTF Barn",
       "type": "cadwork-html",
-      "href": "assets/Models/33x39 LCTF Barn/LC20 LCTF Barn.html",
+      "href": "assets/Models/LC20 - 33x39 LCTF Barn/LC20 LCTF Barn.html",
       "description": "LCTF Barn with timber frame construction",
       "tag": "Barns",
       "price": "$117,999",
@@ -73,45 +73,339 @@
         "Timber frame construction"
       ],
       "gallery": [
-        "assets/Models/33x39 LCTF Barn/renders/IMG_2971.webp"
+        "assets/Models/LC20 - 33x39 LCTF Barn/renders/IMG_2971.webp"
       ],
-      "thumbnail": "assets/Models/33x39 LCTF Barn/Cover.webp"
+      "thumbnail": "assets/Models/LC20 - 33x39 LCTF Barn/Cover.webp"
     },
     {
-      "id": "notch-barn",
-      "name": "36x52 Dairy Barn",
+      "id": "old-natchez-studio",
+      "name": "24x21 Studio Shed",
       "type": "cadwork-html",
-      "href": "assets/Models/36x52 Dairy Barn/Notch Barn.html",
-      "description": "36x52 Dairy Barn with timber frame construction",
-      "tag": "Barns",
-      "price": "$96,999",
+      "href": "assets/Models/LC22 - 21x24 Old Natchez Studio/LC22 Shed 24x21 V2.1.1.html",
+      "description": "24x21 Studio Shed with timber frame construction",
+      "tag": "Other",
+      "price": "$54,999",
       "features": [
-        "36x52 footprint",
+        "24x21 footprint",
         "Timber frame construction"
       ],
       "gallery": [],
-      "thumbnail": "assets/Models/36x52 Dairy Barn/Cover.webp"
+      "thumbnail": "assets/Models/LC22 - 21x24 Old Natchez Studio/Cover.webp"
     },
     {
-      "id": "38x44-monitor-barn",
-      "name": "38x44 Monitor Barn",
+      "id": "lctf-pf1",
+      "name": "14x18 Hammer Beam Pavilion",
       "type": "cadwork-html",
-      "href": "assets/Models/38x44 Monitor Barn/LC14 38x44 Monitor Barn V5.1.1.html",
-      "description": "38x44 Monitor Barn with timber frame construction",
-      "tag": "Barns",
-      "price": "$71,399",
+      "href": "assets/Models/LCTF PF1 - Hammer Beam Pavilion 14x18 V1.1.1/LCTF PF1 Hammer Beam Pavilion 14x18 V1.1.3.html",
+      "description": "14x18 Hammer Beam Pavilion with timber frame construction",
+      "tag": "Pavilion/Pergola",
+      "price": "$39,399",
       "features": [
-        "38x44 footprint",
+        "14x18 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [
+        "assets/Models/LCTF PF1 - Hammer Beam Pavilion 14x18 V1.1.1/renders/IMG_2972.webp"
+      ],
+      "thumbnail": "assets/Models/LCTF PF1 - Hammer Beam Pavilion 14x18 V1.1.1/Cover.webp"
+    },
+    {
+      "id": "lctf-pf10",
+      "name": "Scissor Entryway",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF10 - Scissor Truss Entryway/LCTF PF10 Scissor Truss Entryway V1.1.1.html",
+      "description": "Scissor Entryway with timber frame construction",
+      "tag": "Entries",
+      "price": "$21,599",
+      "features": [
+        "Scissor footprint",
         "Timber frame construction"
       ],
       "gallery": [],
-      "thumbnail": "assets/Models/38x44 Monitor Barn/Cover.webp"
+      "thumbnail": "assets/Models/LCTF PF10 - Scissor Truss Entryway/Cover.webp"
+    },
+    {
+      "id": "lctf-pf11",
+      "name": "Curved Truss Entryway",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF11 - Curved Truss Entryway/LCTF PF11 Curved Truss Entryway V1.1.1.html",
+      "description": "Curved Truss Entryway with timber frame construction",
+      "tag": "Entries",
+      "price": "$19,999",
+      "features": [
+        "Curved footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [
+        "assets/Models/LCTF PF11 - Curved Truss Entryway/renders/Scene 16.webp"
+      ],
+      "thumbnail": "assets/Models/LCTF PF11 - Curved Truss Entryway/Cover.webp"
+    },
+    {
+      "id": "lctf-pf12",
+      "name": "Simple Entryway",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF12 - Simple Entryway/LCTF PF12 Simple Entryway.html",
+      "description": "Simple Entryway with timber frame construction",
+      "tag": "Entries",
+      "price": "$16,999",
+      "features": [
+        "Simple footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [
+        "assets/Models/LCTF PF12 - Simple Entryway/renders/Scene 1_1.webp"
+      ],
+      "thumbnail": "assets/Models/LCTF PF12 - Simple Entryway/Cover.webp"
+    },
+    {
+      "id": "lctf-pf13",
+      "name": "12x16 Simple Pergola",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF13 - Simple Pergola 12x16/LCTF PF13 Simple Pergola 12x16.html",
+      "description": "12x16 Simple Pergola with timber frame construction",
+      "tag": "Pavilion/Pergola",
+      "price": "$19,999",
+      "features": [
+        "12x16 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [],
+      "thumbnail": "assets/Models/LCTF PF13 - Simple Pergola 12x16/Cover.webp"
+    },
+    {
+      "id": "lctf-pf14",
+      "name": "12x18 Pergola",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF14 - Simple Pergola 12x18 V1.1.1/LCTF PF14 Simple Pergola 12x18 V1.1.1.html",
+      "description": "12x18 Pergola with timber frame construction",
+      "tag": "Pavilion/Pergola",
+      "price": "$29,999",
+      "features": [
+        "12x18 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [
+        "assets/Models/LCTF PF14 - Simple Pergola 12x18 V1.1.1/renders/IMG_2975.webp"
+      ],
+      "thumbnail": "assets/Models/LCTF PF14 - Simple Pergola 12x18 V1.1.1/Cover.webp"
+    },
+    {
+      "id": "lctf-pf15",
+      "name": "12x16 Pergola",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF15 - Slanted Pergola 12x16 V1.1.1/LCTF PF15 Slanted Pergola 12x16 V1.1.1.html",
+      "description": "12x16 Pergola with timber frame construction",
+      "tag": "Pavilion/Pergola",
+      "price": "$24,999",
+      "features": [
+        "12x16 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [
+        "assets/Models/LCTF PF15 - Slanted Pergola 12x16 V1.1.1/renders/IMG_2977.webp"
+      ],
+      "thumbnail": "assets/Models/LCTF PF15 - Slanted Pergola 12x16 V1.1.1/Cover.webp"
+    },
+    {
+      "id": "lctf-pf16",
+      "name": "10x16 Simple Pergola",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF16 - Simple Pergola 10x16 V1.1.1/LCTF PF16 Simple Pergola 10x16 V1.1.1.html",
+      "description": "10x16 Simple Pergola with timber frame construction",
+      "tag": "Pavilion/Pergola",
+      "price": "$27,999",
+      "features": [
+        "10x16 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [
+        "assets/Models/LCTF PF16 - Simple Pergola 10x16 V1.1.1/renders/IMG_2974.webp"
+      ],
+      "thumbnail": "assets/Models/LCTF PF16 - Simple Pergola 10x16 V1.1.1/Cover.webp"
+    },
+    {
+      "id": "lctf-pf17",
+      "name": "16x24 King Post Pavilion",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF17 - Simple Pavilion 16x24 3.1.1/LCTF PF17 Simple Pavilion 16x24 3.2.1.html",
+      "description": "16x24 King Post Pavilion with timber frame construction",
+      "tag": "Pavilion/Pergola",
+      "price": "$36,999",
+      "features": [
+        "16x24 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [
+        "assets/Models/LCTF PF17 - Simple Pavilion 16x24 3.1.1/renders/IMG_2976.webp"
+      ],
+      "thumbnail": "assets/Models/LCTF PF17 - Simple Pavilion 16x24 3.1.1/Cover.webp"
+    },
+    {
+      "id": "lctf-pf18",
+      "name": "14x22 Pergola",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF18 - Simple Pergola 14x22 V1.1.1/LCTF PF18 Simple Pergola 14x22 V1.1.1.html",
+      "description": "14x22 Pergola with timber frame construction",
+      "tag": "Pavilion/Pergola",
+      "price": "$31,199",
+      "features": [
+        "14x22 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [],
+      "thumbnail": "assets/Models/LCTF PF18 - Simple Pergola 14x22 V1.1.1/Cover.webp"
+    },
+    {
+      "id": "lctf-pf19",
+      "name": "14x22 Modified Pergola",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF19 - Simple 14x22 Modified/LCTF PF19 Simple Pergola 14x22 Modified V1.2.1.html",
+      "description": "14x22 Modified Pergola with timber frame construction",
+      "tag": "Pavilion/Pergola",
+      "price": "$23,999",
+      "features": [
+        "14x22 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [],
+      "thumbnail": "assets/Models/LCTF PF19 - Simple 14x22 Modified/Cover.webp"
+    },
+    {
+      "id": "lctf-pf2",
+      "name": "10x16 Simple Curve Pavilion",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF2 - Simple Curve Pavilion 10x16 V1.1.1/LCTF PF2 Simple Curve Pavilion 10x16 V1.1.1.html",
+      "description": "10x16 Simple Curve Pavilion with timber frame construction",
+      "tag": "Pavilion/Pergola",
+      "price": "$31,299",
+      "features": [
+        "10x16 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [
+        "assets/Models/LCTF PF2 - Simple Curve Pavilion 10x16 V1.1.1/renders/IMG_2973.webp"
+      ],
+      "thumbnail": "assets/Models/LCTF PF2 - Simple Curve Pavilion 10x16 V1.1.1/Cover.webp"
+    },
+    {
+      "id": "lctf-pf3",
+      "name": "14x20 Cruck Pavilion",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF3 - Cruck Pavilion 14x20 V1.2.1/LCTF PF3 Cruck Pavilion 14x20 V1.2.1.html",
+      "description": "14x20 Cruck Pavilion with timber frame construction",
+      "tag": "Pavilion/Pergola",
+      "price": "$44,999",
+      "features": [
+        "14x20 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [
+        "assets/Models/LCTF PF3 - Cruck Pavilion 14x20 V1.2.1/renders/IMG_2979.webp"
+      ],
+      "thumbnail": "assets/Models/LCTF PF3 - Cruck Pavilion 14x20 V1.2.1/Cover.webp"
+    },
+    {
+      "id": "lctf-pf4",
+      "name": "16x18 Scissor Truss Pavilion",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF4 - Scissor Truss Pavilion 16x18 V1.2.1/LCTF PF4 Scissor Truss Pavilion 16x18 V1.2.1.html",
+      "description": "16x18 Scissor Truss Pavilion with timber frame construction",
+      "tag": "Pavilion/Pergola",
+      "price": "$40,999",
+      "features": [
+        "16x18 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [
+        "assets/Models/LCTF PF4 - Scissor Truss Pavilion 16x18 V1.2.1/renders/IMG_2978.webp"
+      ],
+      "thumbnail": "assets/Models/LCTF PF4 - Scissor Truss Pavilion 16x18 V1.2.1/Cover.webp"
+    },
+    {
+      "id": "lctf-pf5",
+      "name": "Simple Corbel",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF5 - Simple Corbel/LCTF PF5 Simple Corbel V1.1.1.html",
+      "description": "Simple Corbel with timber frame construction",
+      "tag": "Decorative",
+      "price": "coming soon",
+      "features": [
+        "Simple footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [
+        "assets/Models/LCTF PF5 - Simple Corbel/renders/Screenshot 2025-10-24 124557.webp",
+        "assets/Models/LCTF PF5 - Simple Corbel/renders/Screenshot 2025-10-24 124636.webp",
+        "assets/Models/LCTF PF5 - Simple Corbel/renders/Screenshot 2025-10-24 124736.webp"
+      ],
+      "thumbnail": "assets/Models/LCTF PF5 - Simple Corbel/Cover.webp"
+    },
+    {
+      "id": "lctf-pf6",
+      "name": "Simple Corbel",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF6 - Simple Corbel/LCTF PF6 Simple Corbel V1.1.1.html",
+      "description": "Simple Corbel with timber frame construction",
+      "tag": "Decorative",
+      "price": "coming soon",
+      "features": [
+        "Simple footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [],
+      "thumbnail": "assets/Models/LCTF PF6 - Simple Corbel/Cover.webp"
+    },
+    {
+      "id": "lctf-pf7",
+      "name": "Standalone Corbel",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF7 - One Piece Corbel/LCTF PF7 One Piece Corbel V1.1.1.html",
+      "description": "Standalone Corbel with timber frame construction",
+      "tag": "Decorative",
+      "price": "coming soon",
+      "features": [
+        "Standalone footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [],
+      "thumbnail": "assets/Models/LCTF PF7 - One Piece Corbel/Cover.webp"
+    },
+    {
+      "id": "lctf-pf8",
+      "name": "Angled Corbel",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF8 - Angled Corbel/LCTF PF8 Angled Corbel V1.1.1.html",
+      "description": "Angled Corbel with timber frame construction",
+      "tag": "Decorative",
+      "price": "coming soon",
+      "features": [
+        "Angled footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [],
+      "thumbnail": "assets/Models/LCTF PF8 - Angled Corbel/Cover.webp"
+    },
+    {
+      "id": "lctf-pf9",
+      "name": "Simple Entryway",
+      "type": "cadwork-html",
+      "href": "assets/Models/LCTF PF9 - Simple Entryway/LCTF PF9 Simple Entryway V1.1.1.html",
+      "description": "Simple Entryway with timber frame construction",
+      "tag": "Entries",
+      "price": "$18,899",
+      "features": [
+        "Simple footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [],
+      "thumbnail": "assets/Models/LCTF PF9 - Simple Entryway/Cover.webp"
     },
     {
       "id": "lone-oak-barn",
       "name": "48x60 Equestrian Barn",
       "type": "cadwork-html",
-      "href": "assets/Models/48x60 Equestrian Barn/Lone Oak Barn.html",
+      "href": "assets/Models/LC_101 - 48x60 Equestrian Barn/Lone Oak Barn.html",
       "description": "48x60 Equestrian Barn with timber frame construction",
       "tag": "Barns",
       "price": "$149,999",
@@ -120,10 +414,40 @@
         "Timber frame construction"
       ],
       "gallery": [],
-      "thumbnail": "assets/Models/48x60 Equestrian Barn/Cover.webp"
+      "thumbnail": "assets/Models/LC_101 - 48x60 Equestrian Barn/Cover.webp"
     },
     {
-      "id": "50'-covered-bridge",
+      "id": "notch-barn",
+      "name": "36x52 Dairy Barn",
+      "type": "cadwork-html",
+      "href": "assets/Models/LC_102 - 36x52 Dairy Barn/Notch Barn.html",
+      "description": "36x52 Dairy Barn with timber frame construction",
+      "tag": "Barns",
+      "price": "$96,999",
+      "features": [
+        "36x52 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [],
+      "thumbnail": "assets/Models/LC_102 - 36x52 Dairy Barn/Cover.webp"
+    },
+    {
+      "id": "24x30-cottage",
+      "name": "24x30 Cottage",
+      "type": "cadwork-html",
+      "href": "assets/Models/LC_103 - 24x30 Cottage/24x30 Cottage V1.1.1.html",
+      "description": "24x30 Cottage with timber frame construction",
+      "tag": "Other",
+      "price": "$71,399",
+      "features": [
+        "24x30 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [],
+      "thumbnail": "assets/Models/LC_103 - 24x30 Cottage/Cover.webp"
+    },
+    {
+      "id": "50-covered-bridge",
       "name": "50' Covered Bridge",
       "type": "coming-soon",
       "href": "",
@@ -134,375 +458,52 @@
         "50' footprint",
         "Timber frame construction"
       ],
-      "gallery": []
+      "gallery": [],
+      "thumbnail": "assets/Models/LC_104 - 50' Covered Bridge/Cover.webp"
     },
     {
       "id": "bee-tree-hill",
-      "name": "Bee Tree Hill",
+      "name": "Bee Tree Hill Barn",
       "type": "cadwork-html",
-      "href": "assets/Models/Bee Tree Hill/Bee Tree Hill 54x30 Barn V1.1.1.html",
-      "description": "Bee Tree Hill with timber frame construction",
-      "tag": "Other",
+      "href": "assets/Models/LC_105 - Bee Tree Hill/Bee Tree Hill 54x30 Barn V1.1.1.html",
+      "description": "Bee Tree Hill Barn with timber frame construction",
+      "tag": "Barns",
       "price": "$96,599",
       "features": [
         "Bee footprint",
         "Timber frame construction"
       ],
       "gallery": [],
-      "thumbnail": "assets/Models/Bee Tree Hill/Cover.webp"
+      "thumbnail": "assets/Models/LC_105 - Bee Tree Hill/Cover.webp"
     },
     {
-      "id": "lc14-monitor-barn",
+      "id": "20x36-cruck-pavilion",
+      "name": "20x36 Cruck Pavilion",
+      "type": "cadwork-html",
+      "href": "assets/Models/LC_106 - 20x36 Cruck Pavilion/Cruck Pavilion 20x36 V1.1.1.html",
+      "description": "20x36 Cruck Pavilion with timber frame construction",
+      "tag": "Pavilion/Pergola",
+      "price": "$71,999",
+      "features": [
+        "20x36 footprint",
+        "Timber frame construction"
+      ],
+      "gallery": [],
+      "thumbnail": "assets/Models/LC_106 - 20x36 Cruck Pavilion/Cover.webp"
+    },
+    {
+      "id": "36x42-monitor-barn",
       "name": "36x42 Monitor Barn",
       "type": "cadwork-html",
-      "href": "assets/Models/LC14 36x42 Monitor Barn Web Viewer/LC14 36x42 Monitor Barn Web Viewer.html",
+      "href": "assets/Models/LC_107 - 36x42 Monitor Barn Web Viewer/LC14 36x42 Monitor Barn Web Viewer.html",
       "description": "36x42 Monitor Barn with timber frame construction",
       "tag": "Barns",
-      "price": "$118,999",
+      "price": "$106,399",
       "features": [
         "36x42 footprint",
         "Timber frame construction"
       ],
       "gallery": []
-    },
-    {
-      "id": "lc19-old-natchez-reduced",
-      "name": "LC19 Old Natchez Reduced",
-      "type": "coming-soon",
-      "href": "",
-      "description": "LC19 Old Natchez Reduced with timber frame construction",
-      "tag": "Other",
-      "price": "coming soon",
-      "features": [
-        "LC19 footprint",
-        "Timber frame construction"
-      ],
-      "gallery": []
-    },
-    {
-      "id": "lc19-1-old-natchez-decorative-element",
-      "name": "LC19_1 Old Natchez Decorative Element",
-      "type": "cadwork-html",
-      "href": "assets/Models/LC19_1 Old Natchez Decorative Element/LC19 Old Natchez Trace V5.1.1 - Decorative Element Only.html",
-      "description": "LC19_1 Old Natchez Decorative Element with timber frame construction",
-      "tag": "Other",
-      "price": "coming soon",
-      "features": [
-        "LC19_1 footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [],
-      "thumbnail": "assets/Models/LC19_1 Old Natchez Decorative Element/Cover.webp"
-    },
-    {
-      "id": "lctf-pf1",
-      "name": "14x18 Hammer Beam Pavilion",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF1 Hammer Beam Pavilion 14x18 V1.1.1/LCTF PF1 Hammer Beam Pavilion 14x18 V1.1.3.html",
-      "description": "14x18 Hammer Beam Pavilion with timber frame construction",
-      "tag": "Pavilion/Pergola",
-      "price": "$39,399",
-      "features": [
-        "14x18 footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [
-        "assets/Models/LCTF PF1 Hammer Beam Pavilion 14x18 V1.1.1/renders/IMG_2972.webp"
-      ],
-      "thumbnail": "assets/Models/LCTF PF1 Hammer Beam Pavilion 14x18 V1.1.1/Cover.webp"
-    },
-    {
-      "id": "lctf-pf10",
-      "name": "Scissor Entryway",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF10 Scissor Truss Entryway/LCTF PF10 Scissor Truss Entryway V1.1.1.html",
-      "description": "Scissor Entryway with timber frame construction",
-      "tag": "Entries",
-      "price": "$21,599",
-      "features": [
-        "Scissor footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [],
-      "thumbnail": "assets/Models/LCTF PF10 Scissor Truss Entryway/Cover.webp"
-    },
-    {
-      "id": "lctf-pf11",
-      "name": "Curved Truss Entryway",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF11 Curved Truss Entryway/LCTF PF11 Curved Truss Entryway V1.1.1.html",
-      "description": "Curved Truss Entryway with timber frame construction",
-      "tag": "Entries",
-      "price": "$19,999",
-      "features": [
-        "Curved footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [
-        "assets/Models/LCTF PF11 Curved Truss Entryway/renders/Scene 16.webp"
-      ],
-      "thumbnail": "assets/Models/LCTF PF11 Curved Truss Entryway/Cover.webp"
-    },
-    {
-      "id": "lctf-pf12",
-      "name": "Simple Entryway",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF12 Simple Entryway/LCTF PF12 Simple Entryway.html",
-      "description": "Simple Entryway with timber frame construction",
-      "tag": "Entries",
-      "price": "$16,999",
-      "features": [
-        "Simple footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [
-        "assets/Models/LCTF PF12 Simple Entryway/renders/Scene 1_1.webp"
-      ],
-      "thumbnail": "assets/Models/LCTF PF12 Simple Entryway/Cover.webp"
-    },
-    {
-      "id": "lctf-pf13",
-      "name": "12x16 Simple Pergola",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF13 Simple Pergola 12x16/LCTF PF13 Simple Pergola 12x16.html",
-      "description": "12x16 Simple Pergola with timber frame construction",
-      "tag": "Pavilion/Pergola",
-      "price": "$19,999",
-      "features": [
-        "12x16 footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [],
-      "thumbnail": "assets/Models/LCTF PF13 Simple Pergola 12x16/Cover.webp"
-    },
-    {
-      "id": "lctf-pf14",
-      "name": "12x18 Pergola",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF14 Simple Pergola 12x18 V1.1.1/LCTF PF14 Simple Pergola 12x18 V1.1.1.html",
-      "description": "12x18 Pergola with timber frame construction",
-      "tag": "Pavilion/Pergola",
-      "price": "$29,999",
-      "features": [
-        "12x18 footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [
-        "assets/Models/LCTF PF14 Simple Pergola 12x18 V1.1.1/renders/IMG_2975.webp"
-      ],
-      "thumbnail": "assets/Models/LCTF PF14 Simple Pergola 12x18 V1.1.1/Cover.webp"
-    },
-    {
-      "id": "lctf-pf15",
-      "name": "12x16 Pergola",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF15 Slanted Pergola 12x16 V1.1.1/LCTF PF15 Slanted Pergola 12x16 V1.1.1.html",
-      "description": "12x16 Pergola with timber frame construction",
-      "tag": "Pavilion/Pergola",
-      "price": "$24,999",
-      "features": [
-        "12x16 footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [
-        "assets/Models/LCTF PF15 Slanted Pergola 12x16 V1.1.1/renders/IMG_2977.webp"
-      ],
-      "thumbnail": "assets/Models/LCTF PF15 Slanted Pergola 12x16 V1.1.1/Cover.webp"
-    },
-    {
-      "id": "lctf-pf16",
-      "name": "10x16 Simple Pergola",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF16 Simple Pergola 10x16 V1.1.1/LCTF PF16 Simple Pergola 10x16 V1.1.1.html",
-      "description": "10x16 Simple Pergola with timber frame construction",
-      "tag": "Pavilion/Pergola",
-      "price": "$27,999",
-      "features": [
-        "10x16 footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [
-        "assets/Models/LCTF PF16 Simple Pergola 10x16 V1.1.1/renders/IMG_2974.webp"
-      ],
-      "thumbnail": "assets/Models/LCTF PF16 Simple Pergola 10x16 V1.1.1/Cover.webp"
-    },
-    {
-      "id": "lctf-pf17",
-      "name": "16x24 King Post Pavilion",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF17 Simple Pavilion 16x24 3.1.1/LCTF PF17 Simple Pavilion 16x24 3.2.1.html",
-      "description": "16x24 King Post Pavilion with timber frame construction",
-      "tag": "Pavilion/Pergola",
-      "price": "$36,999",
-      "features": [
-        "16x24 footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [
-        "assets/Models/LCTF PF17 Simple Pavilion 16x24 3.1.1/renders/IMG_2976.webp"
-      ],
-      "thumbnail": "assets/Models/LCTF PF17 Simple Pavilion 16x24 3.1.1/Cover.webp"
-    },
-    {
-      "id": "lctf-pf18",
-      "name": "14x22 Pergola",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF18 Simple Pergola 14x22 V1.1.1/LCTF PF18 Simple Pergola 14x22 V1.1.1.html",
-      "description": "14x22 Pergola with timber frame construction",
-      "tag": "Pavilion/Pergola",
-      "price": "$31,199",
-      "features": [
-        "14x22 footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [],
-      "thumbnail": "assets/Models/LCTF PF18 Simple Pergola 14x22 V1.1.1/Cover.webp"
-    },
-    {
-      "id": "lctf-pf19",
-      "name": "14x22 Modified Pergola",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF19 Simple 14x22 Modified/LCTF PF19 Simple Pergola 14x22 Modified V1.2.1.html",
-      "description": "14x22 Modified Pergola with timber frame construction",
-      "tag": "Pavilion/Pergola",
-      "price": "$23,999",
-      "features": [
-        "14x22 footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [],
-      "thumbnail": "assets/Models/LCTF PF19 Simple 14x22 Modified/Cover.webp"
-    },
-    {
-      "id": "lctf-pf2",
-      "name": "10x16 Simple Curve Pavilion",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF2 Simple Curve Pavilion 10x16 V1.1.1/LCTF PF2 Simple Curve Pavilion 10x16 V1.1.1.html",
-      "description": "10x16 Simple Curve Pavilion with timber frame construction",
-      "tag": "Pavilion/Pergola",
-      "price": "$31,299",
-      "features": [
-        "10x16 footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [
-        "assets/Models/LCTF PF2 Simple Curve Pavilion 10x16 V1.1.1/renders/IMG_2973.webp"
-      ],
-      "thumbnail": "assets/Models/LCTF PF2 Simple Curve Pavilion 10x16 V1.1.1/Cover.webp"
-    },
-    {
-      "id": "lctf-pf3",
-      "name": "14x20 Cruck Pavilion",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF3 Cruck Pavilion 14x20 V1.2.1/LCTF PF3 Cruck Pavilion 14x20 V1.2.1.html",
-      "description": "14x20 Cruck Pavilion with timber frame construction",
-      "tag": "Pavilion/Pergola",
-      "price": "$44,999",
-      "features": [
-        "14x20 footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [
-        "assets/Models/LCTF PF3 Cruck Pavilion 14x20 V1.2.1/renders/IMG_2979.webp"
-      ],
-      "thumbnail": "assets/Models/LCTF PF3 Cruck Pavilion 14x20 V1.2.1/Cover.webp"
-    },
-    {
-      "id": "lctf-pf4",
-      "name": "16x18 Scissor Truss Pavilion",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF4 Scissor Truss Pavilion 16x18 V1.2.1/LCTF PF4 Scissor Truss Pavilion 16x18 V1.2.1.html",
-      "description": "16x18 Scissor Truss Pavilion with timber frame construction",
-      "tag": "Pavilion/Pergola",
-      "price": "$40,999",
-      "features": [
-        "16x18 footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [
-        "assets/Models/LCTF PF4 Scissor Truss Pavilion 16x18 V1.2.1/renders/IMG_2978.webp"
-      ],
-      "thumbnail": "assets/Models/LCTF PF4 Scissor Truss Pavilion 16x18 V1.2.1/Cover.webp"
-    },
-    {
-      "id": "lctf-pf5",
-      "name": "Simple Corbel",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF5 Simple Corbel/LCTF PF5 Simple Corbel V1.1.1.html",
-      "description": "Simple Corbel with timber frame construction",
-      "tag": "Decorative",
-      "price": "coming soon",
-      "features": [
-        "Simple footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [
-        "assets/Models/LCTF PF5 Simple Corbel/renders/Screenshot 2025-10-24 124557.webp",
-        "assets/Models/LCTF PF5 Simple Corbel/renders/Screenshot 2025-10-24 124636.webp",
-        "assets/Models/LCTF PF5 Simple Corbel/renders/Screenshot 2025-10-24 124736.png",
-        "assets/Models/LCTF PF5 Simple Corbel/renders/Screenshot 2025-10-24 124736.webp"
-      ],
-      "thumbnail": "assets/Models/LCTF PF5 Simple Corbel/Cover.webp"
-    },
-    {
-      "id": "lctf-pf6",
-      "name": "Simple Corbel",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF6 Simple Corbel/LCTF PF6 Simple Corbel V1.1.1.html",
-      "description": "Simple Corbel with timber frame construction",
-      "tag": "Decorative",
-      "price": "coming soon",
-      "features": [
-        "Simple footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [],
-      "thumbnail": "assets/Models/LCTF PF6 Simple Corbel/Cover.webp"
-    },
-    {
-      "id": "lctf-pf7",
-      "name": "Standalone Corbel",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF7 One Piece Corbel/LCTF PF7 One Piece Corbel V1.1.1.html",
-      "description": "Standalone Corbel with timber frame construction",
-      "tag": "Decorative",
-      "price": "coming soon",
-      "features": [
-        "Standalone footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [],
-      "thumbnail": "assets/Models/LCTF PF7 One Piece Corbel/Cover.webp"
-    },
-    {
-      "id": "lctf-pf8",
-      "name": "Angled Corbel",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF8 Angled Corbel/LCTF PF8 Angled Corbel V1.1.1.html",
-      "description": "Angled Corbel with timber frame construction",
-      "tag": "Decorative",
-      "price": "coming soon",
-      "features": [
-        "Angled footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [],
-      "thumbnail": "assets/Models/LCTF PF8 Angled Corbel/Cover.webp"
-    },
-    {
-      "id": "lctf-pf9",
-      "name": "Simple Entryway",
-      "type": "cadwork-html",
-      "href": "assets/Models/LCTF PF9 Simple Entryway/LCTF PF9 Simple Entryway V1.1.1.html",
-      "description": "Simple Entryway with timber frame construction",
-      "tag": "Entries",
-      "price": "$18,899",
-      "features": [
-        "Simple footprint",
-        "Timber frame construction"
-      ],
-      "gallery": [],
-      "thumbnail": "assets/Models/LCTF PF9 Simple Entryway/Cover.webp"
     }
   ]
 }
