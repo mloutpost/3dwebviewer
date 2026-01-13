@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Timber Frame Design - Only $500 | LC Timberframes</title>
-    <meta name="description" content="Get a professional timber frame design for just $500. Custom 3D models, architectural plans, and construction quotes. Risk-free design consultation.">
+    <title>Custom Timber Frame Design | LC Timberframes</title>
+    <meta name="description" content="Professional timber frame architectural design for $500. Custom 3D models, detailed construction plans, and expert consultation.">
     <link rel="icon" type="image/png" href="assets/global_graphics/LCTF Profile.png">
     <style>
         * {
@@ -14,16 +14,31 @@
         }
 
         :root {
-            --primary-green: #303d30;
-            --secondary-green: #4a5a4a;
-            --accent-orange: #e67e22;
-            --success-green: #27ae60;
-            --warning-yellow: #f39c12;
-            --text-dark: #2c3e50;
-            --text-light: #ecf0f1;
-            --background-light: #f8f9fa;
-            --shadow: 0 10px 30px rgba(0,0,0,0.1);
-            --shadow-hover: 0 20px 40px rgba(0,0,0,0.15);
+            /* Franklin Timberframes Luxury Palette */
+            --franklin-green: #2C3E2F;
+            --slab-blue: #CDE3F2;
+            --forest-brown: #4F423A;
+            --pebble-grey: #DEDBCE;
+            --ivory-white: #F7F7F7;
+
+            /* Luxury Theme */
+            --bg: var(--ivory-white);
+            --bg-secondary: var(--pebble-grey);
+            --panel: var(--ivory-white);
+            --panel-hover: #f0ede6;
+            --text: var(--forest-brown);
+            --text-muted: #6b6358;
+            --text-secondary: #8b8477;
+            --border: rgba(79, 66, 58, 0.15);
+            --border-hover: rgba(79, 66, 58, 0.25);
+            --shadow: 0 2px 16px rgba(79, 66, 58, 0.06);
+            --shadow-hover: 0 8px 32px rgba(79, 66, 58, 0.12);
+            --shadow-luxury: 0 4px 24px rgba(44, 62, 47, 0.08);
+            --accent: var(--franklin-green);
+            --accent-hover: #3a7d44;
+            --radius: 8px;
+            --radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -33,110 +48,155 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            color: var(--text);
+            background: var(--bg);
             line-height: 1.6;
-            color: var(--text-dark);
-            background: linear-gradient(135deg, var(--background-light) 0%, #ffffff 100%);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .hero {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            background: linear-gradient(135deg, var(--brand-dark-green) 0%, var(--secondary-green) 100%);
             color: white;
-            padding: 80px 20px;
+            padding: 100px 20px;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.03)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.03)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.02)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            pointer-events: none;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .header {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            height: 60px;
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        .header-text h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .header-text p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
         .hero-badge {
             display: inline-block;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.5rem 1.25rem;
+            background: var(--bg-secondary);
+            color: var(--text);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.1;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--text);
         }
 
-        .hero .price-highlight {
-            font-size: 4rem;
-            font-weight: 900;
-            color: var(--accent-orange);
-            margin: 30px 0;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        .price-highlight {
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin: 1.5rem 0;
+            display: block;
         }
 
         .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 40px;
-            opacity: 0.95;
-            max-width: 600px;
+            font-size: 1.125rem;
+            margin-bottom: 2.5rem;
+            max-width: 650px;
             margin-left: auto;
             margin-right: auto;
-            margin-bottom: 50px;
+            line-height: 1.6;
+            color: var(--text-secondary);
         }
 
-        .hero-cta {
-            background: var(--accent-orange);
-            color: white;
-            padding: 20px 40px;
-            border-radius: 50px;
+        .cta-button {
+            background: var(--accent);
+            color: var(--ivory-white);
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
             text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: 700;
+            font-size: 1.125rem;
+            font-weight: 500;
             display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(230, 126, 34, 0.3);
-            border: 3px solid rgba(255,255,255,0.2);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--accent);
         }
 
-        .hero-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(230, 126, 34, 0.4);
-            background: #d35400;
+        .cta-button:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-hover);
         }
 
         .guarantee {
-            background: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 40px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            margin-top: 3rem;
+            border: 1px solid var(--border);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .guarantee h3 {
-            color: var(--accent-orange);
-            margin-bottom: 10px;
-            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .guarantee p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
         }
 
         .container {
@@ -145,239 +205,272 @@
             padding: 20px;
         }
 
-        .value-props {
+        .features {
+            margin: 4rem 0;
+        }
+
+        .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 60px 0;
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
-        .value-prop {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 15px;
+        .feature-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem 2rem;
             text-align: center;
+            transition: var(--transition);
             box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-            border: 1px solid #e1e8ed;
         }
 
-        .value-prop:hover {
-            transform: translateY(-5px);
+        .feature-card:hover {
+            transform: translateY(-2px);
             box-shadow: var(--shadow-hover);
+            border-color: var(--border-hover);
         }
 
-        .value-prop-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+        .feature-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--accent);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 2rem;
-            color: white;
-            box-shadow: 0 8px 25px rgba(48, 61, 48, 0.2);
+            margin: 0 auto 1.5rem;
+            color: var(--ivory-white);
+            font-size: 1.75rem;
         }
 
-        .value-prop h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--text-dark);
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
         }
 
-        .value-prop p {
-            color: #666;
+        .feature-card p {
+            color: var(--text-secondary);
             line-height: 1.6;
+            font-size: 0.875rem;
         }
 
         .social-proof {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 60px 20px;
+            background: var(--bg-secondary);
+            padding: 4rem 0;
+            margin: 4rem 0;
             text-align: center;
-            margin: 60px 0;
         }
 
         .social-proof h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: var(--text-dark);
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            color: var(--text);
         }
 
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
         }
 
         .stat {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
+            background: var(--panel);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-luxury);
+            border: 1px solid var(--border);
         }
 
         .stat-number {
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--primary-green);
-            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            line-height: 1;
         }
 
         .stat-label {
-            color: var(--text-dark);
-            font-size: 1.1rem;
-            font-weight: 600;
+            color: var(--text);
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .testimonials {
-            margin: 60px 0;
+            margin: 4rem 0;
+        }
+
+        .testimonials h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text);
         }
 
         .testimonial {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
+            background: var(--panel);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
             box-shadow: var(--shadow);
-            border-left: 5px solid var(--primary-green);
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            font-size: 3rem;
+            color: var(--accent);
+            opacity: 0.2;
+            font-family: 'Georgia', serif;
         }
 
         .testimonial-text {
-            font-size: 1.1rem;
-            font-style: italic;
-            color: #555;
-            margin-bottom: 20px;
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            padding-left: 3rem;
         }
 
         .testimonial-author {
             font-weight: 600;
-            color: var(--text-dark);
+            color: var(--accent);
+            font-size: 0.875rem;
+            padding-left: 3rem;
         }
 
         .faq {
-            margin: 60px 0;
+            margin: 4rem 0;
+        }
+
+        .faq h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text);
         }
 
         .faq-item {
-            background: white;
-            margin-bottom: 20px;
-            border-radius: 10px;
+            background: var(--panel);
+            margin-bottom: 1rem;
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
         }
 
         .faq-question {
-            padding: 20px;
-            background: #f8f9fa;
+            padding: 1.5rem 2rem;
+            background: var(--bg-secondary);
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 600;
-            transition: background 0.3s ease;
+            font-weight: 500;
+            transition: var(--transition);
+            color: var(--text);
         }
 
         .faq-question:hover {
-            background: #e9ecef;
+            background: var(--panel);
         }
 
         .faq-answer {
-            padding: 0 20px 20px;
+            padding: 0 2rem 2rem;
             display: none;
-            color: #666;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.875rem;
         }
 
         .faq-toggle {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             transition: transform 0.3s ease;
+            color: var(--accent);
         }
 
-        .final-cta {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
-            color: white;
-            padding: 80px 20px;
+        .cta-section {
+            background: var(--accent);
+            color: var(--ivory-white);
+            padding: 4rem 0;
             text-align: center;
-            margin-top: 80px;
+            margin-top: 4rem;
         }
 
-        .final-cta h2 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            font-weight: 800;
+        .cta-section h2 {
+            font-size: 2.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
         }
 
-        .final-cta p {
-            font-size: 1.3rem;
-            margin-bottom: 40px;
-            opacity: 0.95;
-            max-width: 600px;
+        .cta-section p {
+            font-size: 1.25rem;
+            margin-bottom: 3rem;
+            max-width: 650px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.6;
+            opacity: 0.9;
         }
 
-        .urgency-notice {
-            background: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 40px auto;
-            max-width: 500px;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .urgency-notice h4 {
-            color: var(--accent-orange);
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-
-        .final-cta-button {
-            background: var(--accent-orange);
-            color: white;
-            padding: 20px 50px;
-            border-radius: 50px;
+        .cta-button-large {
+            background: var(--ivory-white);
+            color: var(--accent);
+            padding: 1.25rem 3rem;
+            border-radius: var(--radius);
             text-decoration: none;
-            font-size: 1.3rem;
-            font-weight: 700;
+            font-size: 1.25rem;
+            font-weight: 600;
             display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(230, 126, 34, 0.3);
-            animation: pulse 2s infinite;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border: 2px solid var(--ivory-white);
         }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 8px 25px rgba(230, 126, 34, 0.3); }
-            50% { box-shadow: 0 8px 25px rgba(230, 126, 34, 0.5); }
-            100% { box-shadow: 0 8px 25px rgba(230, 126, 34, 0.3); }
-        }
-
-        .final-cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(230, 126, 34, 0.4);
-            background: #d35400;
+        .cta-button-large:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         }
 
         .back-link {
             position: fixed;
             top: 20px;
             left: 20px;
-            color: var(--primary-green);
+            color: var(--accent);
             text-decoration: none;
             font-weight: 500;
-            background: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            background: var(--panel);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
             z-index: 100;
+            border: 1px solid var(--border);
         }
 
         .back-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            color: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-hover);
+            background: var(--panel-hover);
         }
+
 
         @media (max-width: 768px) {
             .hero h1 {
@@ -866,63 +959,72 @@
   <script src="https://app.metricslite.com/tracker-1.0.js" data-site-id="7a184184-bbf4-4ec1-81ba-8d738decb242"></script>
   </head>
 <body>
-    <a href="index.html" class="back-link">← Back to Models</a>
+    <div class="wrap">
+        <header class="header">
+            <div class="header-content">
+                <img src="assets/global_graphics/LCTF Profile.png" alt="LC Timberframes Logo" class="logo">
+                <div class="header-text">
+                    <h1>Custom Timber Frame Design</h1>
+                    <p>Professional architectural design for your dream timber frame structure</p>
+                </div>
+            </div>
+        </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-badge">🔥 Limited Time Offer</div>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-badge">Professional Design Service</div>
             <h1>Custom Timber Frame Design</h1>
             <div class="price-highlight">$500</div>
-            <p>Get a professional architectural design, detailed 3D model, and construction quote for your dream timber frame structure. No commitment required.</p>
-            <a href="https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=build.lc&utm_campaign=%24500product" class="hero-cta" target="_blank">
-                🚀 Start Your Design - Only $500
+            <p>Get a professional architectural design, detailed 3D model, and construction quote for your timber frame structure. No commitment required.</p>
+            <a href="https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=build.lc&utm_campaign=%24500product" class="cta-button" target="_blank">
+                Start Your Design
             </a>
-            <div class="guarantee">
-                <h3>✓ 100% Satisfaction Guarantee</h3>
-                <p>Love your design or get your money back. No questions asked.</p>
-            </div>
-        </div>
-    </section>
 
-    <div class="container">
-        <!-- Value Propositions -->
-        <section class="value-props">
-            <div class="value-prop">
-                <div class="value-prop-icon">🏗️</div>
-                <h3>Licensed Architects</h3>
-                <p>Professional architectural plans that meet all building codes and permit requirements. No more guesswork or DIY headaches.</p>
+            <div class="guarantee">
+                <h3>Professional Excellence</h3>
+                <p>Licensed architects, engineering calculations, and construction-ready plans. Every detail perfected for your timber frame legacy.</p>
             </div>
-            <div class="value-prop">
-                <div class="value-prop-icon">🎨</div>
-                <h3>Interactive 3D Models</h3>
-                <p>Explore your timber frame from every angle before construction begins. Walk through your space virtually.</p>
-            </div>
-            <div class="value-prop">
-                <div class="value-prop-icon">💰</div>
-                <h3>Accurate Pricing</h3>
-                <p>Get precise construction quotes with transparent pricing. Know exactly what your project will cost before you commit.</p>
-            </div>
-            <div class="value-prop">
-                <div class="value-prop-icon">⚡</div>
-                <h3>Fast Turnaround</h3>
-                <p>Complete design package delivered in just 2-3 weeks. No waiting months for basic plans.</p>
-            </div>
-            <div class="value-prop">
-                <div class="value-prop-icon">🛡️</div>
-                <h3>Full Support</h3>
-                <p>Unlimited revisions and direct access to our design team throughout the process.</p>
-            </div>
-            <div class="value-prop">
-                <div class="value-prop-icon">🔄</div>
-                <h3>Flexible Options</h3>
-                <p>Choose from kit-only packages for DIY installation or full turnkey construction services.</p>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏗️</div>
+                    <h3>Licensed Architects</h3>
+                    <p>Professional architectural plans that meet all building codes and permit requirements. No more guesswork or DIY headaches.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Interactive 3D Models</h3>
+                    <p>Explore your timber frame from every angle before construction begins. Walk through your space virtually.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Accurate Pricing</h3>
+                    <p>Get precise construction quotes with transparent pricing. Know exactly what your project will cost before you commit.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Expert Craftsmanship</h3>
+                    <p>Every timber joint and structural detail meticulously designed with traditional joinery techniques and modern engineering precision.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏛️</div>
+                    <h3>Architectural Excellence</h3>
+                    <p>Professional consultation and unlimited refinements to perfect your vision. Direct collaboration with our design architects.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Flexible Options</h3>
+                    <p>Choose from kit-only packages for DIY installation or full turnkey construction services.</p>
+                </div>
             </div>
         </section>
 
         <!-- Social Proof -->
         <section class="social-proof">
-            <h2>Trusted by Timber Frame Enthusiasts Nationwide</h2>
+            <h2>Trusted by Timber Frame Enthusiasts</h2>
             <div class="stats">
                 <div class="stat">
                     <div class="stat-number">150+</div>
@@ -945,6 +1047,7 @@
 
         <!-- Testimonials -->
         <section class="testimonials">
+            <h2>Client Testimonials</h2>
             <div class="testimonial">
                 <div class="testimonial-text">
                     "The custom design process was incredible. They took our rough sketches and created something absolutely stunning. The 3D model helped us visualize exactly how it would look. Worth every penny!"
@@ -967,32 +1070,32 @@
 
         <!-- FAQ Section -->
         <section class="faq">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: var(--text-dark);">Frequently Asked Questions</h2>
+            <h2>Frequently Asked Questions</h2>
             <div class="faq-item">
                 <div class="faq-question">
-                    What's included in the $500 design package?
+                    What is included in the $500 design service?
                     <span class="faq-toggle">+</span>
                 </div>
                 <div class="faq-answer">
-                    Everything you need to build your dream timber frame: architectural plans, engineering calculations, interactive 3D model, material specifications, construction details, and multiple construction quotes.
+                    Our comprehensive design package includes architectural plans, engineering calculations, interactive 3D models, material specifications, construction documentation, and detailed construction estimates. Every element is crafted to meet the highest standards of timber frame architecture.
                 </div>
             </div>
             <div class="faq-item">
                 <div class="faq-question">
-                    How long does the design process take?
+                    How does the design process work?
                     <span class="faq-toggle">+</span>
                 </div>
                 <div class="faq-answer">
-                    Most custom designs are completed within 2-3 weeks from your initial consultation. We'll work closely with you to refine the design until it's perfect.
+                    We begin with an in-depth consultation to understand your vision and requirements. Our architects then create initial concepts, which we refine together through multiple iterations until every detail reflects your architectural aspirations. The process typically spans 2-3 weeks of collaborative design excellence.
                 </div>
             </div>
             <div class="faq-item">
                 <div class="faq-question">
-                    What if I don't like the design?
+                    What if I need design modifications?
                     <span class="faq-toggle">+</span>
                 </div>
                 <div class="faq-answer">
-                    We offer unlimited revisions during the design phase. If you're not completely satisfied, you get a full refund. Your satisfaction is 100% guaranteed.
+                    Our design service includes unlimited revisions during the design phase. We collaborate closely with you to perfect every aspect of your timber frame design, ensuring it meets both your vision and the highest standards of architectural excellence.
                 </div>
             </div>
             <div class="faq-item">
@@ -1016,20 +1119,20 @@
         </section>
     </div>
 
-    <!-- Final CTA -->
-    <section class="final-cta">
-        <h2>Ready to Build Your Dream Timber Frame?</h2>
-        <p>Don't wait another day dreaming about your perfect space. Start your custom design today for just $500.</p>
+        <!-- Final CTA -->
+        <section class="cta-section">
+            <h2>Ready to Build Your Dream Timber Frame?</h2>
+            <p>Don't wait another day dreaming about your perfect space. Start your custom design today for just $500.</p>
 
-        <div class="urgency-notice">
-            <h4>⚡ Popular Service - Limited Designer Availability</h4>
-            <p>Our design team books up quickly. Secure your spot now before the next opening fills up.</p>
-        </div>
+            <a href="https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=build.lc&utm_campaign=%24500product" class="cta-button-large" target="_blank">
+                Start Your Design Today
+            </a>
 
-        <a href="https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=build.lc&utm_campaign=%24500product" class="final-cta-button" target="_blank">
-            🎯 Claim Your $500 Design Package Now
-        </a>
-    </section>
+            <div style="margin-top: 2rem; opacity: 0.9; font-size: 0.875rem;">
+                <p>✓ Licensed Architects • ✓ Interactive 3D Models • ✓ Engineering Calculations • ✓ Construction Documentation</p>
+            </div>
+        </section>
+    </div>
 
     <script>
         // FAQ Toggle Functionality
@@ -1076,7 +1179,7 @@
                 });
             });
 
-            console.log('Custom Design Page Loaded - Conversion Optimized!');
+            console.log('✨ Luxury Custom Design Page Loaded - Premium Architectural Experience');
         });
     </script>
 </body>
