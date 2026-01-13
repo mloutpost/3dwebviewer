@@ -450,6 +450,204 @@
         transform: translateY(-1px);
       }
 
+      /* Sale hero (minimal overlays so photo stays visible) */
+      .sale-hero {
+        background-image: url('assets/Models/LCTF PF17 - Simple Pavilion 16x24 3.1.1/renders/IMG_2976.webp');
+        background-size: cover;
+        background-position: center;
+        border-radius: var(--radius-lg);
+        margin: 2rem 0 3rem;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-hover);
+        overflow: hidden;
+        position: relative;
+        min-height: clamp(520px, 62vh, 760px);
+      }
+
+      .sale-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        /* Subtle contrast only — keep photo visible */
+        background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.08) 40%, rgba(0,0,0,0.18) 100%);
+        pointer-events: none;
+      }
+
+      .sale-hero-inner {
+        position: relative;
+        z-index: 1;
+        height: 100%;
+        padding: 2rem 2rem 1.75rem;
+        display: grid;
+        grid-template-rows: 1fr auto;
+      }
+
+      .sale-top {
+        max-width: 640px;
+        color: rgba(255,255,255,0.98);
+        text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+      }
+
+      .sale-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255,255,255,0.92);
+        color: var(--franklin-green);
+        border: 1px solid rgba(255,255,255,0.95);
+        border-radius: 999px;
+        padding: 0.45rem 0.85rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+        text-shadow: none;
+      }
+
+      .sale-title {
+        margin-top: 1rem;
+        font-size: 2.75rem;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        font-weight: 700;
+      }
+
+      .sale-sub {
+        margin-top: 0.85rem;
+        font-size: 1.05rem;
+        max-width: 560px;
+        opacity: 0.95;
+      }
+
+      .sale-bottom {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: end;
+        gap: 1.25rem;
+      }
+
+      /* Small “glass” cards so they don’t hide the photo */
+      .sale-glass {
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.22);
+        border-radius: 14px;
+        padding: 0.9rem 1rem;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+      }
+
+      .sale-price {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+        color: white;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+      }
+
+      .sale-price .old {
+        opacity: 0.85;
+        text-decoration: line-through;
+        font-weight: 600;
+      }
+
+      .sale-price .now {
+        font-size: 1.75rem;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+      }
+
+      .sale-price .save {
+        background: rgba(231, 76, 60, 0.95);
+        border: 1px solid rgba(255,255,255,0.25);
+        padding: 0.25rem 0.6rem;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.8rem;
+        box-shadow: 0 6px 14px rgba(0,0,0,0.22);
+      }
+
+      .sale-center {
+        justify-self: center;
+        text-align: center;
+        color: rgba(255,255,255,0.98);
+        text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+        display: grid;
+        gap: 0.6rem;
+      }
+
+      .sale-cta {
+        background: rgba(255,255,255,0.92);
+        color: var(--franklin-green);
+        border: 1px solid rgba(255,255,255,0.95);
+        border-radius: 12px;
+        padding: 0.9rem 1.4rem;
+        font-weight: 700;
+        display: inline-block;
+        box-shadow: 0 10px 22px rgba(0,0,0,0.22);
+        transition: transform 0.2s ease, background 0.2s ease;
+      }
+
+      .sale-cta:hover {
+        transform: translateY(-1px);
+        background: white;
+      }
+
+      .sale-points {
+        font-size: 0.9rem;
+        opacity: 0.95;
+        line-height: 1.5;
+      }
+
+      .sale-timer {
+        justify-self: end;
+        min-width: 280px;
+      }
+
+      .sale-timer .label {
+        font-weight: 700;
+        font-size: 0.95rem;
+        margin-bottom: 0.6rem;
+        text-align: center;
+        color: rgba(255,255,255,0.98);
+        text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+      }
+
+      .sale-timer .row {
+        display: flex;
+        justify-content: center;
+        gap: 0.6rem;
+      }
+
+      .sale-timer .unit {
+        background: rgba(255,255,255,0.92);
+        color: var(--franklin-green);
+        border-radius: 10px;
+        padding: 0.65rem 0.75rem;
+        min-width: 64px;
+        text-align: center;
+        box-shadow: 0 6px 14px rgba(0,0,0,0.16);
+      }
+
+      .sale-timer .num {
+        font-weight: 800;
+        font-size: 1.25rem;
+        line-height: 1;
+      }
+
+      .sale-timer .lbl {
+        font-size: 0.72rem;
+        opacity: 0.85;
+        margin-top: 0.25rem;
+      }
+
+      @media (max-width: 768px) {
+        .sale-hero-inner { padding: 1.5rem; }
+        .sale-title { font-size: 2.1rem; }
+        .sale-bottom { grid-template-columns: 1fr; gap: 1rem; }
+        .sale-center { justify-self: stretch; }
+        .sale-timer { justify-self: stretch; min-width: auto; }
+      }
+
       footer {
         margin-top: 4rem;
         padding-top: 2rem;
@@ -560,6 +758,8 @@
           order: -1;
           margin-bottom: 0.5rem;
         }
+
+        /* (Legacy urgency hero mobile rules removed) */
       }
 
     </style>
@@ -574,6 +774,59 @@
           <p>Click on a model below to visualize our carefully designed pre-fabricated structures. Kits are pre-fabricated and ready to ship</p>
         </div>
       </header>
+
+      <!-- Sale hero: minimal overlays so photo stays visible -->
+      <section class="sale-hero" aria-label="16x24 Kit sale">
+        <div class="sale-hero-inner">
+          <div class="sale-top">
+            <span class="sale-pill">⏰ Limited Time Sale</span>
+            <h2 class="sale-title">16x24 Timber Frame Kit</h2>
+            <p class="sale-sub">A signature backyard pavilion—secure your kit now so you’re ready for early-season build windows. Limited sale inventory.</p>
+          </div>
+
+          <div class="sale-bottom">
+            <!-- Bottom-left: small glass price card -->
+            <div class="sale-glass" aria-label="Sale pricing">
+              <div class="sale-price">
+                <span class="old">$8,500</span>
+                <span class="now">$6,995</span>
+                <span class="save">Save $1,505</span>
+              </div>
+            </div>
+
+            <!-- Center: CTA + points (no glass behind) -->
+            <div class="sale-center">
+              <a href="https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=3dviewer&utm_campaign=16x24sale" class="sale-cta" target="_blank">
+                Claim Your 16x24 Kit
+              </a>
+              <div class="sale-points">
+                ✓ Pre-fabricated & ready to ship<br>
+                ✓ Complete installation package<br>
+                ✓ 25-year warranty included
+              </div>
+            </div>
+
+            <!-- Bottom-right: small glass timer card -->
+            <div class="sale-timer sale-glass" aria-label="Sale timer">
+              <div class="label">Sale Ends In</div>
+              <div class="row">
+                <div class="unit">
+                  <div id="days-hero" class="num">14</div>
+                  <div class="lbl">Days</div>
+                </div>
+                <div class="unit">
+                  <div id="hours-hero" class="num">08</div>
+                  <div class="lbl">Hours</div>
+                </div>
+                <div class="unit">
+                  <div id="minutes-hero" class="num">32</div>
+                  <div class="lbl">Min</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <div class="promo-banner">
         <h3>Don't see your perfect dimensions?</h3>
@@ -1132,7 +1385,36 @@
         window.open("https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=build.lc&utm_campaign=3Dkit&utm_term=motivated", "_blank");
       });
 
+      // Countdown Timer for Urgency Hero
+      function updateHeroCountdown() {
+        // Set the date we're counting down to (14 days from now)
+        const countDownDate = new Date().getTime() + (14 * 24 * 60 * 60 * 1000);
+
+        function updateTimer() {
+          const now = new Date().getTime();
+          const distance = countDownDate - now;
+
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+          document.getElementById('days-hero').textContent = days.toString().padStart(2, '0');
+          document.getElementById('hours-hero').textContent = hours.toString().padStart(2, '0');
+          document.getElementById('minutes-hero').textContent = minutes.toString().padStart(2, '0');
+
+          if (distance < 0) {
+            document.getElementById('days-hero').textContent = '00';
+            document.getElementById('hours-hero').textContent = '00';
+            document.getElementById('minutes-hero').textContent = '00';
+          }
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 60000); // Update every minute
+      }
+
       loadManifest();
+      updateHeroCountdown();
     </script>
 
   </body>
