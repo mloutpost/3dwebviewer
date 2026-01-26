@@ -471,7 +471,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: linear-gradient(135deg, rgba(43,61,47,0.60) 0%, rgba(43,61,47,0.45) 50%, rgba(0,0,0,0.55) 100%);
+        background: linear-gradient(135deg, rgba(43,61,47,0.85) 0%, rgba(43,61,47,0.65) 50%, rgba(0,0,0,0.75) 100%);
         pointer-events: none;
       }
 
@@ -494,205 +494,174 @@
         color: white;
       }
 
-            .sale-pill {
+      .sale-pill {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        background: white;
+        background: rgba(255,255,255,0.92);
         color: var(--franklin-green);
+        border: 1px solid rgba(255,255,255,0.95);
         border-radius: 999px;
-        padding: 0.5rem 1rem;
-        font-size: 0.8rem;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        margin-bottom: 1.5rem;
+        padding: 0.45rem 0.85rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+        text-shadow: none;
       }
 
       .sale-title {
-        font-size: 3rem;
+        margin-top: 1rem;
+        font-size: 2.75rem;
         line-height: 1.1;
         letter-spacing: -0.02em;
         font-weight: 700;
-        margin: 0 0 1rem 0;
-        color: white;
+        background: rgba(0,0,0,0.35);
+        backdrop-filter: blur(10px);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        display: inline-block;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       }
 
       .sale-sub {
-        font-size: 1.1rem;
-        line-height: 1.6;
-        margin: 0;
-        color: rgba(255,255,255,0.95);
+        margin-top: 0.85rem;
+        font-size: 1.05rem;
+        max-width: 560px;
+        background: rgba(0,0,0,0.35);
+        backdrop-filter: blur(10px);
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       }
 
-      .sale-right {
-        background: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-        max-width: 380px;
+      .sale-bottom {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: end;
+        gap: 1.25rem;
       }
 
-      .sale-pricing {
-        text-align: center;
-        padding-bottom: 1rem;
-        border-bottom: 1px solid var(--border);
-        margin-bottom: 1rem;
+      /* Small “glass” cards so they don’t hide the photo */
+      .sale-glass {
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.22);
+        border-radius: 14px;
+        padding: 0.9rem 1rem;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 10px 24px rgba(0,0,0,0.22);
       }
 
-      .sale-price-row {
-        display: flex;
+      .sale-price {
+        display: inline-flex;
+        flex-wrap: wrap;
         align-items: center;
-        justify-content: center;
         gap: 0.75rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .sale-old-price {
-        font-size: 1.1rem;
-        color: var(--text-muted);
-        text-decoration: line-through;
-        font-weight: 500;
-      }
-
-      .sale-new-price {
-        font-size: 2rem;
-        font-weight: 800;
-        color: var(--franklin-green);
-        letter-spacing: -0.02em;
-      }
-
-      .sale-save-badge {
-        display: inline-block;
-        background: #e74c3c;
         color: white;
-        padding: 0.3rem 0.75rem;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+      }
+
+      .sale-price .old {
+        opacity: 0.85;
+        text-decoration: line-through;
+        font-weight: 600;
+      }
+
+      .sale-price .now {
+        font-size: 1.75rem;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+      }
+
+      .sale-price .save {
+        background: rgba(231, 76, 60, 0.95);
+        border: 1px solid rgba(255,255,255,0.25);
+        padding: 0.25rem 0.6rem;
         border-radius: 999px;
-        font-size: 0.8rem;
         font-weight: 700;
+        font-size: 0.8rem;
+        box-shadow: 0 6px 14px rgba(0,0,0,0.22);
+      }
+
+      .sale-center {
+        justify-self: center;
+        text-align: center;
+        color: rgba(255,255,255,0.98);
+        text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+        display: grid;
+        gap: 0.6rem;
       }
 
       .sale-cta {
-        width: 100%;
-        background: var(--franklin-green);
-        color: white;
-        border: none;
-        border-radius: 10px;
-        padding: 0.85rem 1.5rem;
-        font-size: 1rem;
+        background: rgba(255,255,255,0.92);
+        color: var(--franklin-green);
+        border: 1px solid rgba(255,255,255,0.95);
+        border-radius: 12px;
+        padding: 0.9rem 1.4rem;
         font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        margin-bottom: 1rem;
-        text-align: center;
-        display: block;
-        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 10px 22px rgba(0,0,0,0.22);
+        transition: transform 0.2s ease, background 0.2s ease;
       }
 
       .sale-cta:hover {
-        background: #3a7d44;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(43,61,47,0.3);
+        transform: translateY(-1px);
+        background: white;
       }
 
-      .sale-features {
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
+      .sale-points {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        background: rgba(0,0,0,0.35);
+        backdrop-filter: blur(10px);
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       }
 
-      .sale-feature {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-        font-size: 0.875rem;
-        color: var(--text);
+      .sale-timer {
+        justify-self: end;
+        min-width: 280px;
       }
 
-      .sale-feature::before {
-        content: '✓';
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 20px;
-        height: 20px;
-        background: var(--franklin-green);
-        color: white;
-        border-radius: 50%;
+      .sale-timer .label {
         font-weight: 700;
-        font-size: 0.7rem;
-        flex-shrink: 0;
-      }
-
-      .sale-timer-section {
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border);
-      }
-
-      .sale-timer-label {
-        text-align: center;
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: var(--text-muted);
+        font-size: 0.95rem;
         margin-bottom: 0.6rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
+        text-align: center;
+        color: rgba(255,255,255,0.98);
+        text-shadow: 0 2px 8px rgba(0,0,0,0.55);
       }
 
-      .sale-timer-row {
+      .sale-timer .row {
         display: flex;
         justify-content: center;
-        gap: 0.5rem;
+        gap: 0.6rem;
       }
 
-      .sale-timer-unit {
-        background: var(--bg-secondary);
-        border-radius: 6px;
-        padding: 0.6rem 0.4rem;
-        min-width: 55px;
-        text-align: center;
-      }
-
-      .sale-timer-num {
-        font-size: 1.5rem;
-        font-weight: 800;
+      .sale-timer .unit {
+        background: rgba(255,255,255,0.92);
         color: var(--franklin-green);
+        border-radius: 10px;
+        padding: 0.65rem 0.75rem;
+        min-width: 64px;
+        text-align: center;
+        box-shadow: 0 6px 14px rgba(0,0,0,0.16);
+      }
+
+      .sale-timer .num {
+        font-weight: 800;
+        font-size: 1.25rem;
         line-height: 1;
       }
 
-      .sale-timer-lbl {
-        font-size: 0.65rem;
-        color: var(--text-muted);
-        margin-top: 0.2rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-
-      @media (max-width: 968px) {
-        .sale-content {
-          grid-template-columns: 1fr;
-          gap: 2rem;
-        }
-        .sale-title {
-          font-size: 2.25rem;
-        }
-        .sale-hero {
-          min-height: 600px;
-        }
+      .sale-timer .lbl {
+        font-size: 0.72rem;
+        opacity: 0.85;
+        margin-top: 0.25rem;
       }
 
       @media (max-width: 768px) {
-        .sale-hero-inner {
-          padding: 2rem 1.5rem;
-        }
-        .sale-title {
-          font-size: 2rem;
-        }
-        .sale-new-price {
-          font-size: 2rem;
-        }
-      }
+        .sale-hero-inner { padding: 1.5rem; }
         .sale-title { font-size: 2.1rem; }
         .sale-bottom { grid-template-columns: 1fr; gap: 1rem; }
         .sale-center { justify-self: stretch; }
@@ -826,54 +795,52 @@
         </div>
       </header>
 
-<!-- Sale hero: clean, sleek design -->
+      <!-- Sale hero: minimal overlays so photo stays visible -->
       <section class="sale-hero" aria-label="16x24 Kit sale">
         <div class="sale-hero-inner">
-          <div class="sale-content">
-            <!-- Left side: Title and description -->
-            <div class="sale-left">
-              <h2 class="sale-title">Nashville Festival Pavilion</h2>
-              <p class="sale-sub">A signature backyard pavilion—secure your kit now so you're ready for spring and summer outdoors!</p>
+          <div class="sale-top">
+            <span class="sale-pill">⏰ Limited Time Sale</span>
+            <h2 class="sale-title">16x24 Timber Frame Kit</h2>
+            <p class="sale-sub">A signature backyard pavilion—secure your kit now so you’re ready for early-season build windows. Limited sale inventory.</p>
+          </div>
+
+          <div class="sale-bottom">
+            <!-- Bottom-left: small glass price card -->
+            <div class="sale-glass" aria-label="Sale pricing">
+              <div class="sale-price">
+                <span class="old">$8,500</span>
+                <span class="now">$6,995</span>
+                <span class="save">Save $1,505</span>
+              </div>
             </div>
 
-            <!-- Right side: White card with pricing and CTA -->
-            <div class="sale-right">
-              <div class="sale-pricing">
-                <div class="sale-price-row">
-                  <span class="sale-old-price">$36,999</span>
-                  <span class="sale-new-price">$33,999</span>
-                </div>
-                <span class="sale-save-badge">Save $3,000</span>
-                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">Limited sale inventory</div>
-              </div>
-
+            <!-- Center: CTA + points (no glass behind) -->
+            <div class="sale-center">
               <a href="https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=3dviewer&utm_campaign=16x24sale" class="sale-cta" target="_blank">
                 Claim Your 16x24 Kit
               </a>
-
-              <div class="sale-features">
-                <div class="sale-feature">16x24 Footprint</div>
-                <div class="sale-feature">Heavy Timber 8x8+ Construction</div>
-                <div class="sale-feature">Mortice and Tenon Joinery</div>
-                <div class="sale-feature">White Oak Pegs</div>
-                <div class="sale-feature">Complete Timber Assembly Package</div>
+              <div class="sale-points">
+                ✓ Pre-fabricated & ready to ship<br>
+                ✓ Complete installation package<br>
+                ✓ 25-year warranty included
               </div>
+            </div>
 
-              <div class="sale-timer-section">
-                <div class="sale-timer-label">Sale Ends In</div>
-                <div class="sale-timer-row">
-                  <div class="sale-timer-unit">
-                    <div id="days-hero" class="sale-timer-num">14</div>
-                    <div class="sale-timer-lbl">Days</div>
-                  </div>
-                  <div class="sale-timer-unit">
-                    <div id="hours-hero" class="sale-timer-num">08</div>
-                    <div class="sale-timer-lbl">Hours</div>
-                  </div>
-                  <div class="sale-timer-unit">
-                    <div id="minutes-hero" class="sale-timer-num">32</div>
-                    <div class="sale-timer-lbl">Min</div>
-                  </div>
+            <!-- Bottom-right: small glass timer card -->
+            <div class="sale-timer sale-glass" aria-label="Sale timer">
+              <div class="label">Sale Ends In</div>
+              <div class="row">
+                <div class="unit">
+                  <div id="days-hero" class="num">14</div>
+                  <div class="lbl">Days</div>
+                </div>
+                <div class="unit">
+                  <div id="hours-hero" class="num">08</div>
+                  <div class="lbl">Hours</div>
+                </div>
+                <div class="unit">
+                  <div id="minutes-hero" class="num">32</div>
+                  <div class="lbl">Min</div>
                 </div>
               </div>
             </div>
@@ -1163,35 +1130,8 @@
           card.setAttribute('data-gallery-images', JSON.stringify(galleryImages));
           card.setAttribute('data-current-index', '0');
 
-          // Build pricing HTML based on sale status
-          let pricingHTML = '';
-          if (raw.onSale && raw.originalPrice) {
-            pricingHTML = `
-              <div class="price-section">
-                <span class="price-label">Starting At</span>
-                <div class="price-display">
-                  <span class="original-price">${escapeHtml(raw.originalPrice)}</span>
-                  <span class="sale-price">${escapeHtml(price)}</span>
-                </div>
-              </div>
-            `;
-          } else {
-            pricingHTML = `
-              <div class="price-section">
-                <span class="price-label">Starting At</span>
-                <div class="price-display">
-                  <span class="regular-price">${escapeHtml(price || "Coming Soon")}</span>
-                </div>
-              </div>
-            `;
-          }
-
-          // Build sale badge if on sale
-          const saleBadgeHTML = raw.onSale ? '<span class="sale-badge">ON SALE</span>' : '';
-
           card.innerHTML = `
             <div class="thumb">
-              ${saleBadgeHTML}
               <img src="${initialThumbUrl || defaultLogoUrl}" alt="${escapeHtml(name)}" onerror="this.src='${defaultLogoUrl}'" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.3s ease;" />
             </div>
             <div class="inner">
@@ -1201,7 +1141,12 @@
               </div>
               <p class="desc">${escapeHtml(desc || " ")}</p>
               <div class="pricing">
-                ${pricingHTML}
+                <div class="price-section">
+                  <span class="price-label">Starting At</span>
+                  <div class="price-display">
+                    <span class="regular-price">${escapeHtml(price || "Coming Soon")}</span>
+                  </div>
+                </div>
               </div>
             </div>
           `;
@@ -1462,8 +1407,8 @@
 
       // Countdown Timer for Urgency Hero
       function updateHeroCountdown() {
-        // Set the date we're counting down to (Feb 28, 2026 at 11:59 PM)
-        const countDownDate = new Date('2026-02-28T23:59:59').getTime();
+        // Set the date we're counting down to (14 days from now)
+        const countDownDate = new Date().getTime() + (14 * 24 * 60 * 60 * 1000);
 
         function updateTimer() {
           const now = new Date().getTime();

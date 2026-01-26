@@ -119,14 +119,33 @@
       }
 
       .price-row {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
         margin: 16px 0 24px 0;
         border-bottom: 1px solid var(--border);
         padding-bottom: 16px;
       }
       .price-tag { font-size: 28px; font-weight: bold; color: #e2e8f0; }
+      .price-original { 
+        font-size: 18px; 
+        color: var(--muted); 
+        text-decoration: line-through;
+        margin-right: 12px;
+      }
+      .price-sale {
+        font-size: 28px;
+        font-weight: bold;
+        color: #4ade80;
+      }
+      .sale-badge-detail {
+        display: inline-block;
+        background: #ef4444;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-left: 8px;
+        text-transform: uppercase;
+      }
 
       .btn-purchase {
         display: inline-flex;
@@ -666,10 +685,16 @@
 
           // Merge pricing data into manifest
           if (json.models) {
-            json.models = json.models.map(model => ({
-              ...model,
-              price: pricing[model.id] || model.price || "Call for pricing"
-            }));
+            json.models = json.models.map(model => {
+              // Don't override price if model is on sale
+              if (model.onSale) {
+                return model;
+              }
+              return {
+                ...model,
+                price: pricing[model.id] || model.price || "Call for pricing"
+              };
+            });
           }
 
           const model = json.models.find(m => m.id === id);
@@ -693,10 +718,21 @@
         document.getElementById("model-name").textContent = model.name;
         document.getElementById("model-tag").textContent = model.tag || "Model";
         document.getElementById("model-desc").textContent = model.description || "";
-        const priceText = model.price && model.price !== "Coming Soon" && model.price !== "Call for pricing"
-          ? `Starting At ${model.price}`
-          : "Coming Soon";
-        document.getElementById("model-price").textContent = priceText;
+        
+        // Handle sale pricing display
+        const priceElement = document.getElementById("model-price");
+        if (model.onSale && model.originalPrice) {
+          priceElement.innerHTML = `
+            <span class="price-original">${model.originalPrice}</span>
+            <span class="price-sale">${model.price}</span>
+            <span class="sale-badge-detail">On Sale</span>
+          `;
+        } else {
+          const priceText = model.price && model.price !== "Coming Soon" && model.price !== "Call for pricing"
+            ? `Starting At ${model.price}`
+            : "Coming Soon";
+          priceElement.textContent = priceText;
+        }
 
         // Setup Purchase Button
         document.getElementById("btn-purchase").onclick = () => {
