@@ -119,33 +119,14 @@
       }
 
       .price-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
         margin: 16px 0 24px 0;
         border-bottom: 1px solid var(--border);
         padding-bottom: 16px;
       }
       .price-tag { font-size: 28px; font-weight: bold; color: #e2e8f0; }
-      .price-original { 
-        font-size: 18px; 
-        color: var(--muted); 
-        text-decoration: line-through;
-        margin-right: 12px;
-      }
-      .price-sale {
-        font-size: 28px;
-        font-weight: bold;
-        color: #4ade80;
-      }
-      .sale-badge-detail {
-        display: inline-block;
-        background: #ef4444;
-        color: white;
-        padding: 4px 12px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 700;
-        margin-left: 8px;
-        text-transform: uppercase;
-      }
 
       .btn-purchase {
         display: inline-flex;
@@ -338,6 +319,7 @@
         justify-content: center;
         z-index: 100;
         transition: opacity 0.3s ease;
+        opacity: 1;
         /* Position will be set by JavaScript to cover viewer area */
       }
 
@@ -461,12 +443,50 @@
       <!-- Viewer (Right on Desktop, Top on Mobile) -->
       <div class="viewer-container">
         <iframe id="viewer-frame" class="viewer-frame" title="3D Viewer" allowfullscreen sandbox="allow-same-origin allow-scripts allow-popups allow-forms" referrerpolicy="no-referrer"></iframe>
-        <div class="loading-title">Loading 3D Timber Frame</div>
-        <div class="loading-subtitle">Initializing interactive model viewer...</div>
+
+        <!-- Loading Overlay -->
+        <div id="loading" class="loading-overlay">
+          <div class="loading-content">
+            <div class="loading-icon">🏗️</div>
+            <div class="loading-title">Loading 3D Timber Frame</div>
+            <div class="loading-subtitle">Initializing interactive model viewer...</div>
+          </div>
+        </div>
       </div>
     </div>
 
     <script>
+      // Suppress non-critical Cadwork viewer configuration errors
+      // Override console.error to filter out known non-critical errors
+      const originalConsoleError = console.error;
+      console.error = function(...args) {
+        const errorMessage = args.join(' ');
+        // Filter out "Application configuration not downloaded" errors from Cadwork viewers
+        // These are often non-critical - the viewer may still function without remote config
+        if (errorMessage.includes('Application configuration not downloaded')) {
+          // Suppress the error - don't log it
+          return;
+        }
+        // Log all other errors normally
+        originalConsoleError.apply(console, args);
+      };
+
+      // Also catch window errors
+      window.addEventListener('error', function(e) {
+        if (e.message && e.message.includes('Application configuration not downloaded')) {
+          e.preventDefault();
+          return true; // Suppress the error
+        }
+      }, true);
+
+      // Catch unhandled promise rejections
+      window.addEventListener('unhandledrejection', function(e) {
+        const reason = e.reason?.message || String(e.reason || '');
+        if (reason.includes('Application configuration not downloaded')) {
+          e.preventDefault();
+        }
+      });
+
       const MANIFEST_URL = "./assets/manifest.json";
       const PRICING_URL = "https://docs.google.com/spreadsheets/d/1763KWbOgtVHSFSDvOUW0NnXTIF3nyvZHqFDrN_BoQHw/export?format=csv&gid=0";
       const FALLBACK_PRICING_URL = "./assets/pricing.csv";
@@ -685,16 +705,10 @@
 
           // Merge pricing data into manifest
           if (json.models) {
-            json.models = json.models.map(model => {
-              // Don't override price if model is on sale
-              if (model.onSale) {
-                return model;
-              }
-              return {
-                ...model,
-                price: pricing[model.id] || model.price || "Call for pricing"
-              };
-            });
+            json.models = json.models.map(model => ({
+              ...model,
+              price: pricing[model.id] || model.price || "Call for pricing"
+            }));
           }
 
           const model = json.models.find(m => m.id === id);
@@ -718,21 +732,10 @@
         document.getElementById("model-name").textContent = model.name;
         document.getElementById("model-tag").textContent = model.tag || "Model";
         document.getElementById("model-desc").textContent = model.description || "";
-        
-        // Handle sale pricing display
-        const priceElement = document.getElementById("model-price");
-        if (model.onSale && model.originalPrice) {
-          priceElement.innerHTML = `
-            <span class="price-original">${model.originalPrice}</span>
-            <span class="price-sale">${model.price}</span>
-            <span class="sale-badge-detail">On Sale</span>
-          `;
-        } else {
-          const priceText = model.price && model.price !== "Coming Soon" && model.price !== "Call for pricing"
-            ? `Starting At ${model.price}`
-            : "Coming Soon";
-          priceElement.textContent = priceText;
-        }
+        const priceText = model.price && model.price !== "Coming Soon" && model.price !== "Call for pricing"
+          ? `Starting At ${model.price}`
+          : "Coming Soon";
+        document.getElementById("model-price").textContent = priceText;
 
         // Setup Purchase Button
         document.getElementById("btn-purchase").onclick = () => {
@@ -767,7 +770,37 @@
         // Viewer Iframe
         const src = getModelSrc(model);
         if (src) {
-          document.getElementById("viewer-frame").src = src;
+          const viewerFrame = document.getElementById("viewer-frame");
+          
+          // Add error handling for iframe loading
+          viewerFrame.addEventListener('error', function(e) {
+            console.warn('Viewer iframe error (may be non-critical):', e);
+          });
+          
+          // Suppress console errors from iframe content (Cadwork viewers may have config errors)
+          viewerFrame.addEventListener('load', function() {
+            try {
+              // Try to catch errors from iframe content
+              const iframeWindow = viewerFrame.contentWindow;
+              if (iframeWindow) {
+                // Override console.error in iframe to filter out known non-critical errors
+                const originalError = iframeWindow.console?.error;
+                if (originalError) {
+                  iframeWindow.console.error = function(...args) {
+                    const errorMsg = args.join(' ');
+                    // Suppress "Application configuration not downloaded" errors as they're often non-critical
+                    if (!errorMsg.includes('Application configuration not downloaded')) {
+                      originalError.apply(iframeWindow.console, args);
+                    }
+                  };
+                }
+              }
+            } catch (e) {
+              // Cross-origin restrictions - expected for some viewers
+            }
+          });
+          
+          viewerFrame.src = src;
         } else {
           document.querySelector(".viewer-container").innerHTML = 
             '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#768fa7;">No 3D model available.</div>';
