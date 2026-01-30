@@ -2,6 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script>
+    // Register service worker to block unwanted Cadwork API calls
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        .catch(() => {}); // Silently fail on localhost/http
+    }
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LC Timberframes • 3D Model Viewer</title>
   <link rel="icon" type="image/png" href="assets/global_graphics/LCTF Profile.png">
@@ -30,7 +37,7 @@
   <script src="https://app.metricslite.com/tracker-1.0.js" data-site-id="7a184184-bbf4-4ec1-81ba-8d738decb242"></script>
   </head>
 <body>
-  <iframe id="viewer-frame" title="Model Viewer" allowfullscreen sandbox="allow-same-origin allow-scripts allow-popups allow-forms" referrerpolicy="no-referrer"></iframe>
+  <iframe id="viewer-frame" title="Model Viewer" allowfullscreen referrerpolicy="no-referrer"></iframe>
 
   <script>
     // Get 'model' param from URL

@@ -2,6 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <script>
+      // Register service worker to block unwanted Cadwork API calls
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+          .catch(() => {}); // Silently fail on localhost/http
+      }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Model Details • LC Timberframes</title>
     <meta name="description" content="View details for this timber frame model." />
@@ -460,7 +467,7 @@
 
       <!-- Viewer (Right on Desktop, Top on Mobile) -->
       <div class="viewer-container">
-        <iframe id="viewer-frame" class="viewer-frame" title="3D Viewer" allowfullscreen sandbox="allow-same-origin allow-scripts allow-popups allow-forms" referrerpolicy="no-referrer"></iframe>
+        <iframe id="viewer-frame" class="viewer-frame" title="3D Viewer" allowfullscreen referrerpolicy="no-referrer"></iframe>
         <div class="loading-title">Loading 3D Timber Frame</div>
         <div class="loading-subtitle">Initializing interactive model viewer...</div>
       </div>
@@ -802,11 +809,13 @@
         // Show loading overlay for fixed time, then hide it
         setTimeout(() => {
           const loadingEl = document.getElementById("loading");
-          loadingEl.style.opacity = "0";
-          setTimeout(() => {
-            loadingEl.style.display = "none";
-            window.removeEventListener('resize', positionLoadingOverlay);
-          }, 300); // Allow fade transition
+          if (loadingEl) {
+            loadingEl.style.opacity = "0";
+            setTimeout(() => {
+              loadingEl.style.display = "none";
+              window.removeEventListener('resize', positionLoadingOverlay);
+            }, 300); // Allow fade transition
+          }
         }, 1000); // Show for exactly 1 second
       }
 
