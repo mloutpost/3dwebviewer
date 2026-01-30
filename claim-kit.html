@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Your 16x24 Pavilion Kit | LC Timberframes</title>
+    <meta name="description" content="Secure your Nashville Festival Pavilion kit at the special sale price of $33,999. Limited inventory available.">
+    <link rel="icon" type="image/png" href="assets/global_graphics/LCTF Profile.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --franklin-green: #2C3E2F;
+            --slab-blue: #CDE3F2;
+            --forest-brown: #4F423A;
+            --pebble-grey: #DEDBCE;
+            --ivory-white: #F7F7F7;
+            --bg: var(--ivory-white);
+            --bg-secondary: var(--pebble-grey);
+            --text: var(--forest-brown);
+            --text-muted: #6b6358;
+            --text-secondary: #8b8477;
+            --border: rgba(79, 66, 58, 0.15);
+            --border-focus: rgba(44, 62, 47, 0.4);
+            --shadow: 0 2px 16px rgba(79, 66, 58, 0.06);
+            --shadow-hover: 0 8px 32px rgba(79, 66, 58, 0.12);
+            --accent: var(--franklin-green);
+            --accent-hover: #3a5a3f;
+            --error: #c53030;
+            --error-bg: #fff5f5;
+            --success: #2f855a;
+            --success-bg: #f0fff4;
+            --radius: 8px;
+            --radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+        }
+
+        .back-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .logo {
+            height: 48px;
+            width: auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.375rem 1rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Pricing Card */
+        .pricing-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .old-price {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .new-price {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .save-badge {
+            display: inline-block;
+            background: var(--success-bg);
+            color: var(--success);
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .features-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .feature-tag {
+            background: var(--bg-secondary);
+            color: var(--text);
+            padding: 0.375rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .form-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+            text-align: center;
+        }
+
+        .form-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        label .required {
+            color: var(--error);
+        }
+
+        label .optional {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            font-size: 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg);
+            color: var(--text);
+            transition: var(--transition);
+            -webkit-appearance: none;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(44, 62, 47, 0.1);
+        }
+
+        input.error {
+            border-color: var(--error);
+            background: var(--error-bg);
+        }
+
+        .error-message {
+            display: none;
+            color: var(--error);
+            font-size: 0.75rem;
+            margin-top: 0.375rem;
+        }
+
+        .error-message.visible {
+            display: block;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            background: var(--accent);
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-height: 56px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success/Error States */
+        .form-message {
+            display: none;
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .form-message.success {
+            display: block;
+            background: var(--success-bg);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .form-message.error {
+            display: block;
+            background: var(--error-bg);
+            color: var(--error);
+            border: 1px solid var(--error);
+        }
+
+        /* Success View */
+        .success-view {
+            display: none;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .success-view.visible {
+            display: block;
+        }
+
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--success-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .success-icon svg {
+            width: 32px;
+            height: 32px;
+            color: var(--success);
+        }
+
+        .success-view h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .success-view p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .success-view .back-home {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .success-view .back-home:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Hide form when success */
+        .form-content.hidden {
+            display: none;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .new-price {
+                font-size: 2rem;
+            }
+        }
+    </style>
+    <script src="https://app.metricslite.com/tracker-1.0.js" data-site-id="7a184184-bbf4-4ec1-81ba-8d738decb242"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <a href="index.html" class="back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+                Back
+            </a>
+            <img src="assets/global_graphics/LCTF Profile.png" alt="LC Timberframes" class="logo">
+        </header>
+
+        <!-- Hero -->
+        <section class="hero">
+            <span class="hero-badge">Limited Time Offer</span>
+            <h1>Nashville Festival Pavilion</h1>
+            <p class="hero-subtitle">Secure your 16x24 timber frame kit at the special sale price</p>
+        </section>
+
+        <!-- Pricing Card -->
+        <div class="pricing-card">
+            <div class="price-row">
+                <span class="old-price">$36,999</span>
+                <span class="new-price">$33,999</span>
+            </div>
+            <div style="text-align: center;">
+                <span class="save-badge">Save $3,000</span>
+            </div>
+            <div class="features-list">
+                <span class="feature-tag">16x24 Footprint</span>
+                <span class="feature-tag">Heavy Timber 8x8+</span>
+                <span class="feature-tag">Mortise & Tenon</span>
+                <span class="feature-tag">White Oak Pegs</span>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="form-section">
+            <!-- Success View (hidden by default) -->
+            <div class="success-view" id="successView">
+                <div class="success-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h2>You're on the list!</h2>
+                <p>We'll be in touch shortly to discuss your Nashville Festival Pavilion kit.</p>
+                <a href="index.html" class="back-home">Browse More Designs</a>
+            </div>
+
+            <!-- Form Content -->
+            <div class="form-content" id="formContent">
+                <h2 class="form-title">Reserve Your Kit</h2>
+                <p class="form-subtitle">Fill out the form and we'll reach out to finalize your order</p>
+
+                <div class="form-message" id="formMessage"></div>
+
+                <form id="leadForm" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name <span class="required">*</span></label>
+                            <input type="text" id="firstName" name="firstName" required autocomplete="given-name" placeholder="John">
+                            <span class="error-message" id="firstNameError">Please enter your first name</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name <span class="required">*</span></label>
+                            <input type="text" id="lastName" name="lastName" required autocomplete="family-name" placeholder="Doe">
+                            <span class="error-message" id="lastNameError">Please enter your last name</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required autocomplete="email" placeholder="john@example.com">
+                        <span class="error-message" id="emailError">Please enter a valid email address</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="(555) 123-4567">
+                        <span class="error-message" id="phoneError">Please enter a valid phone number</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location <span class="required">*</span></label>
+                        <input type="text" id="location" name="location" required autocomplete="address-level2" placeholder="City, State">
+                        <span class="error-message" id="locationError">Please enter your location</span>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span id="btnText">Claim Your Kit</span>
+                        <span class="spinner" id="spinner" style="display: none;"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>LC Timberframes &bull; Handcrafted Timber Frame Structures</p>
+        </footer>
+    </div>
+
+    <script>
+        const API_URL = 'https://us-central1-lctf-projects.cloudfunctions.net/createLead';
+        const API_KEY = '66c25ffa0e50f06e993f9dba1bcfc5007314eb2200da2b77d288e0141064f002';
+
+        const form = document.getElementById('leadForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const spinner = document.getElementById('spinner');
+        const formMessage = document.getElementById('formMessage');
+        const formContent = document.getElementById('formContent');
+        const successView = document.getElementById('successView');
+
+        // Phone formatting
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value.length <= 3) {
+                    value = `(${value}`;
+                } else if (value.length <= 6) {
+                    value = `(${value.slice(0, 3)}) ${value.slice(3)}`;
+                } else {
+                    value = `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
+                }
+            }
+            e.target.value = value;
+        });
+
+        // Validation
+        function validateField(field) {
+            const errorEl = document.getElementById(`${field.id}Error`);
+            let isValid = true;
+
+            if (field.required && !field.value.trim()) {
+                isValid = false;
+            }
+
+            if (field.type === 'email' && field.value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                isValid = emailRegex.test(field.value);
+            }
+
+            if (isValid) {
+                field.classList.remove('error');
+                if (errorEl) errorEl.classList.remove('visible');
+            } else {
+                field.classList.add('error');
+                if (errorEl) errorEl.classList.add('visible');
+            }
+
+            return isValid;
+        }
+
+        // Real-time validation on blur
+        document.querySelectorAll('input[required]').forEach(input => {
+            input.addEventListener('blur', () => validateField(input));
+        });
+
+        document.getElementById('email').addEventListener('blur', function() {
+            validateField(this);
+        });
+
+        // Form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Validate all required fields
+            const firstName = document.getElementById('firstName');
+            const lastName = document.getElementById('lastName');
+            const email = document.getElementById('email');
+            const phone = document.getElementById('phone');
+            const location = document.getElementById('location');
+
+            const isFirstNameValid = validateField(firstName);
+            const isLastNameValid = validateField(lastName);
+            const isEmailValid = validateField(email);
+            const isPhoneValid = validateField(phone);
+            const isLocationValid = validateField(location);
+
+            if (!isFirstNameValid || !isLastNameValid || !isEmailValid || !isPhoneValid || !isLocationValid) {
+                formMessage.textContent = 'Please fill in all required fields correctly.';
+                formMessage.className = 'form-message error';
+                return;
+            }
+
+            // Hide any previous messages
+            formMessage.className = 'form-message';
+
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            spinner.style.display = 'block';
+
+            // Prepare payload
+            const payload = {
+                firstName: firstName.value.trim(),
+                lastName: lastName.value.trim(),
+                email: email.value.trim(),
+                phone: phone.value.trim(),
+                location: location.value.trim(),
+                source: 'web-form',
+                projectType: '16x24 Pavilion Kit',
+                notes: '16x24 Nashville Festival Pavilion Sale - $33,999'
+            };
+
+            // Remove undefined values
+            Object.keys(payload).forEach(key => {
+                if (payload[key] === undefined) {
+                    delete payload[key];
+                }
+            });
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                // Show success view
+                formContent.classList.add('hidden');
+                successView.classList.add('visible');
+
+            } catch (error) {
+                console.error('Error:', error);
+                formMessage.textContent = 'Something went wrong. Please try again or contact us directly.';
+                formMessage.className = 'form-message error';
+
+                // Reset button
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                spinner.style.display = 'none';
+            }
+        });
+
+        // Auto-focus first field
+        document.getElementById('firstName').focus();
+    </script>
+</body>
+</html>

@@ -735,9 +735,17 @@
         }
 
         // Setup Purchase Button
-        document.getElementById("btn-purchase").onclick = () => {
-          alert("Purchase flow for " + model.name + " coming soon!");
-        };
+        const purchaseBtn = document.getElementById("btn-purchase");
+        if (model.onSale && model.id === "lctf-pf17") {
+          purchaseBtn.textContent = "Claim Your 16x24 Kit";
+          purchaseBtn.onclick = () => {
+            window.location.href = "claim-kit.html";
+          };
+        } else {
+          purchaseBtn.onclick = () => {
+            window.location.href = "https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=3dviewer&utm_campaign=" + encodeURIComponent(model.id || model.name);
+          };
+        }
 
         // Features
         const featuresList = document.getElementById("features-list");
