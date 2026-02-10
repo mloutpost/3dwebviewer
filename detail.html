@@ -1,476 +1,620 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <script>
-      // Register service worker to block unwanted Cadwork API calls
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' })
-          .catch(() => {}); // Silently fail on localhost/http
-      }
-    </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Model Details • LC Timberframes</title>
-    <meta name="description" content="View details for this timber frame model." />
-    <link rel="icon" type="image/png" href="assets/global_graphics/LCTF Profile.png">
-    <link rel="dns-prefetch" href="//docs.google.com">
-    <link rel="preconnect" href="//docs.google.com" crossorigin>
-    <style>
-      :root {
-        color-scheme: dark;
-        --bg: #292929;
-        --panel: #273d2d;
-        --panel2: #2e4536;
-        --text: #fffcf1;
-        --muted: #768fa7;
-        --faint: rgba(255, 252, 241, 0.55);
-        --border: rgba(255, 255, 255, 0.14);
-        --shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
-        --accent: #768fa7;
-        --accent2: #273d2d;
-        --danger: #ef4444;
-        --primary-btn: #d4a373;
-        --primary-btn-text: #292929;
+
+<head>
+  <meta charset="utf-8" />
+  <script>
+    // Register service worker to block unwanted Cadwork API calls
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        .catch(() => { }); // Silently fail on localhost/http
+    }
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Model Details • LC Timberframes</title>
+  <meta name="description" content="View details for this timber frame model." />
+  <link rel="icon" type="image/png" href="assets/global_graphics/LCTF Profile.png">
+  <link rel="dns-prefetch" href="//docs.google.com">
+  <link rel="preconnect" href="//docs.google.com" crossorigin>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #292929;
+      --panel: #273d2d;
+      --panel2: #2e4536;
+      --text: #fffcf1;
+      --muted: #768fa7;
+      --faint: rgba(255, 252, 241, 0.55);
+      --border: rgba(255, 255, 255, 0.14);
+      --shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
+      --accent: #768fa7;
+      --accent2: #273d2d;
+      --danger: #ef4444;
+      --primary-btn: #d4a373;
+      --primary-btn-text: #292929;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background-color: var(--bg);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header / Nav */
+    header {
+      flex: 0 0 auto;
+      padding: 12px 20px;
+      background: rgba(39, 61, 45, 0.95);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      z-index: 10;
+    }
+
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+
+    .nav-back:hover {
+      color: var(--text);
+    }
+
+    .header-title {
+      font-size: 16px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Main Layout */
+    main {
+      flex: 1 1 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      /* Mobile first: stacked */
+      grid-template-rows: minmax(300px, 40vh) auto;
+      overflow: hidden;
+    }
+
+    /* Viewer Area */
+    .viewer-container {
+      position: relative;
+      background: #000;
+      border-bottom: 1px solid var(--border);
+      min-height: 400px;
+      /* Ensure loading overlay has space to display */
+    }
+
+    .viewer-frame {
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+      border: none;
+      display: block;
+    }
+
+    /* Details Panel */
+    .details-panel {
+      background: var(--bg);
+      overflow-y: auto;
+      padding: 24px;
+      border-top: 1px solid var(--border);
+      /* for mobile stack */
+    }
+
+    .content-wrap {
+      max-width: 600px;
+      margin: 0 auto;
+      /* Center content in panel */
+    }
+
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 3px 8px;
+      border-radius: 999px;
+      vertical-align: middle;
+      margin-bottom: 12px;
+    }
+
+    .price-row {
+      margin: 16px 0 24px 0;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+    }
+
+    .price-tag {
+      font-size: 28px;
+      font-weight: bold;
+      color: #e2e8f0;
+    }
+
+    .price-original {
+      font-size: 18px;
+      color: var(--muted);
+      text-decoration: line-through;
+      margin-right: 12px;
+    }
+
+    .price-sale {
+      font-size: 28px;
+      font-weight: bold;
+      color: #4ade80;
+    }
+
+    .sale-badge-detail {
+      display: inline-block;
+      background: #ef4444;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-left: 8px;
+      text-transform: uppercase;
+    }
+
+    /* Species selector */
+    .species-selector {
+      margin-bottom: 16px;
+    }
+
+    .species-selector label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .species-tabs {
+      display: flex;
+      gap: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .species-tab {
+      flex: 1;
+      padding: 10px 8px;
+      background: rgba(255, 255, 255, 0.03);
+      border: none;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      line-height: 1.3;
+      border-right: 1px solid var(--border);
+    }
+
+    .species-tab:last-child {
+      border-right: none;
+    }
+
+    .species-tab:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #e2e8f0;
+    }
+
+    .species-tab.active {
+      background: rgba(74, 222, 128, 0.1);
+      color: #4ade80;
+      box-shadow: inset 0 -2px 0 #4ade80;
+    }
+
+    .btn-purchase {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--primary-btn);
+      color: var(--primary-btn-text);
+      border: none;
+      transition: transform 120ms ease, opacity 120ms ease;
+      text-decoration: none;
+      margin-bottom: 24px;
+    }
+
+    .btn-purchase:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .btn-purchase:active {
+      transform: translateY(0);
+    }
+
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section h2 {
+      font-size: 16px;
+      margin: 0 0 12px 0;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .section p {
+      line-height: 1.6;
+      margin: 0;
+      color: #d1d5db;
+      font-size: 15px;
+    }
+
+    .features-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .features-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      gap: 12px;
+      color: #d1d5db;
+      font-size: 15px;
+    }
+
+    .features-list li::before {
+      content: "✓";
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 0.75rem;
+      max-width: 100%;
+    }
+
+    .gallery-item {
+      aspect-ratio: 4/3;
+      background-color: var(--bg-secondary);
+      background-size: cover;
+      background-position: center;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+      overflow: hidden;
+    }
+
+    .gallery-item:hover {
+      opacity: 0.8;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      background: var(--panel);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-hover);
+      border: 1px solid var(--border);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.25rem;
+      color: var(--text);
+      z-index: 10;
+      transition: var(--transition);
+    }
+
+    .modal-close:hover {
+      background: var(--panel-hover);
+      border-color: var(--border-hover);
+    }
+
+    .modal-image-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+      max-height: 70vh;
+    }
+
+    #modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: var(--radius-md);
+    }
+
+    .modal-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.25rem;
+      color: var(--text);
+      transition: var(--transition);
+      z-index: 10;
+    }
+
+    .modal-nav:hover {
+      background: var(--panel-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    .modal-prev {
+      left: 1rem;
+    }
+
+    .modal-next {
+      right: 1rem;
+    }
+
+    .modal-indicators {
+      padding: 1.5rem;
+      text-align: center;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+    }
+
+    .modal-indicators #modal-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .indicator {
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .indicator.active {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .indicator:hover {
+      border-color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .loading-overlay {
+      position: fixed;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: opacity 0.3s ease;
+      /* Position will be set by JavaScript to cover viewer area */
+    }
+
+    .loading-content {
+      text-align: center;
+      color: white;
+      max-width: 300px;
+      padding: 2rem;
+    }
+
+    .loading-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
       }
 
-      * { box-sizing: border-box; }
-      html, body { height: 100%; }
-      body {
-        margin: 0;
-        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-        color: var(--text);
-        background-color: var(--bg);
-        display: flex;
-        flex-direction: column;
+      to {
+        transform: rotate(360deg);
       }
+    }
 
-      /* Header / Nav */
-      header {
-        flex: 0 0 auto;
-        padding: 12px 20px;
-        background: rgba(39, 61, 45, 0.95);
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        z-index: 10;
-      }
-      .nav-back {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        color: var(--muted);
-        font-size: 14px;
-        font-weight: 500;
-        transition: color 0.2s;
-        text-decoration: none;
-      }
-      .nav-back:hover { color: var(--text); }
-      .header-title {
-        font-size: 16px;
-        font-weight: 600;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
+    .loading-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
 
-      /* Main Layout */
+    .loading-subtitle {
+      font-size: 0.875rem;
+      opacity: 0.9;
+      line-height: 1.4;
+    }
+
+    /* Desktop Layout */
+    @media (min-width: 900px) {
       main {
-        flex: 1 1 auto;
-        display: grid;
-        grid-template-columns: 1fr; /* Mobile first: stacked */
-        grid-template-rows: minmax(300px, 40vh) auto;
-        overflow: hidden;
+        grid-template-columns: 400px 1fr;
+        /* Sidebar fixed width, Viewer flex */
+        grid-template-rows: 1fr;
       }
 
-      /* Viewer Area */
-      .viewer-container {
-        position: relative;
-        background: #000;
-        border-bottom: 1px solid var(--border);
-        min-height: 400px; /* Ensure loading overlay has space to display */
-      }
-      .viewer-frame {
-        width: 100%;
-        height: 100%;
-        min-height: 400px;
-        border: none;
-        display: block;
-      }
-
-      /* Details Panel */
       .details-panel {
-        background: var(--bg);
-        overflow-y: auto;
-        padding: 24px;
-        border-top: 1px solid var(--border); /* for mobile stack */
+        order: 1;
+        /* Sidebar on left */
+        border-right: 1px solid var(--border);
+        border-top: none;
       }
-      
+
+      .viewer-container {
+        order: 2;
+        /* Viewer on right */
+        border-bottom: none;
+      }
+
       .content-wrap {
-        max-width: 600px;
-        margin: 0 auto; /* Center content in panel */
+        margin: 0;
       }
 
-      h1 { margin: 0 0 8px 0; font-size: 24px; line-height: 1.2; }
-      
-      .tag {
-        display: inline-block;
-        font-size: 11px;
-        color: var(--text);
-        border: 1px solid rgba(255,255,255,0.16);
-        background: rgba(255,255,255,0.05);
-        padding: 3px 8px;
-        border-radius: 999px;
-        vertical-align: middle;
-        margin-bottom: 12px;
-      }
+      /* Reset centering */
+    }
 
-      .price-row {
-        margin: 16px 0 24px 0;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 16px;
-      }
-      .price-tag { font-size: 28px; font-weight: bold; color: #e2e8f0; }
-      .price-original { 
-        font-size: 18px; 
-        color: var(--muted); 
-        text-decoration: line-through;
-        margin-right: 12px;
-      }
-      .price-sale {
-        font-size: 28px;
-        font-weight: bold;
-        color: #4ade80;
-      }
-      .sale-badge-detail {
-        display: inline-block;
-        background: #ef4444;
-        color: white;
-        padding: 4px 12px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 700;
-        margin-left: 8px;
-        text-transform: uppercase;
-      }
-
-      .btn-purchase {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        padding: 14px 24px;
-        border-radius: 12px;
-        font-size: 16px;
-        font-weight: 700;
-        cursor: pointer;
-        background: var(--primary-btn);
-        color: var(--primary-btn-text);
-        border: none;
-        transition: transform 120ms ease, opacity 120ms ease;
-        text-decoration: none;
-        margin-bottom: 24px;
-      }
-      .btn-purchase:hover { transform: translateY(-1px); opacity: 0.95; }
-      .btn-purchase:active { transform: translateY(0); }
-
-      .section { margin-bottom: 32px; }
-      .section h2 { font-size: 16px; margin: 0 0 12px 0; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-      .section p { line-height: 1.6; margin: 0; color: #d1d5db; font-size: 15px; }
-
-      .features-list { list-style: none; padding: 0; margin: 0; }
-      .features-list li {
-        padding: 10px 0;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-        display: flex;
-        gap: 12px;
-        color: #d1d5db;
-        font-size: 15px;
-      }
-      .features-list li::before { content: "✓"; color: var(--accent); font-weight: bold; }
-
-      .gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        gap: 0.75rem;
-        max-width: 100%;
-      }
-      .gallery-item {
-        aspect-ratio: 4/3;
-        background-color: var(--bg-secondary);
-        background-size: cover;
-        background-position: center;
-        border-radius: var(--radius-md);
-        cursor: pointer;
-        border: 1px solid var(--border);
-        transition: var(--transition);
-        overflow: hidden;
-      }
-      .gallery-item:hover { opacity: 0.8; }
-
-      /* Modal Styles */
-      .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.85);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        backdrop-filter: blur(4px);
-      }
-
+    /* Mobile responsive modal */
+    @media (max-width: 768px) {
       .modal-content {
-        position: relative;
-        max-width: 90vw;
-        max-height: 90vh;
-        background: var(--panel);
-        border-radius: var(--radius-lg);
-        overflow: hidden;
-        box-shadow: var(--shadow-hover);
-        border: 1px solid var(--border);
-      }
-
-      .modal-close {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 50%;
-        width: 2.5rem;
-        height: 2.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: 1.25rem;
-        color: var(--text);
-        z-index: 10;
-        transition: var(--transition);
-      }
-
-      .modal-close:hover {
-        background: var(--panel-hover);
-        border-color: var(--border-hover);
-      }
-
-      .modal-image-container {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 300px;
-        max-height: 70vh;
-      }
-
-      #modal-image {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        border-radius: var(--radius-md);
+        max-width: 95vw;
+        max-height: 95vh;
       }
 
       .modal-nav {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 50%;
-        width: 3rem;
-        height: 3rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: 1.25rem;
-        color: var(--text);
-        transition: var(--transition);
-        z-index: 10;
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1rem;
       }
 
-      .modal-nav:hover {
-        background: var(--panel-hover);
-        border-color: var(--border-hover);
-        transform: translateY(-50%) scale(1.05);
+      .modal-prev {
+        left: 0.5rem;
       }
 
-      .modal-prev { left: 1rem; }
-      .modal-next { right: 1rem; }
-
-      .modal-indicators {
-        padding: 1.5rem;
-        text-align: center;
-        background: var(--bg-secondary);
-        border-top: 1px solid var(--border);
+      .modal-next {
+        right: 0.5rem;
       }
 
-      .modal-indicators #modal-indicators {
-        display: flex;
-        justify-content: center;
-        gap: 0.5rem;
+      .modal-close {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1rem;
       }
 
-      .indicator {
-        width: 0.75rem;
-        height: 0.75rem;
-        border-radius: 50%;
-        border: 2px solid var(--border);
-        background: transparent;
-        cursor: pointer;
-        transition: var(--transition);
+      #modal-image {
+        max-height: 60vh;
       }
-
-      .indicator.active {
-        background: var(--accent);
-        border-color: var(--accent);
-      }
-
-      .indicator:hover {
-        border-color: var(--accent);
-        transform: scale(1.1);
-      }
-
-      .loading-overlay {
-        position: fixed;
-        background: rgba(0, 0, 0, 0.7);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 100;
-        transition: opacity 0.3s ease;
-        /* Position will be set by JavaScript to cover viewer area */
-      }
-
-      .loading-content {
-        text-align: center;
-        color: white;
-        max-width: 300px;
-        padding: 2rem;
-      }
-
-      .loading-icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        opacity: 0.8;
-        animation: spin 2s linear infinite;
-      }
-
-      @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-      }
-
-      .loading-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-      }
-
-      .loading-subtitle {
-        font-size: 0.875rem;
-        opacity: 0.9;
-        line-height: 1.4;
-      }
-
-      /* Desktop Layout */
-      @media (min-width: 900px) {
-        main {
-          grid-template-columns: 400px 1fr; /* Sidebar fixed width, Viewer flex */
-          grid-template-rows: 1fr;
-        }
-
-        .details-panel {
-          order: 1; /* Sidebar on left */
-          border-right: 1px solid var(--border);
-          border-top: none;
-        }
-
-        .viewer-container {
-          order: 2; /* Viewer on right */
-          border-bottom: none;
-        }
-
-        .content-wrap { margin: 0; } /* Reset centering */
-      }
-
-      /* Mobile responsive modal */
-      @media (max-width: 768px) {
-        .modal-content {
-          max-width: 95vw;
-          max-height: 95vh;
-        }
-
-        .modal-nav {
-          width: 2.5rem;
-          height: 2.5rem;
-          font-size: 1rem;
-        }
-
-        .modal-prev { left: 0.5rem; }
-        .modal-next { right: 0.5rem; }
-
-        .modal-close {
-          width: 2rem;
-          height: 2rem;
-          font-size: 1rem;
-        }
-
-        #modal-image {
-          max-height: 60vh;
-        }
-      }
-    </style>
+    }
+  </style>
   <script src="https://app.metricslite.com/tracker-1.0.js" data-site-id="7a184184-bbf4-4ec1-81ba-8d738decb242"></script>
-  </head>
-  <body>
-    <header>
-      <a href="index.html" class="nav-back">← Back</a>
-      <div class="header-title" id="header-title">Loading...</div>
-    </header>
+</head>
 
-    <main id="main-content" style="opacity: 1; transition: opacity 0.3s;">
-      <!-- Side Panel (Left on Desktop, Bottom on Mobile) -->
-      <div class="details-panel">
-        <div class="content-wrap">
-          <span id="model-tag" class="tag">Tag</span>
-          <h1 id="model-name">Model Name</h1>
-          
-          <div class="price-row">
-            <div id="model-price" class="price-tag">$0.00</div>
-          </div>
+<body>
+  <header>
+    <a href="index.html" class="nav-back">← Back</a>
+    <div class="header-title" id="header-title">Loading...</div>
+  </header>
 
-          <button id="btn-purchase" class="btn-purchase">Purchase Now</button>
+  <main id="main-content" style="opacity: 1; transition: opacity 0.3s;">
+    <!-- Side Panel (Left on Desktop, Bottom on Mobile) -->
+    <div class="details-panel">
+      <div class="content-wrap">
+        <span id="model-tag" class="tag">Tag</span>
+        <h1 id="model-name">Model Name</h1>
 
-          <div class="section">
-            <h2>Description</h2>
-            <p id="model-desc"></p>
-          </div>
+        <div id="species-selector-container"></div>
+        <div class="price-row">
+          <div id="model-price" class="price-tag">$0.00</div>
+        </div>
 
-          <div id="features-section" class="section">
-            <h2>Key Features</h2>
-            <ul id="features-list" class="features-list"></ul>
-          </div>
+        <button id="btn-purchase" class="btn-purchase">Purchase Now</button>
 
-          <div id="gallery-section" class="section" style="display:none">
-            <h2>Gallery</h2>
-            <div id="gallery-grid" class="gallery"></div>
-          </div>
+        <div class="section">
+          <h2>Description</h2>
+          <p id="model-desc"></p>
+        </div>
+
+        <div id="features-section" class="section">
+          <h2>Key Features</h2>
+          <ul id="features-list" class="features-list"></ul>
+        </div>
+
+        <div id="gallery-section" class="section" style="display:none">
+          <h2>Gallery</h2>
+          <div id="gallery-grid" class="gallery"></div>
         </div>
       </div>
+    </div>
 
-      <!-- Viewer (Right on Desktop, Top on Mobile) -->
-      <div class="viewer-container">
-        <iframe id="viewer-frame" class="viewer-frame" title="3D Viewer" allowfullscreen referrerpolicy="no-referrer"></iframe>
-        <div class="loading-title">Loading 3D Timber Frame</div>
-        <div class="loading-subtitle">Initializing interactive model viewer...</div>
-      </div>
+    <!-- Viewer (Right on Desktop, Top on Mobile) -->
+    <div class="viewer-container">
+      <iframe id="viewer-frame" class="viewer-frame" title="3D Viewer" allowfullscreen
+        referrerpolicy="no-referrer"></iframe>
+      <div class="loading-title">Loading 3D Timber Frame</div>
+      <div class="loading-subtitle">Initializing interactive model viewer...</div>
+    </div>
     </div>
 
     <script>
@@ -615,7 +759,7 @@
 
             // Only add pricing if SN exists and price is not empty and not yes/no
             if (sn && price && price.trim() !== '' &&
-                price.toLowerCase() !== 'yes' && price.toLowerCase() !== 'no') {
+              price.toLowerCase() !== 'yes' && price.toLowerCase() !== 'no') {
 
               // Convert SN format to match manifest IDs
               let id = sn.toLowerCase();
@@ -630,11 +774,11 @@
               else {
                 // General conversion for other SN formats
                 id = id.replace(/_/g, '-')  // Convert underscores to hyphens
-                       .replace(/lc14/, '36x42-monitor-barn')
-                       .replace(/lc20/, '33x39-lctf-barn')
-                       .replace(/lc22/, '21x24-old-natchez-studio')
-                       .replace(/pctf-pf8/, 'lctf-pf8')  // Fix typo in sheet
-                       .replace(/lctp-pf12/, 'lctf-pf12'); // Fix typo in sheet
+                  .replace(/lc14/, '36x42-monitor-barn')
+                  .replace(/lc20/, '33x39-lctf-barn')
+                  .replace(/lc22/, '21x24-old-natchez-studio')
+                  .replace(/pctf-pf8/, 'lctf-pf8')  // Fix typo in sheet
+                  .replace(/lctp-pf12/, 'lctf-pf12'); // Fix typo in sheet
               }
 
               pricing[id] = formatPrice(price);
@@ -725,10 +869,36 @@
         document.getElementById("model-name").textContent = model.name;
         document.getElementById("model-tag").textContent = model.tag || "Model";
         document.getElementById("model-desc").textContent = model.description || "";
-        
-        // Handle sale pricing display
+
+        // Handle species pricing selector
         const priceElement = document.getElementById("model-price");
-        if (model.onSale && model.originalPrice) {
+        const speciesContainer = document.getElementById("species-selector-container");
+
+        if (model.speciesPricing && model.speciesPricing.length > 0) {
+          // Build species tabs
+          let tabsHTML = '<div class="species-selector"><label>Wood Species</label><div class="species-tabs">';
+          model.speciesPricing.forEach((sp, idx) => {
+            const isActive = sp.default ? ' active' : '';
+            tabsHTML += `<button class="species-tab${isActive}" data-index="${idx}">${sp.species}</button>`;
+          });
+          tabsHTML += '</div></div>';
+          speciesContainer.innerHTML = tabsHTML;
+
+          // Set initial price from default species
+          const defaultSp = model.speciesPricing.find(sp => sp.default) || model.speciesPricing[0];
+          updateSpeciesPrice(priceElement, defaultSp, model.onSale);
+
+          // Add click handlers
+          speciesContainer.querySelectorAll('.species-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+              speciesContainer.querySelectorAll('.species-tab').forEach(t => t.classList.remove('active'));
+              tab.classList.add('active');
+              const sp = model.speciesPricing[parseInt(tab.dataset.index)];
+              updateSpeciesPrice(priceElement, sp, model.onSale);
+            });
+          });
+        } else if (model.onSale && model.originalPrice) {
+          // Handle sale pricing display (no species)
           priceElement.innerHTML = `
             <span class="price-original">${model.originalPrice}</span>
             <span class="price-sale">${model.price}</span>
@@ -739,6 +909,18 @@
             ? `Starting At ${model.price}`
             : "Coming Soon";
           priceElement.textContent = priceText;
+        }
+
+        function updateSpeciesPrice(el, sp, onSale) {
+          if (onSale && sp.originalPrice) {
+            el.innerHTML = `
+              <span class="price-original">${sp.originalPrice}</span>
+              <span class="price-sale">${sp.price}</span>
+              <span class="sale-badge-detail">On Sale</span>
+            `;
+          } else {
+            el.innerHTML = `<span class="price-tag">${sp.price}</span>`;
+          }
         }
 
         // Setup Purchase Button
@@ -784,7 +966,7 @@
         if (src) {
           document.getElementById("viewer-frame").src = src;
         } else {
-          document.querySelector(".viewer-container").innerHTML = 
+          document.querySelector(".viewer-container").innerHTML =
             '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#768fa7;">No 3D model available.</div>';
         }
 
@@ -896,11 +1078,12 @@
       }
 
       // Close modal when clicking outside
-      document.getElementById('gallery-modal').addEventListener('click', function(event) {
+      document.getElementById('gallery-modal').addEventListener('click', function (event) {
         if (event.target === this) {
           closeGalleryModal();
         }
       });
     </script>
-  </body>
+</body>
+
 </html>

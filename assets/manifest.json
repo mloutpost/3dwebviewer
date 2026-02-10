@@ -234,6 +234,11 @@
       "price": "$33,999",
       "originalPrice": "$36,999",
       "onSale": true,
+      "speciesPricing": [
+        { "species": "Eastern White Pine", "price": "$33,999", "originalPrice": "$36,999", "default": true },
+        { "species": "Douglas Fir", "price": "$51,629", "originalPrice": "$54,629" },
+        { "species": "White Oak", "price": "$52,126", "originalPrice": "$55,126" }
+      ],
       "features": [
         "16x24 footprint",
         "Timber frame construction"

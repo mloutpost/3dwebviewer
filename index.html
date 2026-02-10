@@ -1,1203 +1,1322 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <script>
-      // Register service worker to block unwanted Cadwork API calls
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' })
-          .catch(() => {}); // Silently fail on localhost/http
-      }
-    </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light dark" />
-    <title>Visualize Your Timber Frame</title>
-    <meta name="description" content="Select a 3D model to view." />
-    <link rel="icon" type="image/png" href="assets/global_graphics/LCTF Profile.png">
-    <link rel="dns-prefetch" href="//docs.google.com">
-    <link rel="preconnect" href="//docs.google.com" crossorigin>
-    <style>
-      :root {
-        /* Franklin Timberframes Color Palette */
-        --franklin-green: #2C3E2F;
-        --slab-blue: #CDE3F2;
-        --forest-brown: #4F423A;
-        --pebble-grey: #DEDBCE;
-        --ivory-white: #F7F7F7;
 
-        /* Light theme (default) */
-        --bg: var(--ivory-white);
-        --bg-secondary: var(--pebble-grey);
-        --panel: var(--ivory-white);
-        --panel-hover: #f0ede6;
-        --text: var(--forest-brown);
-        --text-muted: #6b6358;
-        --text-secondary: #8b8477;
-        --border: rgba(79, 66, 58, 0.2);
-        --border-hover: rgba(79, 66, 58, 0.3);
-        --shadow: 0 4px 20px rgba(79, 66, 58, 0.08);
-        --shadow-hover: 0 8px 30px rgba(79, 66, 58, 0.12);
-        --accent: var(--franklin-green);
-        --accent-hover: #3a7d44;
+<head>
+  <meta charset="utf-8" />
+  <script>
+    // Register service worker to block unwanted Cadwork API calls
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        .catch(() => { }); // Silently fail on localhost/http
+    }
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Visualize Your Timber Frame</title>
+  <meta name="description" content="Select a 3D model to view." />
+  <link rel="icon" type="image/png" href="assets/global_graphics/LCTF Profile.png">
+  <link rel="dns-prefetch" href="//docs.google.com">
+  <link rel="preconnect" href="//docs.google.com" crossorigin>
+  <style>
+    :root {
+      /* Franklin Timberframes Color Palette */
+      --franklin-green: #2C3E2F;
+      --slab-blue: #CDE3F2;
+      --forest-brown: #4F423A;
+      --pebble-grey: #DEDBCE;
+      --ivory-white: #F7F7F7;
+
+      /* Light theme (default) */
+      --bg: var(--ivory-white);
+      --bg-secondary: var(--pebble-grey);
+      --panel: var(--ivory-white);
+      --panel-hover: #f0ede6;
+      --text: var(--forest-brown);
+      --text-muted: #6b6358;
+      --text-secondary: #8b8477;
+      --border: rgba(79, 66, 58, 0.2);
+      --border-hover: rgba(79, 66, 58, 0.3);
+      --shadow: 0 4px 20px rgba(79, 66, 58, 0.08);
+      --shadow-hover: 0 8px 30px rgba(79, 66, 58, 0.12);
+      --accent: var(--franklin-green);
+      --accent-hover: #3a7d44;
+      --success: var(--franklin-green);
+      --warning: #d4a574;
+      --danger: #c75b5b;
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --transition: all 0.3s ease;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        /* Dark theme with Franklin palette */
+        --bg: var(--forest-brown);
+        --bg-secondary: #3a352f;
+        --panel: #4a443c;
+        --panel-hover: #5a544c;
+        --text: var(--ivory-white);
+        --text-muted: var(--pebble-grey);
+        --text-secondary: #e8e3d8;
+        --border: rgba(247, 247, 247, 0.2);
+        --border-hover: rgba(247, 247, 247, 0.3);
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.6);
+        --accent: var(--slab-blue);
+        --accent-hover: #a8c8e8;
         --success: var(--franklin-green);
         --warning: #d4a574;
         --danger: #c75b5b;
-        --radius-sm: 6px;
-        --radius-md: 12px;
-        --radius-lg: 16px;
-        --transition: all 0.3s ease;
       }
+    }
 
-      @media (prefers-color-scheme: dark) {
-        :root {
-          /* Dark theme with Franklin palette */
-          --bg: var(--forest-brown);
-          --bg-secondary: #3a352f;
-          --panel: #4a443c;
-          --panel-hover: #5a544c;
-          --text: var(--ivory-white);
-          --text-muted: var(--pebble-grey);
-          --text-secondary: #e8e3d8;
-          --border: rgba(247, 247, 247, 0.2);
-          --border-hover: rgba(247, 247, 247, 0.3);
-          --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-          --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.6);
-          --accent: var(--slab-blue);
-          --accent-hover: #a8c8e8;
-          --success: var(--franklin-green);
-          --warning: #d4a574;
-          --danger: #c75b5b;
-        }
-      }
+    * {
+      box-sizing: border-box;
+    }
 
-      * { box-sizing: border-box; }
-      html, body { height: 100%; }
-      body {
-        margin: 0;
-        font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-        color: var(--text);
-        background: var(--bg);
-        background-image: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg) 100%);
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        transition: background-color var(--transition), background-image var(--transition);
-      }
+    html,
+    body {
+      height: 100%;
+    }
 
-      a { color: inherit; text-decoration: none; }
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      background-image: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg) 100%);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color var(--transition), background-image var(--transition);
+    }
 
-      .wrap {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem 1.5rem 4rem;
-      }
-      header {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 1rem;
-        flex-wrap: wrap;
-        margin-bottom: 2rem;
-        padding-bottom: 1rem;
-        border-bottom: 1px solid var(--border);
-      }
-      .logo {
-        height: 60px;
-        width: auto;
-        flex-shrink: 0;
-      }
-      .title { display: grid; gap: 0.25rem; }
-      .title h1 {
-        margin: 0;
-        font-size: 2rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        color: var(--text-muted);
-      }
-      .title p {
-        margin: 0;
-        color: var(--text-muted);
-        font-size: 0.875rem;
-        line-height: 1.5;
-      }
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem 1rem;
-        border: 1px solid var(--border);
-        background: var(--panel);
-        border-radius: 2rem;
-        box-shadow: var(--shadow);
-        color: var(--text-muted);
-        font-size: 0.75rem;
-        font-weight: 500;
-        user-select: none;
-        transition: var(--transition);
-      }
-      .pill:hover {
-        border-color: var(--border-hover);
-        background: var(--panel-hover);
-      }
-      .pill code {
-        color: var(--text);
-        font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-        font-size: 0.75rem;
-        font-weight: 600;
-      }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-      .controls {
-        margin-top: 1.5rem;
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
-        align-items: center;
-      }
-      .input, .select, .btn {
-        border: 1px solid var(--border);
-        background: var(--panel);
-        color: var(--text);
-        border-radius: var(--radius-md);
-        padding: 0.75rem 1rem;
-        font-size: 0.875rem;
-        outline: none;
-        transition: var(--transition);
-      }
-      .input:focus, .select:focus {
-        border-color: var(--franklin-green);
-        box-shadow: 0 0 0 3px rgba(44, 62, 47, 0.15);
-      }
-      .input { min-width: 280px; flex: 1 1 320px; }
-      .select { flex: 0 0 auto; }
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        cursor: pointer;
-        font-weight: 500;
-        transition: var(--transition);
-        border: 1px solid transparent;
-      }
-      .btn:hover {
-        transform: translateY(-1px);
-        border-color: var(--border-hover);
-      }
-      .btn:active { transform: translateY(0); }
-      .btn.primary {
-        border-color: var(--franklin-green);
-        background: var(--franklin-green);
-        color: var(--ivory-white);
-      }
-      .btn.primary:hover {
-        background: #3a7d44;
-        border-color: #3a7d44;
-      }
-      .btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        transform: none;
-        pointer-events: none;
-      }
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
 
-      .grid {
-        margin-top: 2rem;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 1.5rem;
-      }
-      .card {
-        border: 1px solid var(--border);
-        background: var(--panel);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow);
-        overflow: hidden;
-        cursor: pointer;
-        transition: var(--transition);
-        position: relative;
-      }
-      .card:hover {
-        transform: translateY(-4px);
-        border-color: var(--franklin-green);
-        background: var(--panel-hover);
-        box-shadow: var(--shadow-hover);
-      }
-      .card:active { transform: translateY(0); }
-      .card.coming-soon {
-        opacity: 0.7;
-        cursor: default;
-      }
-      .card.coming-soon:hover {
-        transform: none;
-        border-color: var(--border);
-        background: var(--panel);
-        box-shadow: var(--shadow);
-      }
-      .card.coming-soon .thumb::after {
-        content: 'Coming Soon';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, 0.8);
-        color: white;
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 600;
-        z-index: 2;
-      }
-      .card .thumb {
-        height: 200px;
-        background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--panel) 100%);
-        overflow: hidden;
-        position: relative;
-      }
-      .card .thumb img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        transition: var(--transition);
-      }
-      .card:hover .thumb img {
-        transform: scale(1.05);
-      }
-      .card .inner {
-        padding: 1.25rem;
-        display: grid;
-        gap: 0.75rem;
-      }
-      .card .name {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 0.75rem;
-      }
-      .card h2 {
-        margin: 0;
-        font-size: 1.125rem;
-        font-weight: 600;
-        line-height: 1.3;
-        color: var(--text);
-      }
-      .tag {
-        font-size: 0.75rem;
-        font-weight: 500;
-        color: var(--text-secondary);
-        border: 1px solid var(--border);
-        background: var(--bg-secondary);
-        padding: 0.25rem 0.75rem;
-        border-radius: 1rem;
-        white-space: nowrap;
-        transition: var(--transition);
-      }
-      .card:hover .tag {
-        border-color: var(--border-hover);
-        background: var(--panel);
-      }
-      .desc {
-        margin: 0;
-        color: var(--text-muted);
-        font-size: 0.875rem;
-        line-height: 1.5;
-      }
-      .pricing {
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border);
-      }
-      .price-section {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.5rem;
-        min-height: 1.25rem;
-      }
-      .price-label {
-        color: var(--text-muted);
-        font-size: 0.75rem;
-        font-weight: 500;
-        flex-shrink: 0;
-      }
-      .price-display {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        flex-shrink: 0;
-      }
-      .regular-price, .sale-price {
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--text);
-        line-height: 1.2;
-        display: inline-block;
-      }
-      .original-price {
-        font-size: 0.875rem;
-        color: var(--text-muted);
-        text-decoration: line-through;
-        line-height: 1.2;
-        display: inline-block;
-      }
-      .sale-price { color: var(--success); }
-      .sale-badge {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        background: var(--danger);
-        color: white;
-        padding: 4px 8px;
-        border-radius: 12px;
-        font-size: 11px;
-        font-weight: 600;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        z-index: 1;
-      }
-      .thumb { position: relative; }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
 
-      .empty {
-        grid-column: 1 / -1;
-        border: 2px dashed var(--border);
-        background: var(--bg-secondary);
-        border-radius: var(--radius-lg);
-        padding: 3rem 2rem;
-        color: var(--text-muted);
-        text-align: center;
-      }
-      .empty strong {
-        color: var(--text);
-        display: block;
-        margin-bottom: 0.5rem;
-        font-size: 1.125rem;
-      }
-      .error {
-        margin-top: 1.5rem;
-        border: 1px solid rgba(239, 68, 68, 0.3);
-        background: rgba(239, 68, 68, 0.1);
-        border-radius: var(--radius-md);
-        padding: 1rem 1.25rem;
-        color: var(--text);
-      }
-      .error code {
-        color: var(--danger);
-        background: rgba(239, 68, 68, 0.1);
-        padding: 0.125rem 0.25rem;
-        border-radius: var(--radius-sm);
-        font-size: 0.875em;
-      }
+    .logo {
+      height: 60px;
+      width: auto;
+      flex-shrink: 0;
+    }
 
-      /* Pagination Styles */
-      .pagination {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-        margin: 2rem 0;
-        padding: 1rem;
-      }
+    .title {
+      display: grid;
+      gap: 0.25rem;
+    }
 
-      .pagination-btn {
-        padding: 0.5rem 1rem;
-        border: 1px solid var(--border);
-        background: var(--panel);
-        color: var(--text);
-        border-radius: var(--radius-md);
-        cursor: pointer;
-        font-weight: 500;
-        transition: var(--transition);
-      }
+    .title h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-muted);
+    }
 
-      .pagination-btn:hover:not(:disabled) {
-        background: var(--panel-hover);
-        border-color: var(--border-hover);
-      }
+    .title p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
 
-      .pagination-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 2rem;
+      box-shadow: var(--shadow);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 500;
+      user-select: none;
+      transition: var(--transition);
+    }
 
-      .page-info {
-        color: var(--text-muted);
-        font-weight: 500;
-        min-width: 100px;
-        text-align: center;
-      }
+    .pill:hover {
+      border-color: var(--border-hover);
+      background: var(--panel-hover);
+    }
 
-      .promo-banner {
-        margin: 2rem 0;
-        padding: 2rem;
-        background: #303d30;
-        border-radius: var(--radius-lg);
-        text-align: center;
-        color: white;
-        box-shadow: var(--shadow);
-      }
-      .promo-banner h3 {
-        margin: 0 0 0.5rem 0;
-        font-size: 1.25rem;
-        font-weight: 600;
-      }
-      .promo-banner p {
-        margin: 0 0 1.5rem 0;
-        font-size: 1.125rem;
-        opacity: 0.95;
-      }
-      .promo-banner .btn {
-        background: var(--ivory-white);
-        color: var(--franklin-green);
-        border-color: var(--ivory-white);
-        font-weight: 600;
-        padding: 0.75rem 2rem;
-        border-radius: 2rem;
-        transition: var(--transition);
-      }
-      .promo-banner .btn:hover {
-        background: var(--pebble-grey);
-        transform: translateY(-1px);
-      }
+    .pill code {
+      color: var(--text);
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
 
-      /* Sale hero - Clean, sleek design */
-      .sale-hero {
-        background-image: url('assets/Models/LCTF PF17 - Simple Pavilion 16x24 3.1.1/renders/IMG_2976.webp');
-        background-size: cover;
-        background-position: center;
-        border-radius: var(--radius-lg);
-        margin: 2rem 0 3rem;
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow-hover);
-        overflow: hidden;
-        position: relative;
-        min-height: 500px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+    .controls {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
 
-      .sale-hero::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(43,61,47,0.60) 0%, rgba(43,61,47,0.45) 50%, rgba(0,0,0,0.55) 100%);
-        pointer-events: none;
-      }
+    .input,
+    .select,
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+      outline: none;
+      transition: var(--transition);
+    }
 
-      .sale-hero-inner {
-        position: relative;
-        z-index: 1;
-        width: 100%;
-        max-width: 1100px;
-        padding: 3rem 2rem;
-      }
+    .input:focus,
+    .select:focus {
+      border-color: var(--franklin-green);
+      box-shadow: 0 0 0 3px rgba(44, 62, 47, 0.15);
+    }
 
+    .input {
+      min-width: 280px;
+      flex: 1 1 320px;
+    }
+
+    .select {
+      flex: 0 0 auto;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--border-hover);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn.primary {
+      border-color: var(--franklin-green);
+      background: var(--franklin-green);
+      color: var(--ivory-white);
+    }
+
+    .btn.primary:hover {
+      background: #3a7d44;
+      border-color: #3a7d44;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      pointer-events: none;
+    }
+
+    .grid {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--franklin-green);
+      background: var(--panel-hover);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card:active {
+      transform: translateY(0);
+    }
+
+    .card.coming-soon {
+      opacity: 0.7;
+      cursor: default;
+    }
+
+    .card.coming-soon:hover {
+      transform: none;
+      border-color: var(--border);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .card.coming-soon .thumb::after {
+      content: 'Coming Soon';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 2;
+    }
+
+    .card .thumb {
+      height: 200px;
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--panel) 100%);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: var(--transition);
+    }
+
+    .card:hover .thumb img {
+      transform: scale(1.05);
+    }
+
+    .card .inner {
+      padding: 1.25rem;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .card .name {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 1.125rem;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--text);
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+
+    .card:hover .tag {
+      border-color: var(--border-hover);
+      background: var(--panel);
+    }
+
+    .desc {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .pricing {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .price-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      min-height: 1.25rem;
+    }
+
+    .price-label {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .price-display {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .regular-price,
+    .sale-price {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+      display: inline-block;
+    }
+
+    .original-price {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+      line-height: 1.2;
+      display: inline-block;
+    }
+
+    .sale-price {
+      color: var(--success);
+    }
+
+    .sale-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--danger);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      z-index: 1;
+    }
+
+    .thumb {
+      position: relative;
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      border: 2px dashed var(--border);
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      padding: 3rem 2rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .empty strong {
+      color: var(--text);
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 1.125rem;
+    }
+
+    .error {
+      margin-top: 1.5rem;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      color: var(--text);
+    }
+
+    .error code {
+      color: var(--danger);
+      background: rgba(239, 68, 68, 0.1);
+      padding: 0.125rem 0.25rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875em;
+    }
+
+    /* Pagination Styles */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      padding: 1rem;
+    }
+
+    .pagination-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .pagination-btn:hover:not(:disabled) {
+      background: var(--panel-hover);
+      border-color: var(--border-hover);
+    }
+
+    .pagination-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .page-info {
+      color: var(--text-muted);
+      font-weight: 500;
+      min-width: 100px;
+      text-align: center;
+    }
+
+    .promo-banner {
+      margin: 2rem 0;
+      padding: 2rem;
+      background: #303d30;
+      border-radius: var(--radius-lg);
+      text-align: center;
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .promo-banner h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .promo-banner p {
+      margin: 0 0 1.5rem 0;
+      font-size: 1.125rem;
+      opacity: 0.95;
+    }
+
+    .promo-banner .btn {
+      background: var(--ivory-white);
+      color: var(--franklin-green);
+      border-color: var(--ivory-white);
+      font-weight: 600;
+      padding: 0.75rem 2rem;
+      border-radius: 2rem;
+      transition: var(--transition);
+    }
+
+    .promo-banner .btn:hover {
+      background: var(--pebble-grey);
+      transform: translateY(-1px);
+    }
+
+    /* Sale hero - Clean, sleek design */
+    .sale-hero {
+      background-image: url('assets/Models/LCTF PF17 - Simple Pavilion 16x24 3.1.1/renders/IMG_2976.webp');
+      background-size: cover;
+      background-position: center;
+      border-radius: var(--radius-lg);
+      margin: 2rem 0 3rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-hover);
+      overflow: hidden;
+      position: relative;
+      min-height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sale-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(43, 61, 47, 0.60) 0%, rgba(43, 61, 47, 0.45) 50%, rgba(0, 0, 0, 0.55) 100%);
+      pointer-events: none;
+    }
+
+    .sale-hero-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1100px;
+      padding: 3rem 2rem;
+    }
+
+    .sale-content {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .sale-left {
+      color: white;
+    }
+
+    .sale-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      color: var(--franklin-green);
+      border-radius: 999px;
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .sale-title {
+      font-size: 3rem;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+      color: white;
+    }
+
+    .sale-sub {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.95);
+    }
+
+    .sale-right {
+      background: var(--panel);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      max-width: 380px;
+    }
+
+    .sale-pricing {
+      text-align: center;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1rem;
+    }
+
+    .sale-price-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .sale-old-price {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+      font-weight: 500;
+    }
+
+    .sale-new-price {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .sale-save-badge {
+      display: inline-block;
+      background: #e74c3c;
+      color: white;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .sale-cta {
+      width: 100%;
+      background: var(--franklin-green);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 0.85rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 1rem;
+      text-align: center;
+      display: block;
+      text-decoration: none;
+    }
+
+    .sale-cta:hover {
+      background: #3a7d44;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(43, 61, 47, 0.3);
+    }
+
+    .sale-view-btn {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--franklin-green);
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem 1.75rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 1.25rem;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .sale-view-btn:hover {
+      background: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .sale-features {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .sale-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.875rem;
+      color: var(--text);
+    }
+
+    .sale-feature::before {
+      content: '✓';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      background: var(--franklin-green);
+      color: white;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 0.7rem;
+      flex-shrink: 0;
+    }
+
+    .sale-timer-section {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .sale-timer-label {
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .sale-timer-row {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .sale-timer-unit {
+      background: var(--bg-secondary);
+      border-radius: 6px;
+      padding: 0.6rem 0.4rem;
+      min-width: 55px;
+      text-align: center;
+    }
+
+    .sale-timer-num {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .sale-timer-lbl {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 968px) {
       .sale-content {
-        display: grid;
-        grid-template-columns: 1.2fr 1fr;
-        gap: 3rem;
-        align-items: center;
-      }
-
-      .sale-left {
-        color: white;
-      }
-
-            .sale-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: white;
-        color: var(--franklin-green);
-        border-radius: 999px;
-        padding: 0.5rem 1rem;
-        font-size: 0.8rem;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        margin-bottom: 1.5rem;
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
 
       .sale-title {
-        font-size: 3rem;
-        line-height: 1.1;
-        letter-spacing: -0.02em;
-        font-weight: 700;
-        margin: 0 0 1rem 0;
-        color: white;
+        font-size: 2.25rem;
       }
 
-      .sale-sub {
-        font-size: 1.1rem;
-        line-height: 1.6;
-        margin: 0;
-        color: rgba(255,255,255,0.95);
+      .sale-hero {
+        min-height: 600px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sale-hero-inner {
+        padding: 2rem 1.5rem;
       }
 
-      .sale-right {
-        background: var(--panel);
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-        max-width: 380px;
-      }
-
-      .sale-pricing {
-        text-align: center;
-        padding-bottom: 1rem;
-        border-bottom: 1px solid var(--border);
-        margin-bottom: 1rem;
-      }
-
-      .sale-price-row {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .sale-old-price {
-        font-size: 1.1rem;
-        color: var(--text-muted);
-        text-decoration: line-through;
-        font-weight: 500;
+      .sale-title {
+        font-size: 2rem;
       }
 
       .sale-new-price {
         font-size: 2rem;
-        font-weight: 800;
-        color: var(--accent);
-        letter-spacing: -0.02em;
+      }
+    }
+
+    .sale-title {
+      font-size: 2.1rem;
+    }
+
+    .sale-bottom {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .sale-center {
+      justify-self: stretch;
+    }
+
+    .sale-timer {
+      justify-self: stretch;
+      min-width: auto;
+    }
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    footer a {
+      color: var(--franklin-green);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    footer a:hover {
+      color: #3a7d44;
+      text-decoration: underline;
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--franklin-green);
+      color: var(--ivory-white);
+      padding: 16px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(44, 62, 47, 0.3);
+      z-index: 1000;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      max-width: 350px;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    .notification-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .notification-icon {
+      font-size: 1.2rem;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .notification-text {
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .notification.info {
+      background: var(--slab-blue);
+      color: var(--forest-brown);
+    }
+
+    @media (max-width: 768px) {
+      .wrap {
+        padding: 1.5rem 1rem 3rem;
       }
 
-      .sale-save-badge {
-        display: inline-block;
-        background: #e74c3c;
-        color: white;
-        padding: 0.3rem 0.75rem;
-        border-radius: 999px;
-        font-size: 0.8rem;
-        font-weight: 700;
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
       }
 
-      .sale-cta {
-        width: 100%;
-        background: var(--franklin-green);
-        color: white;
-        border: none;
-        border-radius: 10px;
-        padding: 0.85rem 1.5rem;
-        font-size: 1rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        margin-bottom: 1rem;
-        text-align: center;
-        display: block;
-        text-decoration: none;
-      }
-
-      .sale-cta:hover {
-        background: #3a7d44;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(43,61,47,0.3);
-      }
-
-      .sale-view-btn {
-        display: inline-block;
-        background: rgba(255,255,255,0.95);
-        color: var(--franklin-green);
-        border: none;
-        border-radius: 10px;
-        padding: 0.75rem 1.75rem;
-        font-size: 0.95rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        margin-top: 1.25rem;
-        text-align: center;
-        text-decoration: none;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      }
-
-      .sale-view-btn:hover {
-        background: white;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-      }
-
-      .sale-features {
-        display: flex;
+      header {
         flex-direction: column;
-        gap: 0.6rem;
-      }
-
-      .sale-feature {
-        display: flex;
         align-items: center;
-        gap: 0.6rem;
-        font-size: 0.875rem;
-        color: var(--text);
+        gap: 1rem;
       }
 
-      .sale-feature::before {
-        content: '✓';
-        display: flex;
-        align-items: center;
+      .logo {
+        height: 40px;
+      }
+
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+      }
+
+      .input {
+        min-width: auto;
+        flex: 1 1 auto;
+        width: 100%;
+      }
+
+      .btn {
         justify-content: center;
-        width: 20px;
-        height: 20px;
-        background: var(--franklin-green);
-        color: white;
-        border-radius: 50%;
-        font-weight: 700;
-        font-size: 0.7rem;
-        flex-shrink: 0;
-      }
-
-      .sale-timer-section {
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border);
-      }
-
-      .sale-timer-label {
-        text-align: center;
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: var(--text-muted);
-        margin-bottom: 0.6rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-
-      .sale-timer-row {
-        display: flex;
-        justify-content: center;
-        gap: 0.5rem;
-      }
-
-      .sale-timer-unit {
-        background: var(--bg-secondary);
-        border-radius: 6px;
-        padding: 0.6rem 0.4rem;
-        min-width: 55px;
-        text-align: center;
-      }
-
-      .sale-timer-num {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: var(--accent);
-        line-height: 1;
-      }
-
-      .sale-timer-lbl {
-        font-size: 0.65rem;
-        color: var(--text-muted);
-        margin-top: 0.2rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-
-      @media (max-width: 968px) {
-        .sale-content {
-          grid-template-columns: 1fr;
-          gap: 2rem;
-        }
-        .sale-title {
-          font-size: 2.25rem;
-        }
-        .sale-hero {
-          min-height: 600px;
-        }
-      }
-
-      @media (max-width: 768px) {
-        .sale-hero-inner {
-          padding: 2rem 1.5rem;
-        }
-        .sale-title {
-          font-size: 2rem;
-        }
-        .sale-new-price {
-          font-size: 2rem;
-        }
-      }
-        .sale-title { font-size: 2.1rem; }
-        .sale-bottom { grid-template-columns: 1fr; gap: 1rem; }
-        .sale-center { justify-self: stretch; }
-        .sale-timer { justify-self: stretch; min-width: auto; }
+        width: 100%;
       }
 
       footer {
-        margin-top: 4rem;
-        padding-top: 2rem;
-        border-top: 1px solid var(--border);
-        color: var(--text-muted);
-        font-size: 0.875rem;
-        display: flex;
-        justify-content: space-between;
-        gap: 1rem;
-        flex-wrap: wrap;
-      }
-      footer a {
-        color: var(--franklin-green);
-        text-decoration: none;
-        transition: var(--transition);
-      }
-      footer a:hover {
-        color: #3a7d44;
-        text-decoration: underline;
-      }
-
-      .notification {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--franklin-green);
-        color: var(--ivory-white);
-        padding: 16px 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(44, 62, 47, 0.3);
-        z-index: 1000;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        max-width: 350px;
-      }
-
-      .notification.show {
-        transform: translateX(0);
-      }
-
-      .notification-content {
-        display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 12px;
+        text-align: center;
+        gap: 0.5rem;
       }
 
-      .notification-icon {
-        font-size: 1.2rem;
-        font-weight: bold;
-        flex-shrink: 0;
+      /* Mobile pagination styles */
+      .pagination {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem 0.5rem;
       }
 
-      .notification-text {
-        font-size: 0.95rem;
-        line-height: 1.4;
+      .pagination-btn {
+        width: 100%;
+        max-width: 200px;
       }
 
-      .notification.info {
-        background: var(--slab-blue);
-        color: var(--forest-brown);
+      .page-info {
+        order: -1;
+        margin-bottom: 0.5rem;
       }
 
-      @media (max-width: 768px) {
-        .wrap { padding: 1.5rem 1rem 3rem; }
-        .grid { grid-template-columns: 1fr; gap: 1rem; }
-        header {
-          flex-direction: column;
-          align-items: center;
-          gap: 1rem;
-        }
-        .logo {
-          height: 40px;
-        }
-        .controls {
-          flex-direction: column;
-          align-items: stretch;
-          gap: 0.75rem;
-        }
-        .input {
-          min-width: auto;
-          flex: 1 1 auto;
-          width: 100%;
-        }
-        .btn {
-          justify-content: center;
-          width: 100%;
-        }
-        footer {
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          gap: 0.5rem;
-        }
-
-        /* Mobile pagination styles */
-        .pagination {
-          flex-direction: column;
-          gap: 0.75rem;
-          padding: 1rem 0.5rem;
-        }
-
-        .pagination-btn {
-          width: 100%;
-          max-width: 200px;
-        }
-
-        .page-info {
-          order: -1;
-          margin-bottom: 0.5rem;
-        }
-
-        /* (Legacy urgency hero mobile rules removed) */
-      }
-
-    </style>
+      /* (Legacy urgency hero mobile rules removed) */
+    }
+  </style>
   <script src="https://app.metricslite.com/tracker-1.0.js" data-site-id="7a184184-bbf4-4ec1-81ba-8d738decb242"></script>
-  </head>
-  <body>
-    <div class="wrap">
-      <header>
-        <img src="assets/global_graphics/LCTF Profile.png" alt="LC Timberframes Logo" class="logo">
-        <div class="title">
-          <h1>Visualize Your Timber Frame</h1>
-          <p>Click on a model below to visualize our carefully designed pre-fabricated structures. Kits are pre-fabricated and ready to ship</p>
-        </div>
-      </header>
+</head>
 
-<!-- Sale hero: clean, sleek design -->
-      <section class="sale-hero" aria-label="16x24 Kit sale">
-        <div class="sale-hero-inner">
-          <div class="sale-content">
-            <!-- Left side: Title and description -->
-            <div class="sale-left">
-              <h2 class="sale-title">Nashville Festival Pavilion</h2>
-              <p class="sale-sub">A signature backyard pavilion—secure your kit now so you're ready for spring and summer outdoors!</p>
-              <a href="detail.html?id=lctf-pf17&utm_source=sale&utm_medium=hero_banner&utm_campaign=16x24&utm_term=view_design" class="sale-view-btn">View Design</a>
+<body>
+  <div class="wrap">
+    <header>
+      <img src="assets/global_graphics/LCTF Profile.png" alt="LC Timberframes Logo" class="logo">
+      <div class="title">
+        <h1>Visualize Your Timber Frame</h1>
+        <p>Click on a model below to visualize our carefully designed pre-fabricated structures. Kits are pre-fabricated
+          and ready to ship</p>
+      </div>
+    </header>
+
+    <!-- Sale hero: clean, sleek design -->
+    <section class="sale-hero" aria-label="16x24 Kit sale">
+      <div class="sale-hero-inner">
+        <div class="sale-content">
+          <!-- Left side: Title and description -->
+          <div class="sale-left">
+            <h2 class="sale-title">Nashville Festival Pavilion</h2>
+            <p class="sale-sub">A signature backyard pavilion—secure your kit now so you're ready for spring and summer
+              outdoors!</p>
+            <a href="detail.html?id=lctf-pf17&utm_source=sale&utm_medium=hero_banner&utm_campaign=16x24&utm_term=view_design"
+              class="sale-view-btn">View Design</a>
+          </div>
+
+          <!-- Right side: White card with pricing and CTA -->
+          <div class="sale-right">
+            <div class="sale-pricing">
+              <div class="sale-price-row">
+                <span class="sale-old-price">$36,999</span>
+                <span class="sale-new-price">$33,999</span>
+              </div>
+              <span class="sale-save-badge">Save $3,000</span>
+              <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">Eastern
+                White Pine • Douglas Fir &amp; White Oak also available</div>
             </div>
 
-            <!-- Right side: White card with pricing and CTA -->
-            <div class="sale-right">
-              <div class="sale-pricing">
-                <div class="sale-price-row">
-                  <span class="sale-old-price">$36,999</span>
-                  <span class="sale-new-price">$33,999</span>
+            <a href="claim-kit.html?utm_source=sale&utm_medium=hero_banner&utm_campaign=16x24&utm_term=claim_form"
+              class="sale-cta">
+              Claim Your 16x24 Kit
+            </a>
+
+            <div class="sale-features">
+              <div class="sale-feature">16x24 Footprint</div>
+              <div class="sale-feature">Heavy Timber 8x8+ Construction</div>
+              <div class="sale-feature">Mortice and Tenon Joinery</div>
+              <div class="sale-feature">White Oak Pegs</div>
+              <div class="sale-feature">Complete Timber Assembly Package</div>
+            </div>
+
+            <div class="sale-timer-section">
+              <div class="sale-timer-label">Sale Ends In</div>
+              <div class="sale-timer-row">
+                <div class="sale-timer-unit">
+                  <div id="days-hero" class="sale-timer-num">14</div>
+                  <div class="sale-timer-lbl">Days</div>
                 </div>
-                <span class="sale-save-badge">Save $3,000</span>
-                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">Limited sale inventory</div>
-              </div>
-
-              <a href="claim-kit.html?utm_source=sale&utm_medium=hero_banner&utm_campaign=16x24&utm_term=claim_form" class="sale-cta">
-                Claim Your 16x24 Kit
-              </a>
-
-              <div class="sale-features">
-                <div class="sale-feature">16x24 Footprint</div>
-                <div class="sale-feature">Heavy Timber 8x8+ Construction</div>
-                <div class="sale-feature">Mortice and Tenon Joinery</div>
-                <div class="sale-feature">White Oak Pegs</div>
-                <div class="sale-feature">Complete Timber Assembly Package</div>
-              </div>
-
-              <div class="sale-timer-section">
-                <div class="sale-timer-label">Sale Ends In</div>
-                <div class="sale-timer-row">
-                  <div class="sale-timer-unit">
-                    <div id="days-hero" class="sale-timer-num">14</div>
-                    <div class="sale-timer-lbl">Days</div>
-                  </div>
-                  <div class="sale-timer-unit">
-                    <div id="hours-hero" class="sale-timer-num">08</div>
-                    <div class="sale-timer-lbl">Hours</div>
-                  </div>
-                  <div class="sale-timer-unit">
-                    <div id="minutes-hero" class="sale-timer-num">32</div>
-                    <div class="sale-timer-lbl">Min</div>
-                  </div>
+                <div class="sale-timer-unit">
+                  <div id="hours-hero" class="sale-timer-num">08</div>
+                  <div class="sale-timer-lbl">Hours</div>
+                </div>
+                <div class="sale-timer-unit">
+                  <div id="minutes-hero" class="sale-timer-num">32</div>
+                  <div class="sale-timer-lbl">Min</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-
-      <div class="promo-banner">
-        <h3>Don't see your perfect dimensions?</h3>
-        <p>Get a custom timber frame design for just $500! We'll create an interactive 3D model tailored to your exact specifications.</p>
-        <button class="btn" onclick="window.location.href='custom-design.html'">Get Your $500 Design</button>
       </div>
+    </section>
 
-      <div class="controls">
-        <input id="q" class="input" placeholder="Search models…" autocomplete="off" />
-        <select id="type" class="select" aria-label="Filter by type">
-          <option value="">All types</option>
-        </select>
-      </div>
-
-      <div id="error" class="error" style="display:none"></div>
-      <div id="grid" class="grid" aria-live="polite"></div>
-
-      <!-- Pagination -->
-      <div id="pagination" class="pagination" style="display: none;">
-        <button id="prev-page" class="pagination-btn" disabled>&laquo; Previous</button>
-        <span id="page-info" class="page-info">Page 1 of 1</span>
-        <button id="next-page" class="pagination-btn" disabled>Next &raquo;</button>
-      </div>
-
-      <div style="margin-top: 40px; text-align: center;">
-        <button id="main-purchase-btn" class="btn primary" style="padding: 16px 32px; font-size: 18px; border-radius: 999px;">
-          Purchase Now
-        </button>
-      </div>
-
-      <div style="margin-top: 2rem; text-align: center;">
-        <div class="pill">
-          <span>Status:</span>
-          <code id="status">loading…</code>
-        </div>
-      </div>
-
-      <footer>
-        <span>LC Timberframes • <code>build.lctimberframes.com</code></span>
-      </footer>
+    <div class="promo-banner">
+      <h3>Don't see your perfect dimensions?</h3>
+      <p>Get a custom timber frame design for just $500! We'll create an interactive 3D model tailored to your exact
+        specifications.</p>
+      <button class="btn" onclick="window.location.href='custom-design.html'">Get Your $500 Design</button>
     </div>
 
-    <script>
-      const MANIFEST_URL = "./assets/manifest.json";
+    <div class="controls">
+      <input id="q" class="input" placeholder="Search models…" autocomplete="off" />
+      <select id="type" class="select" aria-label="Filter by type">
+        <option value="">All types</option>
+      </select>
+    </div>
 
-      const elStatus = document.getElementById("status");
-      const elGrid = document.getElementById("grid");
+    <div id="error" class="error" style="display:none"></div>
+    <div id="grid" class="grid" aria-live="polite"></div>
 
-      // Format price with dollar sign and commas
-      function formatPrice(priceStr) {
-        const num = parseInt(priceStr.replace(/,/g, ''), 10);
-        if (isNaN(num)) return priceStr;
-        return '$' + num.toLocaleString();
-      }
+    <!-- Pagination -->
+    <div id="pagination" class="pagination" style="display: none;">
+      <button id="prev-page" class="pagination-btn" disabled>&laquo; Previous</button>
+      <span id="page-info" class="page-info">Page 1 of 1</span>
+      <button id="next-page" class="pagination-btn" disabled>Next &raquo;</button>
+    </div>
 
-      // Function to fetch and parse pricing from Google Sheets CSV with caching
+    <div style="margin-top: 40px; text-align: center;">
+      <button id="main-purchase-btn" class="btn primary"
+        style="padding: 16px 32px; font-size: 18px; border-radius: 999px;">
+        Purchase Now
+      </button>
+    </div>
+
+    <div style="margin-top: 2rem; text-align: center;">
+      <div class="pill">
+        <span>Status:</span>
+        <code id="status">loading…</code>
+      </div>
+    </div>
+
+    <footer>
+      <span>LC Timberframes • <code>build.lctimberframes.com</code></span>
+    </footer>
+  </div>
+
+  <script>
+    const MANIFEST_URL = "./assets/manifest.json";
+
+    const elStatus = document.getElementById("status");
+    const elGrid = document.getElementById("grid");
+
+    // Format price with dollar sign and commas
+    function formatPrice(priceStr) {
+      const num = parseInt(priceStr.replace(/,/g, ''), 10);
+      if (isNaN(num)) return priceStr;
+      return '$' + num.toLocaleString();
+    }
+
+    // Function to fetch and parse pricing from Google Sheets CSV with caching
 
 
-      const elErr = document.getElementById("error");
-      const elQ = document.getElementById("q");
-      const elType = document.getElementById("type");
+    const elErr = document.getElementById("error");
+    const elQ = document.getElementById("q");
+    const elType = document.getElementById("type");
 
-      /** @type {{models: Array<any>} | null} */
-      let manifest = null;
+    /** @type {{models: Array<any>} | null} */
+    let manifest = null;
 
-      // Loading timing
-      let pageLoadStart = Date.now();
+    // Loading timing
+    let pageLoadStart = Date.now();
 
-      // Pagination variables
-      const ITEMS_PER_PAGE = 25;
-      let currentPage = 1;
-      let totalPages = 1;
+    // Pagination variables
+    const ITEMS_PER_PAGE = 25;
+    let currentPage = 1;
+    let totalPages = 1;
 
-      function setStatus(text) {
-        elStatus.textContent = text;
-      }
+    function setStatus(text) {
+      elStatus.textContent = text;
+    }
 
-      function showError(html) {
-        elErr.style.display = "block";
-        elErr.innerHTML = html;
-      }
+    function showError(html) {
+      elErr.style.display = "block";
+      elErr.innerHTML = html;
+    }
 
-      function clearError() {
-        elErr.style.display = "none";
-        elErr.textContent = "";
-      }
+    function clearError() {
+      elErr.style.display = "none";
+      elErr.textContent = "";
+    }
 
-      function normalizeType(model) {
-        if (!model || typeof model !== "object") return "";
-        if (model.type === "cadwork-html") return "cadwork-html";
-        if (model.type === "asset") return "asset";
-        if (model.type === "coming-soon") return "coming-soon";
-        if (typeof model.src === "string" && model.src.trim()) return "asset";
-        if (typeof model.href === "string" && model.href.toLowerCase().endsWith(".html")) return "cadwork-html";
-        return "";
-      }
+    function normalizeType(model) {
+      if (!model || typeof model !== "object") return "";
+      if (model.type === "cadwork-html") return "cadwork-html";
+      if (model.type === "asset") return "asset";
+      if (model.type === "coming-soon") return "coming-soon";
+      if (typeof model.src === "string" && model.src.trim()) return "asset";
+      if (typeof model.href === "string" && model.href.toLowerCase().endsWith(".html")) return "cadwork-html";
+      return "";
+    }
 
-      function getModelTarget(model) {
-        const t = normalizeType(model);
+    function getModelTarget(model) {
+      const t = normalizeType(model);
 
-        // Coming soon models don't have a target
-        if (t === "coming-soon") {
-          return null;
-        }
-
-        if (model.id) {
-          return "detail.html?id=" + encodeURIComponent(model.id);
-        }
-        
-        if (t === "cadwork-html") {
-          const href = (model.href || "").toString().trim();
-          return href ? "wrapper.html?model=" + encodeURI(href) : null;
-        }
-        if (t === "asset") {
-          const src = (model.src || model.href || "").toString().trim();
-          if (!src) return null;
-          const name = (model.name || "").toString().trim();
-          const u = new URL("viewer.html", window.location.href);
-          u.searchParams.set("src", src);
-          if (name) u.searchParams.set("name", name);
-          if (model.poster) u.searchParams.set("poster", model.poster);
-          return u.pathname + u.search;
-        }
+      // Coming soon models don't have a target
+      if (t === "coming-soon") {
         return null;
       }
 
-      function typeLabel(t, raw) {
-        if (raw && raw.tag) return raw.tag;
-        if (t === "cadwork-html") return "Frame";
-        if (t === "asset") return "3D Asset";
-        if (t === "coming-soon") return "Coming Soon";
-        return "Unknown";
+      if (model.id) {
+        return "detail.html?id=" + encodeURIComponent(model.id);
       }
 
-      function getCoverCandidates(model, t) {
-        const rawPath = (t === "cadwork-html" ? model.href : (model.src || model.href || "")).toString().trim();
-        if (!rawPath) return [];
-        const lastSlash = rawPath.lastIndexOf("/");
-        if (lastSlash < 0) return [];
-        const dir = rawPath.slice(0, lastSlash + 1);
-
-        // Convention: each model folder may contain Cover.(webp|png|jpg|jpeg)
-        const base = dir + "Cover";
-        const exts = [".webp", ".png", ".jpg", ".jpeg"];
-        return exts.map((ext) => (base + ext).replace(/ /g, '%20'));
+      if (t === "cadwork-html") {
+        const href = (model.href || "").toString().trim();
+        return href ? "wrapper.html?model=" + encodeURI(href) : null;
       }
+      if (t === "asset") {
+        const src = (model.src || model.href || "").toString().trim();
+        if (!src) return null;
+        const name = (model.name || "").toString().trim();
+        const u = new URL("viewer.html", window.location.href);
+        u.searchParams.set("src", src);
+        if (name) u.searchParams.set("name", name);
+        if (model.poster) u.searchParams.set("poster", model.poster);
+        return u.pathname + u.search;
+      }
+      return null;
+    }
+
+    function typeLabel(t, raw) {
+      if (raw && raw.tag) return raw.tag;
+      if (t === "cadwork-html") return "Frame";
+      if (t === "asset") return "3D Asset";
+      if (t === "coming-soon") return "Coming Soon";
+      return "Unknown";
+    }
+
+    function getCoverCandidates(model, t) {
+      const rawPath = (t === "cadwork-html" ? model.href : (model.src || model.href || "")).toString().trim();
+      if (!rawPath) return [];
+      const lastSlash = rawPath.lastIndexOf("/");
+      if (lastSlash < 0) return [];
+      const dir = rawPath.slice(0, lastSlash + 1);
+
+      // Convention: each model folder may contain Cover.(webp|png|jpg|jpeg)
+      const base = dir + "Cover";
+      const exts = [".webp", ".png", ".jpg", ".jpeg"];
+      return exts.map((ext) => (base + ext).replace(/ /g, '%20'));
+    }
 
 
-      function render() {
-        clearError();
-        elGrid.innerHTML = "";
+    function render() {
+      clearError();
+      elGrid.innerHTML = "";
 
-        // Clear all existing gallery timers
-        cardTimers.forEach((timerId) => clearInterval(timerId));
-        cardTimers.clear();
+      // Clear all existing gallery timers
+      cardTimers.forEach((timerId) => clearInterval(timerId));
+      cardTimers.clear();
 
-        const models = (manifest && Array.isArray(manifest.models)) ? manifest.models : [];
-        const q = elQ.value.trim().toLowerCase();
-        const typeFilter = elType.value;
+      const models = (manifest && Array.isArray(manifest.models)) ? manifest.models : [];
+      const q = elQ.value.trim().toLowerCase();
+      const typeFilter = elType.value;
 
-        const filtered = models
-          .map((m) => ({ raw: m, t: normalizeType(m) }))
-          .filter(({ raw, t }) => {
-            if (typeFilter && raw.tag !== typeFilter) return false;
-            const name = (raw.name || raw.id || "").toString();
-            const desc = (raw.description || "").toString();
-            const tag = (raw.tag || "").toString();
-            const hay = (name + " " + desc + " " + tag + " " + (raw.href || "") + " " + (raw.src || "")).toLowerCase();
-            return !q || hay.includes(q);
-          })
-          .sort((a, b) => {
-            // Sort by content availability (descending priority):
-            // 1. With renders, pricing, and cover page
-            // 2. With pricing and cover page
-            // 3. With cover page only
-            // 4. With html viewer only
+      const filtered = models
+        .map((m) => ({ raw: m, t: normalizeType(m) }))
+        .filter(({ raw, t }) => {
+          if (typeFilter && raw.tag !== typeFilter) return false;
+          const name = (raw.name || raw.id || "").toString();
+          const desc = (raw.description || "").toString();
+          const tag = (raw.tag || "").toString();
+          const hay = (name + " " + desc + " " + tag + " " + (raw.href || "") + " " + (raw.src || "")).toLowerCase();
+          return !q || hay.includes(q);
+        })
+        .sort((a, b) => {
+          // Sort by content availability (descending priority):
+          // 1. With renders, pricing, and cover page
+          // 2. With pricing and cover page
+          // 3. With cover page only
+          // 4. With html viewer only
 
-            const getSortPriority = (model) => {
-              const hasGallery = model.raw.gallery && model.raw.gallery.length > 0;
-              const hasCover = !!model.raw.thumbnail;
-              const hasPricing = model.raw.price && model.raw.price !== 'coming soon' && model.raw.price !== 'Call for pricing';
-              const isHtmlViewer = model.t === 'cadwork-html';
+          const getSortPriority = (model) => {
+            const hasGallery = model.raw.gallery && model.raw.gallery.length > 0;
+            const hasCover = !!model.raw.thumbnail;
+            const hasPricing = model.raw.price && model.raw.price !== 'coming soon' && model.raw.price !== 'Call for pricing';
+            const isHtmlViewer = model.t === 'cadwork-html';
 
-              if (hasGallery && hasPricing && hasCover) return 1;     // Highest: renders + pricing + cover
-              if (hasPricing && hasCover) return 2;                   // High: pricing + cover
-              if (hasCover) return 3;                                 // Medium: cover only
-              if (isHtmlViewer) return 4;                             // Low: HTML viewer only
-              return 5;                                               // Lowest: coming-soon, no content
-            };
+            if (hasGallery && hasPricing && hasCover) return 1;     // Highest: renders + pricing + cover
+            if (hasPricing && hasCover) return 2;                   // High: pricing + cover
+            if (hasCover) return 3;                                 // Medium: cover only
+            if (isHtmlViewer) return 4;                             // Low: HTML viewer only
+            return 5;                                               // Lowest: coming-soon, no content
+          };
 
-            const aPriority = getSortPriority(a);
-            const bPriority = getSortPriority(b);
+          const aPriority = getSortPriority(a);
+          const bPriority = getSortPriority(b);
 
-            return aPriority - bPriority;
-          });
+          return aPriority - bPriority;
+        });
 
-        if (models.length === 0) {
-          elGrid.innerHTML = `
+      if (models.length === 0) {
+        elGrid.innerHTML = `
             <div class="empty">
               <strong>No models configured.</strong>
               Add entries to <code>assets/manifest.json</code>.
             </div>
           `;
-          setStatus("0 models");
-          return;
-        }
+        setStatus("0 models");
+        return;
+      }
 
-        if (filtered.length === 0) {
-          elGrid.innerHTML = `
+      if (filtered.length === 0) {
+        elGrid.innerHTML = `
             <div class="empty">
               <strong>No results.</strong>
               Try clearing your search or changing the type filter.
             </div>
           `;
-          setStatus(`${models.length} models • 0 shown`);
-          return;
+        setStatus(`${models.length} models • 0 shown`);
+        return;
+      }
+
+      // Calculate pagination
+      totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      const endIndex = startIndex + ITEMS_PER_PAGE;
+      const pageItems = filtered.slice(startIndex, endIndex);
+
+      // Update pagination controls
+      updatePaginationControls(filtered.length);
+
+      for (const { raw, t } of pageItems) {
+        const name = (raw.name || raw.id || "Untitled").toString();
+        const desc = (raw.description || "").toString();
+        const price = raw.price || "Coming Soon";
+        const target = getModelTarget(raw);
+        const tag = typeLabel(t, raw);
+
+        const metaPath = (t === "cadwork-html" ? raw.href : (raw.src || raw.href)) || "";
+        const safeMeta = String(metaPath);
+
+        const card = document.createElement("a");
+        card.className = "card" + (t === "coming-soon" ? " coming-soon" : "");
+        card.href = target || "#";
+        card.target = "_self";
+        card.rel = "noreferrer";
+        card.setAttribute("role", "button");
+
+        // Generate thumbnail URLs
+        let coverUrl = '';
+        let defaultLogoUrl = 'assets/global_graphics/Small%20Logo%20Cropped.png'.replace(/ /g, '%20');
+        let galleryImages = [];
+
+        if (raw.thumbnail) {
+          coverUrl = raw.thumbnail;
+        } else {
+          const coverUrls = getCoverCandidates(raw, t);
+          coverUrl = coverUrls[0] || defaultLogoUrl;
         }
 
-        // Calculate pagination
-        totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
-        const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-        const endIndex = startIndex + ITEMS_PER_PAGE;
-        const pageItems = filtered.slice(startIndex, endIndex);
+        // Get gallery images
+        if (raw.gallery && raw.gallery.length > 0) {
+          galleryImages = [...raw.gallery];
+        }
 
-        // Update pagination controls
-        updatePaginationControls(filtered.length);
+        // Set initial thumb URL - start with gallery image if available, otherwise cover
+        let initialThumbUrl = coverUrl;
+        if (galleryImages.length > 0) {
+          initialThumbUrl = galleryImages[0]; // Always start with first gallery image for consistency
+        }
 
-        for (const { raw, t } of pageItems) {
-          const name = (raw.name || raw.id || "Untitled").toString();
-          const desc = (raw.description || "").toString();
-          const price = raw.price || "Coming Soon";
-          const target = getModelTarget(raw);
-          const tag = typeLabel(t, raw);
+        // Special case: LC14 Monitor Barn should show default logo
+        if (raw.id === 'lc14-monitor-barn') {
+          initialThumbUrl = defaultLogoUrl;
+        }
+        // Encode for HTML img src (only if we have a URL)
+        if (initialThumbUrl) {
+          initialThumbUrl = initialThumbUrl.replace(/ /g, '%20');
+        }
+        if (raw.name.includes('Monitor Barn')) {
+          console.log(`🔍 ${raw.name}: thumbnail=${raw.thumbnail}, coverUrl=${coverUrl}, initial=${initialThumbUrl}, gallery=${galleryImages.length}`);
+        }
 
-          const metaPath = (t === "cadwork-html" ? raw.href : (raw.src || raw.href)) || "";
-          const safeMeta = String(metaPath);
+        card.setAttribute('data-cover-url', coverUrl);
+        card.setAttribute('data-gallery-images', JSON.stringify(galleryImages));
+        card.setAttribute('data-current-index', '0');
 
-          const card = document.createElement("a");
-          card.className = "card" + (t === "coming-soon" ? " coming-soon" : "");
-          card.href = target || "#";
-          card.target = "_self";
-          card.rel = "noreferrer";
-          card.setAttribute("role", "button");
-
-          // Generate thumbnail URLs
-          let coverUrl = '';
-          let defaultLogoUrl = 'assets/global_graphics/Small%20Logo%20Cropped.png'.replace(/ /g, '%20');
-          let galleryImages = [];
-
-          if (raw.thumbnail) {
-            coverUrl = raw.thumbnail;
-          } else {
-            const coverUrls = getCoverCandidates(raw, t);
-            coverUrl = coverUrls[0] || defaultLogoUrl;
-          }
-
-          // Get gallery images
-          if (raw.gallery && raw.gallery.length > 0) {
-            galleryImages = [...raw.gallery];
-          }
-
-          // Set initial thumb URL - start with gallery image if available, otherwise cover
-          let initialThumbUrl = coverUrl;
-          if (galleryImages.length > 0) {
-            initialThumbUrl = galleryImages[0]; // Always start with first gallery image for consistency
-          }
-
-          // Special case: LC14 Monitor Barn should show default logo
-          if (raw.id === 'lc14-monitor-barn') {
-            initialThumbUrl = defaultLogoUrl;
-          }
-          // Encode for HTML img src (only if we have a URL)
-          if (initialThumbUrl) {
-            initialThumbUrl = initialThumbUrl.replace(/ /g, '%20');
-          }
-          if (raw.name.includes('Monitor Barn')) {
-            console.log(`🔍 ${raw.name}: thumbnail=${raw.thumbnail}, coverUrl=${coverUrl}, initial=${initialThumbUrl}, gallery=${galleryImages.length}`);
-          }
-
-          card.setAttribute('data-cover-url', coverUrl);
-          card.setAttribute('data-gallery-images', JSON.stringify(galleryImages));
-          card.setAttribute('data-current-index', '0');
-
-          // Build pricing HTML based on sale status
-          let pricingHTML = '';
-          if (raw.onSale && raw.originalPrice) {
-            pricingHTML = `
+        // Build pricing HTML based on sale status
+        let pricingHTML = '';
+        if (raw.onSale && raw.originalPrice) {
+          pricingHTML = `
               <div class="price-section">
                 <span class="price-label">Starting At</span>
                 <div class="price-display">
@@ -1206,8 +1325,8 @@
                 </div>
               </div>
             `;
-          } else {
-            pricingHTML = `
+        } else {
+          pricingHTML = `
               <div class="price-section">
                 <span class="price-label">Starting At</span>
                 <div class="price-display">
@@ -1215,12 +1334,12 @@
                 </div>
               </div>
             `;
-          }
+        }
 
-          // Build sale badge if on sale
-          const saleBadgeHTML = raw.onSale ? '<span class="sale-badge">ON SALE</span>' : '';
+        // Build sale badge if on sale
+        const saleBadgeHTML = raw.onSale ? '<span class="sale-badge">ON SALE</span>' : '';
 
-          card.innerHTML = `
+        card.innerHTML = `
             <div class="thumb">
               ${saleBadgeHTML}
               <img src="${initialThumbUrl || defaultLogoUrl}" alt="${escapeHtml(name)}" onerror="this.src='${defaultLogoUrl}'" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.3s ease;" />
@@ -1237,291 +1356,292 @@
             </div>
           `;
 
-          if (!target) {
-            card.addEventListener("click", (e) => {
-              e.preventDefault();
-              if (t === "coming-soon") {
-                showNotification(`${escapeHtml(name)} is coming soon!`, 'info');
-              } else {
+        if (!target) {
+          card.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (t === "coming-soon") {
+              showNotification(`${escapeHtml(name)} is coming soon!`, 'info');
+            } else {
               showError(`Model <code>${escapeHtml(name)}</code> is missing a valid <code>href</code>.`);
-              }
-            });
+            }
+          });
+        }
+
+        // Gallery cycling functionality - no lightbox, just cycling
+        if (galleryImages.length > 0) {
+          // Start cycling only if there are multiple images
+          if (galleryImages.length > 1) {
+            setTimeout(() => startGalleryCycling(card), 100);
           }
 
-          // Gallery cycling functionality - no lightbox, just cycling
-          if (galleryImages.length > 0) {
-            // Start cycling only if there are multiple images
+          // Add hover event listeners for cards with galleries
+          card.addEventListener('mouseenter', () => {
             if (galleryImages.length > 1) {
-              setTimeout(() => startGalleryCycling(card), 100);
+              stopGalleryCycling(card);
             }
+            showCoverImage(card);
+          });
 
-            // Add hover event listeners for cards with galleries
-            card.addEventListener('mouseenter', () => {
-              if (galleryImages.length > 1) {
-                stopGalleryCycling(card);
-              }
-              showCoverImage(card);
-            });
-
-            card.addEventListener('mouseleave', () => {
-              resumeGalleryCycling(card);
-            });
-          }
-
-          elGrid.appendChild(card);
+          card.addEventListener('mouseleave', () => {
+            resumeGalleryCycling(card);
+          });
         }
 
-        setStatus(`${models.length} models • ${filtered.length} shown (page ${currentPage} of ${totalPages})`);
+        elGrid.appendChild(card);
       }
 
-      function updatePaginationControls(totalItems) {
-        const paginationEl = document.getElementById('pagination');
-        const prevBtn = document.getElementById('prev-page');
-        const nextBtn = document.getElementById('next-page');
-        const pageInfo = document.getElementById('page-info');
+      setStatus(`${models.length} models • ${filtered.length} shown (page ${currentPage} of ${totalPages})`);
+    }
 
-        if (totalPages <= 1) {
-          paginationEl.style.display = 'none';
-          return;
-        }
+    function updatePaginationControls(totalItems) {
+      const paginationEl = document.getElementById('pagination');
+      const prevBtn = document.getElementById('prev-page');
+      const nextBtn = document.getElementById('next-page');
+      const pageInfo = document.getElementById('page-info');
 
-        paginationEl.style.display = 'flex';
-        pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-
-        prevBtn.disabled = currentPage <= 1;
-        nextBtn.disabled = currentPage >= totalPages;
+      if (totalPages <= 1) {
+        paginationEl.style.display = 'none';
+        return;
       }
 
-      function changePage(direction) {
-        const newPage = currentPage + direction;
-        if (newPage >= 1 && newPage <= totalPages) {
-          currentPage = newPage;
-          render();
-          // Scroll to top of page when changing pages
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+      paginationEl.style.display = 'flex';
+      pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+
+      prevBtn.disabled = currentPage <= 1;
+      nextBtn.disabled = currentPage >= totalPages;
+    }
+
+    function changePage(direction) {
+      const newPage = currentPage + direction;
+      if (newPage >= 1 && newPage <= totalPages) {
+        currentPage = newPage;
+        render();
+        // Scroll to top of page when changing pages
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // Gallery cycling functionality
+    const cardTimers = new Map();
+
+    function startGalleryCycling(card) {
+      const galleryImages = JSON.parse(card.getAttribute('data-gallery-images') || '[]');
+      if (galleryImages.length === 0) return; // No gallery images to cycle
+
+      // Clear any existing timer for this card
+      if (cardTimers.has(card)) {
+        clearInterval(cardTimers.get(card));
+        cardTimers.delete(card);
       }
 
-      // Gallery cycling functionality
-      const cardTimers = new Map();
+      const img = card.querySelector('.thumb img');
+      let currentIndex = parseInt(card.getAttribute('data-current-index') || '0');
 
-      function startGalleryCycling(card) {
-        const galleryImages = JSON.parse(card.getAttribute('data-gallery-images') || '[]');
-        if (galleryImages.length === 0) return; // No gallery images to cycle
+      const cycleImages = () => {
+        currentIndex = (currentIndex + 1) % galleryImages.length;
+        const encodedUrl = encodeURI(galleryImages[currentIndex]);
+        img.src = encodedUrl;
+        card.setAttribute('data-current-index', currentIndex.toString());
+      };
 
-        // Clear any existing timer for this card
-        if (cardTimers.has(card)) {
-          clearInterval(cardTimers.get(card));
-          cardTimers.delete(card);
-        }
+      // Start cycling every 3 seconds
+      const timerId = setInterval(cycleImages, 3000);
+      cardTimers.set(card, timerId);
+    }
 
-        const img = card.querySelector('.thumb img');
-        let currentIndex = parseInt(card.getAttribute('data-current-index') || '0');
+    function stopGalleryCycling(card) {
+      const timerId = cardTimers.get(card);
+      if (timerId) {
+        clearInterval(timerId);
+        cardTimers.delete(card);
+      }
+    }
 
-        const cycleImages = () => {
-          currentIndex = (currentIndex + 1) % galleryImages.length;
-          const encodedUrl = encodeURI(galleryImages[currentIndex]);
+    function showCoverImage(card) {
+      const img = card.querySelector('.thumb img');
+      const coverUrl = card.getAttribute('data-cover-url');
+      img.src = encodeURI(coverUrl);
+      card.setAttribute('data-current-index', '-1'); // -1 indicates cover image
+    }
+
+    function resumeGalleryCycling(card) {
+      const galleryImages = JSON.parse(card.getAttribute('data-gallery-images') || '[]');
+
+      if (galleryImages.length === 0) return;
+
+      const img = card.querySelector('.thumb img');
+
+      // Handle both single and multiple image cases
+      const resumeToGallery = () => {
+        if (galleryImages.length === 1) {
+          // Single image: just show the gallery image
+          const encodedUrl = encodeURI(galleryImages[0]);
           img.src = encodedUrl;
-          card.setAttribute('data-current-index', currentIndex.toString());
-        };
-
-        // Start cycling every 3 seconds
-        const timerId = setInterval(cycleImages, 3000);
-        cardTimers.set(card, timerId);
-      }
-
-      function stopGalleryCycling(card) {
-        const timerId = cardTimers.get(card);
-        if (timerId) {
-          clearInterval(timerId);
-          cardTimers.delete(card);
-        }
-      }
-
-      function showCoverImage(card) {
-        const img = card.querySelector('.thumb img');
-        const coverUrl = card.getAttribute('data-cover-url');
-        img.src = encodeURI(coverUrl);
-        card.setAttribute('data-current-index', '-1'); // -1 indicates cover image
-      }
-
-      function resumeGalleryCycling(card) {
-        const galleryImages = JSON.parse(card.getAttribute('data-gallery-images') || '[]');
-
-        if (galleryImages.length === 0) return;
-
-        const img = card.querySelector('.thumb img');
-
-        // Handle both single and multiple image cases
-        const resumeToGallery = () => {
-          if (galleryImages.length === 1) {
-            // Single image: just show the gallery image
-            const encodedUrl = encodeURI(galleryImages[0]);
-            img.src = encodedUrl;
-            card.setAttribute('data-current-index', '0');
-          } else if (galleryImages.length > 1) {
-            // Multiple images: start cycling again
-            // Clear any existing timer first
-            if (cardTimers.has(card)) {
-              clearInterval(cardTimers.get(card));
-              cardTimers.delete(card);
-            }
-
-            let currentIndex = parseInt(card.getAttribute('data-current-index') || '0');
-
-            const cycleImages = () => {
-              currentIndex = (currentIndex + 1) % galleryImages.length;
-              img.src = galleryImages[currentIndex];
-              card.setAttribute('data-current-index', currentIndex.toString());
-            };
-
-            // Start cycling every 3 seconds
-            const timerId = setInterval(cycleImages, 3000);
-            cardTimers.set(card, timerId);
+          card.setAttribute('data-current-index', '0');
+        } else if (galleryImages.length > 1) {
+          // Multiple images: start cycling again
+          // Clear any existing timer first
+          if (cardTimers.has(card)) {
+            clearInterval(cardTimers.get(card));
+            cardTimers.delete(card);
           }
-        };
 
-        // 0.5 second delay for smooth transition, then resume
-        setTimeout(resumeToGallery, 500);
-      }
+          let currentIndex = parseInt(card.getAttribute('data-current-index') || '0');
 
-      function showNotification(message, type = 'info') {
-        // Remove existing notifications
-        const existingNotifications = document.querySelectorAll('.notification');
-        existingNotifications.forEach(notification => notification.remove());
+          const cycleImages = () => {
+            currentIndex = (currentIndex + 1) % galleryImages.length;
+            img.src = galleryImages[currentIndex];
+            card.setAttribute('data-current-index', currentIndex.toString());
+          };
 
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.innerHTML = `
+          // Start cycling every 3 seconds
+          const timerId = setInterval(cycleImages, 3000);
+          cardTimers.set(card, timerId);
+        }
+      };
+
+      // 0.5 second delay for smooth transition, then resume
+      setTimeout(resumeToGallery, 500);
+    }
+
+    function showNotification(message, type = 'info') {
+      // Remove existing notifications
+      const existingNotifications = document.querySelectorAll('.notification');
+      existingNotifications.forEach(notification => notification.remove());
+
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.innerHTML = `
           <div class="notification-content">
             <span class="notification-icon">${type === 'success' ? '✓' : 'ℹ'}</span>
             <span class="notification-text">${message}</span>
           </div>
         `;
 
-        document.body.appendChild(notification);
+      document.body.appendChild(notification);
 
-        // Trigger animation
-        setTimeout(() => notification.classList.add('show'), 100);
+      // Trigger animation
+      setTimeout(() => notification.classList.add('show'), 100);
 
-        // Auto remove after 4 seconds
-        setTimeout(() => {
-          notification.classList.remove('show');
-          setTimeout(() => notification.remove(), 300);
-        }, 4000);
+      // Auto remove after 4 seconds
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+      }, 4000);
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function populateTypes(models) {
+      const tags = new Set();
+      for (const m of models) {
+        if (m.tag) tags.add(m.tag);
+      }
+      const sorted = Array.from(tags).sort();
+
+      // Save current selection if possible
+      const current = elType.value;
+
+      elType.innerHTML = '<option value="">All types</option>';
+
+      for (const tag of sorted) {
+        const opt = document.createElement("option");
+        opt.value = tag;
+        opt.textContent = tag;
+        elType.appendChild(opt);
       }
 
-      function escapeHtml(s) {
-        return String(s)
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#039;");
+      if (tags.has(current)) {
+        elType.value = current;
       }
+    }
 
-      function populateTypes(models) {
-        const tags = new Set();
-        for (const m of models) {
-          if (m.tag) tags.add(m.tag);
+    async function loadManifest() {
+      clearError();
+      setStatus("loading…");
+      try {
+        // Load manifest directly (pricing is already baked into manifest.json)
+        const manifestRes = await fetch(MANIFEST_URL);
+
+        if (!manifestRes.ok) throw new Error(`Failed to load manifest: ${manifestRes.status} ${manifestRes.statusText}`);
+        const json = await manifestRes.json();
+
+        manifest = json;
+        if (manifest && Array.isArray(manifest.models)) {
+          populateTypes(manifest.models);
         }
-        const sorted = Array.from(tags).sort();
-
-        // Save current selection if possible
-        const current = elType.value;
-        
-        elType.innerHTML = '<option value="">All types</option>';
-        
-        for (const tag of sorted) {
-          const opt = document.createElement("option");
-          opt.value = tag;
-          opt.textContent = tag;
-          elType.appendChild(opt);
-        }
-        
-        if (tags.has(current)) {
-          elType.value = current;
-        }
-      }
-
-      async function loadManifest() {
-        clearError();
-        setStatus("loading…");
-        try {
-          // Load manifest directly (pricing is already baked into manifest.json)
-          const manifestRes = await fetch(MANIFEST_URL);
-
-          if (!manifestRes.ok) throw new Error(`Failed to load manifest: ${manifestRes.status} ${manifestRes.statusText}`);
-          const json = await manifestRes.json();
-
-          manifest = json;
-          if (manifest && Array.isArray(manifest.models)) {
-            populateTypes(manifest.models);
-          }
-          currentPage = 1; // Reset to first page when loading new manifest
-          render();
-        } catch (err) {
-          console.warn('Error loading data:', err);
-          manifest = null;
-          elGrid.innerHTML = "";
-          setStatus("error");
-          showError(
-            `Could not load <code>${escapeHtml(MANIFEST_URL)}</code>.<br/>` +
-            `<span style="color: rgba(255,255,255,0.86)">` +
-            `Error: <code>${escapeHtml(err && err.message ? err.message : String(err))}</code>` +
-            `</span>`
-          );
-        }
-      }
-
-      elQ.addEventListener("input", () => {
-        currentPage = 1; // Reset to first page when searching
+        currentPage = 1; // Reset to first page when loading new manifest
         render();
-      });
-      elType.addEventListener("change", () => {
-        currentPage = 1; // Reset to first page when filtering
-        render();
-      });
+      } catch (err) {
+        console.warn('Error loading data:', err);
+        manifest = null;
+        elGrid.innerHTML = "";
+        setStatus("error");
+        showError(
+          `Could not load <code>${escapeHtml(MANIFEST_URL)}</code>.<br/>` +
+          `<span style="color: rgba(255,255,255,0.86)">` +
+          `Error: <code>${escapeHtml(err && err.message ? err.message : String(err))}</code>` +
+          `</span>`
+        );
+      }
+    }
 
-      // Pagination event listeners
-      document.getElementById("prev-page").addEventListener("click", () => changePage(-1));
-      document.getElementById("next-page").addEventListener("click", () => changePage(1));
+    elQ.addEventListener("input", () => {
+      currentPage = 1; // Reset to first page when searching
+      render();
+    });
+    elType.addEventListener("change", () => {
+      currentPage = 1; // Reset to first page when filtering
+      render();
+    });
 
-      document.getElementById("main-purchase-btn").addEventListener("click", () => {
-        window.open("https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=build.lc&utm_campaign=3Dkit&utm_term=motivated", "_blank");
-      });
+    // Pagination event listeners
+    document.getElementById("prev-page").addEventListener("click", () => changePage(-1));
+    document.getElementById("next-page").addEventListener("click", () => changePage(1));
 
-      // Countdown Timer for Urgency Hero
-      function updateHeroCountdown() {
-        // Set the date we're counting down to (Mar 31, 2026 at midnight)
-        const countDownDate = new Date('2026-03-31T23:59:59').getTime();
+    document.getElementById("main-purchase-btn").addEventListener("click", () => {
+      window.open("https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=build.lc&utm_campaign=3Dkit&utm_term=motivated", "_blank");
+    });
 
-        function updateTimer() {
-          const now = new Date().getTime();
-          const distance = countDownDate - now;
+    // Countdown Timer for Urgency Hero
+    function updateHeroCountdown() {
+      // Set the date we're counting down to (Mar 31, 2026 at midnight)
+      const countDownDate = new Date('2026-03-31T23:59:59').getTime();
 
-          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      function updateTimer() {
+        const now = new Date().getTime();
+        const distance = countDownDate - now;
 
-          document.getElementById('days-hero').textContent = days.toString().padStart(2, '0');
-          document.getElementById('hours-hero').textContent = hours.toString().padStart(2, '0');
-          document.getElementById('minutes-hero').textContent = minutes.toString().padStart(2, '0');
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
-          if (distance < 0) {
-            document.getElementById('days-hero').textContent = '00';
-            document.getElementById('hours-hero').textContent = '00';
-            document.getElementById('minutes-hero').textContent = '00';
-          }
+        document.getElementById('days-hero').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hours-hero').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('minutes-hero').textContent = minutes.toString().padStart(2, '0');
+
+        if (distance < 0) {
+          document.getElementById('days-hero').textContent = '00';
+          document.getElementById('hours-hero').textContent = '00';
+          document.getElementById('minutes-hero').textContent = '00';
         }
-
-        updateTimer();
-        setInterval(updateTimer, 60000); // Update every minute
       }
 
-      loadManifest();
-      updateHeroCountdown();
-    </script>
+      updateTimer();
+      setInterval(updateTimer, 60000); // Update every minute
+    }
 
-  </body>
+    loadManifest();
+    updateHeroCountdown();
+  </script>
+
+</body>
+
 </html>
