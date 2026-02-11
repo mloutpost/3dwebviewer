@@ -8,7 +8,6 @@ const SESSION_KEY = 'lctf_builder_auth';
 
 // ── State ──
 let manifest = null;
-let quoteItems = new Map(); // id -> { model, builderPrice, listPrice }
 
 // ── DOM Refs ──
 const pinGate = document.getElementById('pin-gate');
@@ -20,10 +19,6 @@ const grid = document.getElementById('grid');
 const searchInput = document.getElementById('q');
 const typeFilter = document.getElementById('type-filter');
 const discountTier = document.getElementById('discount-tier');
-const quoteBar = document.getElementById('quote-bar');
-const quoteCount = document.getElementById('quote-count');
-const quoteTotal = document.getElementById('quote-total');
-const quoteSavings = document.getElementById('quote-savings');
 
 // ════════════════════════════════════════════
 // PIN GATE
@@ -150,8 +145,6 @@ function render() {
     const card = document.createElement('div');
     card.className = 'p-card' + (isComingSoon ? ' p-card-coming-soon' : '');
 
-    const inQuote = quoteItems.has(model.id);
-
     card.innerHTML = `
       <div class="p-card-thumb">
         <img src="${thumbUrl}" alt="${escapeHtml(model.name || '')}" loading="lazy"
@@ -175,152 +168,15 @@ function render() {
         ${!isComingSoon ? `
         <div class="p-card-actions">
           <a href="detail.html?id=${encodeURIComponent(model.id)}" class="p-card-view">View Details</a>
-          <button class="p-card-quote-btn ${inQuote ? 'added' : ''}" data-id="${escapeHtml(model.id)}">
-            ${inQuote ? '✓ In Quote' : '+ Quote'}
-          </button>
         </div>` : ''}
       </div>
     `;
-
-    // Quote toggle handler
-    const qBtn = card.querySelector('.p-card-quote-btn');
-    if (qBtn) {
-      qBtn.addEventListener('click', () => {
-        toggleQuoteItem(model, listPrice, builderPrice);
-      });
-    }
 
     grid.appendChild(card);
   });
 }
 
-// ════════════════════════════════════════════
-// QUOTE BUILDER
-// ════════════════════════════════════════════
 
-function toggleQuoteItem(model, listPrice, builderPrice) {
-  if (quoteItems.has(model.id)) {
-    quoteItems.delete(model.id);
-  } else {
-    quoteItems.set(model.id, { model, listPrice, builderPrice });
-  }
-  updateQuoteBar();
-  render(); // re-render to update button states
-}
-
-function updateQuoteBar() {
-  if (quoteItems.size === 0) {
-    quoteBar.style.display = 'none';
-    return;
-  }
-  quoteBar.style.display = 'block';
-
-  let total = 0, savedTotal = 0;
-  quoteItems.forEach(item => {
-    total += item.builderPrice;
-    savedTotal += (item.listPrice - item.builderPrice);
-  });
-
-  quoteCount.textContent = quoteItems.size + (quoteItems.size === 1 ? ' kit' : ' kits');
-  quoteTotal.textContent = formatMoney(total);
-  quoteSavings.textContent = formatMoney(savedTotal);
-}
-
-document.getElementById('clear-quote').addEventListener('click', () => {
-  quoteItems.clear();
-  updateQuoteBar();
-  render();
-});
-
-document.getElementById('generate-quote').addEventListener('click', showQuoteModal);
-
-function showQuoteModal() {
-  const modal = document.getElementById('quote-modal');
-  const body = document.getElementById('quote-body');
-
-  let total = 0, listTotal = 0, rebateTotal = 0;
-  let rows = '';
-
-  quoteItems.forEach(item => {
-    total += item.builderPrice;
-    listTotal += item.listPrice;
-    const rebate = Math.round(item.builderPrice * 0.01);
-    rebateTotal += rebate;
-    rows += `
-      <tr>
-        <td>${escapeHtml(item.model.name || item.model.id)}</td>
-        <td class="qt-right"><span class="qt-strike">${formatMoney(item.listPrice)}</span></td>
-        <td class="qt-right">${formatMoney(item.builderPrice)}</td>
-      </tr>
-    `;
-  });
-
-  const savedTotal = listTotal - total;
-  const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  const discountLabel = getDiscount() === 3000 ? 'Kits 6+ (−$3,000/kit)' : 'First 5 Kits (−$1,500/kit)';
-
-  body.innerHTML = `
-    <div class="quote-brand">
-      <img src="assets/global_graphics/LCTF Profile.png" alt="LC Timberframes" />
-      <div class="quote-brand-text">
-        <h3>LC Timberframes</h3>
-        <p>Builder & Contractor Quote</p>
-      </div>
-    </div>
-    <div class="quote-meta">
-      <div>Date: ${today}</div>
-      <div>Discount Tier: ${discountLabel}</div>
-    </div>
-    <table class="quote-table">
-      <thead>
-        <tr>
-          <th>Kit</th>
-          <th class="qt-right">List Price</th>
-          <th class="qt-right">Builder Price</th>
-        </tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>
-    <div class="quote-totals">
-      <div class="quote-totals-row">
-        <span class="ql">List Total:</span>
-        <span>${formatMoney(listTotal)}</span>
-      </div>
-      <div class="quote-totals-row">
-        <span class="ql">Builder Savings:</span>
-        <span style="color:var(--accent)">−${formatMoney(savedTotal)}</span>
-      </div>
-      <div class="quote-totals-row">
-        <span class="ql">Est. 1% Rebate:</span>
-        <span style="color:var(--gold)">+${formatMoney(rebateTotal)}</span>
-      </div>
-      <div class="quote-totals-row total">
-        <span class="ql">Builder Total:</span>
-        <span>${formatMoney(total)}</span>
-      </div>
-    </div>
-    <div class="quote-footer-note">
-      Prices are for timber frame kit only and do not include shipping, installation, or additional materials.
-      Pricing valid for 30 days from quote date. Contact your LC Timberframes trade representative for final pricing and availability.
-    </div>
-  `;
-
-  modal.style.display = 'flex';
-}
-
-document.getElementById('close-quote-modal').addEventListener('click', () => {
-  document.getElementById('quote-modal').style.display = 'none';
-});
-
-document.getElementById('print-quote').addEventListener('click', () => {
-  window.print();
-});
-
-document.getElementById('quote-modal').addEventListener('click', (e) => {
-  if (e.target === e.currentTarget) {
-    document.getElementById('quote-modal').style.display = 'none';
-  }
-});
 
 // ════════════════════════════════════════════
 // LOAD DATA
@@ -344,14 +200,7 @@ async function loadManifest() {
 // ── Event Listeners ──
 searchInput.addEventListener('input', render);
 typeFilter.addEventListener('change', render);
-discountTier.addEventListener('change', () => {
-  // Recalculate quote items with new discount
-  quoteItems.forEach((item, id) => {
-    item.builderPrice = getBuilderPrice(item.listPrice);
-  });
-  updateQuoteBar();
-  render();
-});
+discountTier.addEventListener('change', render);
 
 // ── Init ──
 if (!checkSession()) {
