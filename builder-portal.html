@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Builder & Contractor Portal | LC Timberframes</title>
+    <meta name="description"
+        content="Exclusive builder and contractor pricing portal for LC Timberframes pre-fabricated timber frame kits." />
+    <link rel="icon" type="image/png" href="assets/global_graphics/LCTF Profile.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/builder-portal.css" />
+    <script src="https://app.metricslite.com/tracker-1.0.js"
+        data-site-id="7a184184-bbf4-4ec1-81ba-8d738decb242"></script>
+</head>
+
+<body>
+
+    <!-- ═══════════ PIN GATE ═══════════ -->
+    <div id="pin-gate" class="pin-gate">
+        <div class="pin-gate-inner">
+            <img src="assets/global_graphics/LCTF Profile.png" alt="LC Timberframes" class="pin-logo" />
+            <div class="pin-badge">Trade Partners Only</div>
+            <h1 class="pin-title">Builder & Contractor Portal</h1>
+            <p class="pin-sub">Enter your access PIN to view exclusive trade pricing, rebates, and professional tools.
+            </p>
+            <div class="pin-input-wrap">
+                <input id="pin-input" type="password" inputmode="numeric" maxlength="6" placeholder="••••"
+                    autocomplete="off" />
+                <button id="pin-submit" class="pin-btn">Access Portal</button>
+            </div>
+            <p id="pin-error" class="pin-error" style="display:none">Incorrect PIN. Please try again.</p>
+            <a href="index.html" class="pin-back">← Back to Catalog</a>
+        </div>
+    </div>
+
+    <!-- ═══════════ PORTAL CONTENT ═══════════ -->
+    <div id="portal" class="portal" style="display:none">
+        <header class="portal-header">
+            <div class="header-left">
+                <a href="index.html" class="back-link">← Catalog</a>
+                <img src="assets/global_graphics/LCTF Profile.png" alt="LC Timberframes" class="header-logo" />
+                <div class="header-text">
+                    <h1>Builder & Contractor Portal</h1>
+                    <span class="header-tag">Trade Partner Pricing</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="logout-btn" class="btn-ghost">Sign Out</button>
+            </div>
+        </header>
+
+        <main class="portal-main">
+
+            <!-- ── Hero ── -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <h2 class="hero-headline">Exclusive Trade Pricing<br /><span class="hero-accent">Built for
+                            Builders</span></h2>
+                    <p class="hero-desc">Access discounted pricing on every timber frame kit, earn 1% rebates on
+                        purchases, and get priority lead times as an LC Timberframes trade partner.</p>
+                </div>
+                <div class="hero-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon-text">$</div>
+                        <div class="stat-value">$1,500–$3,000</div>
+                        <div class="stat-label">Off Per Kit</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon-text">%</div>
+                        <div class="stat-value">1%</div>
+                        <div class="stat-label">Rebate on Purchases</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon-text">→</div>
+                        <div class="stat-value">3–5 Wk</div>
+                        <div class="stat-label">Standard Species Lead Time</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── Discount Explainer ── -->
+            <section class="discount-section">
+                <h3 class="section-label">Your Builder Discount</h3>
+                <div class="discount-tiers">
+                    <div class="tier-card active">
+                        <div class="tier-header">
+                            <span class="tier-name">First 5 Kits</span>
+                            <span class="tier-badge">$1,500 off</span>
+                        </div>
+                        <p class="tier-desc">Every kit in your first five purchases receives a $1,500 discount off list
+                            price.</p>
+                    </div>
+                    <div class="tier-card">
+                        <div class="tier-header">
+                            <span class="tier-name">Kits 6+</span>
+                            <span class="tier-badge tier-badge-gold">$3,000 off</span>
+                        </div>
+                        <p class="tier-desc">After your fifth kit, every subsequent purchase receives a $3,000 discount
+                            off list price.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── Catalog Controls ── -->
+            <section class="catalog-section" id="catalog">
+                <div class="catalog-header">
+                    <h3 class="section-label">Trade Pricing Catalog</h3>
+                    <div class="catalog-controls">
+                        <input id="q" class="ctl-input" placeholder="Search kits…" autocomplete="off" />
+                        <select id="type-filter" class="ctl-select" aria-label="Filter by type">
+                            <option value="">All types</option>
+                        </select>
+                        <select id="discount-tier" class="ctl-select" aria-label="Discount tier">
+                            <option value="1500">First 5 Kits (−$1,500)</option>
+                            <option value="3000">Kits 6+ (−$3,000)</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="grid" class="product-grid" aria-live="polite"></div>
+            </section>
+
+            <!-- ── Quote Builder ── -->
+            <div id="quote-bar" class="quote-bar" style="display:none">
+                <div class="quote-bar-inner">
+                    <div class="quote-info">
+                        <span id="quote-count" class="quote-count">0 kits</span>
+                        <span class="quote-sep">·</span>
+                        <span id="quote-total" class="quote-total">$0</span>
+                        <span class="quote-savings-label">You save:</span>
+                        <span id="quote-savings" class="quote-savings">$0</span>
+                    </div>
+                    <div class="quote-actions">
+                        <button id="clear-quote" class="btn-ghost-sm">Clear</button>
+                        <button id="generate-quote" class="btn-accent">Generate Quote</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Rebate Section ── -->
+            <section class="rebate-section">
+                <h3 class="section-label">1% Rebate Program</h3>
+                <div class="rebate-content">
+                    <div class="rebate-info">
+                        <p>Earn <strong>1% back</strong> on every timber frame kit purchase. Rebates accumulate and are
+                            paid out periodically to active trade partners.</p>
+                        <div class="rebate-examples">
+                            <div class="rebate-example">
+                                <span class="re-price">$33,999 kit</span>
+                                <span class="re-arrow">→</span>
+                                <span class="re-rebate">$340 rebate</span>
+                            </div>
+                            <div class="rebate-example">
+                                <span class="re-price">$96,999 kit</span>
+                                <span class="re-arrow">→</span>
+                                <span class="re-rebate">$970 rebate</span>
+                            </div>
+                            <div class="rebate-example">
+                                <span class="re-price">$149,999 kit</span>
+                                <span class="re-arrow">→</span>
+                                <span class="re-rebate">$1,500 rebate</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="mailto:sales@lctimberframes.com?subject=Builder%20Rebate%20Program%20Inquiry&body=Hi%20LC%20Timberframes%20Team%2C%0A%0AI'm%20interested%20in%20learning%20more%20about%20your%20Builder%20Rebate%20Program.%20I'm%20a%20builder%2Fcontractor%20and%20would%20like%20to%20enroll%20in%20the%201%25%20rebate%20program%20for%20timber%20frame%20kit%20purchases.%0A%0APlease%20send%20me%20the%20details%20on%20how%20to%20get%20started.%0A%0AThank%20you!"
+                        class="btn-accent" style="align-self:center">Enroll in Rebate Program</a>
+                </div>
+            </section>
+
+            <!-- ── Resources ── -->
+            <section class="resources-section">
+                <h3 class="section-label">Builder Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="rc-icon-text">Support</div>
+                        <h4>Dedicated Trade Support</h4>
+                        <p>Your dedicated rep for trade accounts, priority support, and project coordination.</p>
+                        <a href="sms:6159177974&body=Hi%2C%20I'm%20a%20builder%2Fcontractor%20interested%20in%20LC%20Timberframes%20trade%20partner%20program.%20I'd%20like%20to%20connect%20with%20a%20rep%20to%20discuss%20timber%20frame%20kits%20for%20my%20projects."
+                            class="rc-link">Contact Your Rep →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="rc-icon-text">Gallery</div>
+                        <h4>Submit Your Project</h4>
+                        <p>Installed one of our kits? Share photos of your completed project for our gallery.</p>
+                        <a href="mailto:sales@lctimberframes.com?subject=Project%20Gallery%20Submission&body=Hi%20LC%20Timberframes%20Team%2C%0A%0AI've%20completed%20a%20project%20using%20one%20of%20your%20timber%20frame%20kits%20and%20would%20like%20to%20submit%20photos%20for%20your%20gallery.%0A%0AKit%20used%3A%20%0AProject%20location%3A%20%0A%0AI'll%20attach%20photos%20to%20a%20follow-up%20email.%0A%0AThank%20you!"
+                            class="rc-link">Submit Photos →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="rc-icon-text">Referral</div>
+                        <h4>Referral Program</h4>
+                        <p>Know another builder? Refer them to our trade program and earn referral bonuses.</p>
+                        <a href="mailto:sales@lctimberframes.com?subject=Builder%20Referral&body=Hi%20LC%20Timberframes%20Team%2C%0A%0AI'd%20like%20to%20refer%20a%20fellow%20builder%2Fcontractor%20to%20your%20trade%20partner%20program.%0A%0AReferral%20name%3A%20%0AReferral%20email%3A%20%0AReferral%20phone%3A%20%0A%0AThank%20you!"
+                            class="rc-link">Refer a Builder →</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="portal-footer">
+            <span>LC Timberframes · Trade Partner Portal</span>
+            <a href="index.html">Public Catalog</a>
+        </footer>
+    </div>
+
+    <!-- ═══════════ PRINT QUOTE MODAL ═══════════ -->
+    <div id="quote-modal" class="quote-modal" style="display:none">
+        <div class="quote-modal-content">
+            <div class="quote-modal-header">
+                <h2>Builder Quote</h2>
+                <div class="quote-modal-actions">
+                    <button id="print-quote" class="btn-accent">Print Quote</button>
+                    <button id="close-quote-modal" class="btn-ghost">Close</button>
+                </div>
+            </div>
+            <div id="quote-body" class="quote-body"></div>
+        </div>
+    </div>
+
+    <script src="assets/builder-portal.js"></script>
+</body>
+
+</html>
