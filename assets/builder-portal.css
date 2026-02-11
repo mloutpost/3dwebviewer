@@ -30,19 +30,41 @@
     /* Dark theme with Franklin palette */
     --bg: var(--forest-brown);
     --bg-secondary: #3a352f;
-    --panel: #4a443c;
-    --panel-hover: #5a544c;
+    --panel: #5c554c;
+    --panel-hover: #6a645c;
     --text: var(--ivory-white);
-    --text-muted: var(--pebble-grey);
-    --text-secondary: #e8e3d8;
-    --border: rgba(247, 247, 247, 0.2);
+    --text-muted: #e0dbd0;
+    --text-secondary: #c8c3b8;
+    --border: rgba(247, 247, 247, 0.18);
     --border-hover: rgba(247, 247, 247, 0.3);
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.6);
-    --accent: var(--slab-blue);
-    --accent-light: #a8c8e8;
+    --accent: var(--franklin-green);
+    --accent-light: #3a7d44;
     --gold: #d4a574;
     --gold-light: #4a3d30;
+  }
+
+  /* Ensure price highlight pops in dark mode */
+  .p-price-builder {
+    color: var(--slab-blue);
+  }
+
+  .rc-link {
+    color: var(--slab-blue);
+  }
+
+  .rc-link:hover {
+    color: #a8c8e8;
+  }
+
+  .header-tag {
+    color: var(--slab-blue);
+  }
+
+  .rc-icon-text {
+    color: var(--slab-blue);
+    border-color: rgba(205, 227, 242, 0.3);
   }
 }
 
@@ -121,7 +143,8 @@ a {
 .pin-logo {
   height: 64px;
   width: auto;
-  margin-bottom: 1.5rem;
+  margin: 0 auto 1.5rem;
+  display: block;
   opacity: 0.9;
 }
 
