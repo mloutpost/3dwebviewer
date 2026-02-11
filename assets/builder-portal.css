@@ -27,20 +27,22 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #1e1b18;
-    --bg-secondary: #28241f;
-    --panel: #312d28;
-    --panel-hover: #3c3731;
-    --text: #f0ece4;
-    --text-muted: #b5ad9f;
-    --text-secondary: #918a7e;
-    --border: rgba(240, 236, 228, 0.12);
-    --border-hover: rgba(240, 236, 228, 0.22);
-    --shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.35);
-    --accent: #7fb886;
-    --accent-light: #a3d4a8;
-    --gold-light: #3d3520;
+    /* Dark theme with Franklin palette */
+    --bg: var(--forest-brown);
+    --bg-secondary: #3a352f;
+    --panel: #4a443c;
+    --panel-hover: #5a544c;
+    --text: var(--ivory-white);
+    --text-muted: var(--pebble-grey);
+    --text-secondary: #e8e3d8;
+    --border: rgba(247, 247, 247, 0.2);
+    --border-hover: rgba(247, 247, 247, 0.3);
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.6);
+    --accent: var(--slab-blue);
+    --accent-light: #a8c8e8;
+    --gold: #d4a574;
+    --gold-light: #4a3d30;
   }
 }
 
