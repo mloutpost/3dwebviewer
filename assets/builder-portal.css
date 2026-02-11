@@ -47,7 +47,7 @@
 
   /* Ensure price highlight pops in dark mode */
   .p-price-builder {
-    color: var(--slab-blue);
+    color: #e55;
   }
 
   .rc-link {
@@ -662,7 +662,7 @@ a {
 .p-price-builder {
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--accent);
+  color: #c44;
 }
 
 .p-price-saved {
