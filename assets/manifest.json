@@ -446,6 +446,7 @@
       "description": "24x30 Cottage with timber frame construction",
       "tag": "Other",
       "price": "$71,399",
+      "hidden": true,
       "features": [
         "24x30 footprint",
         "Timber frame construction"
@@ -491,6 +492,7 @@
       "description": "20x36 Cruck Pavilion with timber frame construction",
       "tag": "Pavilion/Pergola",
       "price": "$71,999",
+      "hidden": true,
       "features": [
         "20x36 footprint",
         "Timber frame construction"

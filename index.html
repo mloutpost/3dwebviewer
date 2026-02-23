@@ -1192,6 +1192,7 @@
       const typeFilter = elType.value;
 
       const filtered = models
+        .filter((m) => !m.hidden)
         .map((m) => ({ raw: m, t: normalizeType(m) }))
         .filter(({ raw, t }) => {
           if (typeFilter && raw.tag !== typeFilter) return false;
