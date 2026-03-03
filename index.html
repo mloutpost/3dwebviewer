@@ -4,10 +4,12 @@
 <head>
   <meta charset="utf-8" />
   <script>
-    // Register service worker to block unwanted Cadwork API calls
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js', { scope: '/' })
-        .catch(() => { }); // Silently fail on localhost/http
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        regs.forEach(function(r) { r.unregister(); });
+      }).then(function() {
+        return navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' });
+      }).catch(function() {});
     }
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -954,11 +956,113 @@
 
       /* (Legacy urgency hero mobile rules removed) */
     }
+
+    /* ═══ BOTTOM BONES BANNER ═══ */
+    .bones-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 900;
+      background: var(--franklin-green);
+      color: #fff;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.2);
+      transform: translateY(100%);
+      animation: bannerSlideUp 0.5s ease 1s forwards;
+    }
+
+    .bones-banner.dismissed {
+      animation: bannerSlideDown 0.3s ease forwards;
+    }
+
+    .bones-banner-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .bones-banner-text h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0 0 0.15rem;
+      letter-spacing: -0.01em;
+    }
+
+    .bones-banner-text p {
+      margin: 0;
+      font-size: 0.8rem;
+      opacity: 0.85;
+      line-height: 1.4;
+    }
+
+    .bones-banner-close {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+    }
+
+    .bones-banner-close:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    @keyframes bannerSlideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    @keyframes bannerSlideDown {
+      from { transform: translateY(0); }
+      to { transform: translateY(100%); }
+    }
+
+    @media (max-width: 768px) {
+      .bones-banner { padding: 0.85rem 1rem; }
+      .bones-banner-text h4 { font-size: 0.9rem; }
+      .bones-banner-text p { font-size: 0.75rem; }
+    }
   </style>
   <script src="https://app.metricslite.com/tracker-1.0.js" data-site-id="7a184184-bbf4-4ec1-81ba-8d738decb242"></script>
 </head>
 
 <body>
+  <!-- Bottom banner -->
+  <div id="bones-banner" class="bones-banner" style="display:none">
+    <div class="bones-banner-inner">
+      <div class="bones-banner-text">
+        <h4>Looking for the Bones of Your Next Build?</h4>
+        <p>We sell pre-fabricated timber frame kits &mdash; the structural skeleton for your dream project.</p>
+      </div>
+      <button class="bones-banner-close" id="bones-dismiss" aria-label="Dismiss">&times;</button>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var banner = document.getElementById('bones-banner');
+      var btn = document.getElementById('bones-dismiss');
+      if (localStorage.getItem('lctf_bones_dismissed')) return;
+      banner.style.display = '';
+      btn.addEventListener('click', function() {
+        banner.classList.add('dismissed');
+        localStorage.setItem('lctf_bones_dismissed', '1');
+        setTimeout(function() { banner.style.display = 'none'; }, 300);
+      });
+    })();
+  </script>
+
   <div class="wrap">
     <header>
       <img src="assets/global_graphics/LCTF Profile.png" alt="LC Timberframes Logo" class="logo">
@@ -1595,9 +1699,10 @@
       }
     }
 
+    let _searchTimer;
     elQ.addEventListener("input", () => {
-      currentPage = 1; // Reset to first page when searching
-      render();
+      clearTimeout(_searchTimer);
+      _searchTimer = setTimeout(() => { currentPage = 1; render(); }, 200);
     });
     elType.addEventListener("change", () => {
       currentPage = 1; // Reset to first page when filtering

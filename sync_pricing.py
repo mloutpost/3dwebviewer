@@ -74,6 +74,7 @@ def sync_pricing():
             if len(row) >= 5:
                 sn = row[0].strip()
                 price = row[4].strip()
+                sale_price = row[10].strip() if len(row) >= 11 else ''
 
                 # Only process rows with valid SN and price
                 if sn and price and price not in ['Yes', 'No', ''] and price.isdigit():
@@ -81,8 +82,13 @@ def sync_pricing():
                     model_id = SN_MAPPING.get(sn)
                     if model_id:
                         formatted_price = format_price(price)
-                        pricing_data[model_id] = formatted_price
-                        print(f"✅ {sn} → {model_id}: {formatted_price}")
+                        formatted_sale = ''
+                        if sale_price and sale_price.isdigit():
+                            formatted_sale = format_price(sale_price)
+                            print(f"✅ {sn} → {model_id}: {formatted_price} → SALE: {formatted_sale}")
+                        else:
+                            print(f"✅ {sn} → {model_id}: {formatted_price}")
+                        pricing_data[model_id] = (formatted_price, formatted_sale)
                     else:
                         print(f"⚠️  {sn} not in mapping - skipping")
 
@@ -90,11 +96,12 @@ def sync_pricing():
             print("❌ No valid pricing data found")
             return
 
-        # Write to local CSV (no quotes)
-        with open('assets/pricing.csv', 'w') as csvfile:
-            csvfile.write('id,price\n')
-            for model_id, price in pricing_data.items():
-                csvfile.write(f'{model_id},{price}\n')
+        # Write to local CSV with sale_price column (quoted to handle commas in prices)
+        with open('assets/pricing.csv', 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile, quoting=csv.QUOTE_NONNUMERIC)
+            writer.writerow(['id', 'price', 'sale_price'])
+            for model_id, (price, sale_price) in pricing_data.items():
+                writer.writerow([model_id, price, sale_price])
 
         print(f"🎯 Successfully synced {len(pricing_data)} pricing entries to assets/pricing.csv")
         print("💡 Refresh your website to see updated pricing!")

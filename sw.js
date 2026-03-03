@@ -23,17 +23,12 @@ self.addEventListener('fetch', (event) => {
   // Check if this request should be blocked
   const shouldBlock = BLOCKED_PATTERNS.some(pattern => url.includes(pattern));
   
-  if (shouldBlock) {
-    // Return a fake successful response
-    event.respondWith(
-      new Response(JSON.stringify({ blocked: true, message: 'Request intercepted by service worker' }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-    );
-    return;
-  }
-  
-  // Let all other requests pass through normally
-  event.respondWith(fetch(event.request));
+  if (!shouldBlock) return;
+
+  event.respondWith(
+    new Response(JSON.stringify({ blocked: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  );
 });

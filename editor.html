@@ -1,0 +1,888 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        regs.forEach(function(r) { r.unregister(); });
+      });
+    }
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Model Editor | LC Timberframes</title>
+  <link rel="icon" type="image/png" href="assets/global_graphics/LCTF Profile.png">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --franklin-green: #2C3E2F;
+      --slab-blue: #CDE3F2;
+      --forest-brown: #4F423A;
+      --pebble-grey: #DEDBCE;
+      --ivory-white: #F7F7F7;
+      --bg: #f4f1ec;
+      --bg-secondary: #e8e4dc;
+      --panel: #ffffff;
+      --panel-hover: #faf9f6;
+      --text: #2a231e;
+      --text-muted: #6b6358;
+      --border: rgba(79, 66, 58, 0.14);
+      --border-hover: rgba(79, 66, 58, 0.28);
+      --shadow: 0 2px 12px rgba(79, 66, 58, 0.06);
+      --shadow-lg: 0 8px 32px rgba(79, 66, 58, 0.10);
+      --accent: #2C3E2F;
+      --accent-light: #3a7d44;
+      --danger: #c75b5b;
+      --radius: 12px;
+      --radius-lg: 16px;
+      --transition: 0.25s ease;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: var(--forest-brown);
+        --bg-secondary: #3a352f;
+        --panel: #5c554c;
+        --panel-hover: #6a645c;
+        --text: var(--ivory-white);
+        --text-muted: #e0dbd0;
+        --border: rgba(247, 247, 247, 0.18);
+        --border-hover: rgba(247, 247, 247, 0.3);
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.6);
+        --accent: var(--franklin-green);
+        --accent-light: #3a7d44;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ═══ PIN GATE ═══ */
+    .pin-gate {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg);
+    }
+    .pin-gate.exiting { animation: fadeOut 0.4s ease forwards; }
+    .pin-inner {
+      text-align: center; max-width: 380px; padding: 2.5rem;
+      animation: fadeInUp 0.6s ease both;
+    }
+    .pin-logo { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1.5rem; }
+    .pin-badge {
+      display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px;
+      font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+      background: var(--franklin-green); color: #fff; margin-bottom: 1rem;
+    }
+    .pin-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem; margin-bottom: 0.5rem;
+    }
+    .pin-sub { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .pin-wrap { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1rem; }
+    .pin-wrap input {
+      flex: 1; max-width: 180px; padding: 0.75rem 1rem; border: 1px solid var(--border);
+      border-radius: var(--radius); font-size: 1.1rem; text-align: center;
+      background: var(--panel); color: var(--text); outline: none;
+      letter-spacing: 0.3em;
+    }
+    .pin-wrap input:focus { border-color: var(--franklin-green); }
+    .pin-btn {
+      padding: 0.75rem 1.5rem; border: none; border-radius: var(--radius);
+      background: var(--franklin-green); color: #fff;
+      font-weight: 600; font-size: 0.9rem; cursor: pointer;
+      transition: background-color var(--transition);
+    }
+    .pin-btn:hover { background: var(--accent-light); }
+    .pin-error {
+      color: var(--danger); font-size: 0.85rem; display: none;
+      animation: shake 0.4s ease;
+    }
+    .pin-back { display: inline-block; margin-top: 1rem; color: var(--text-muted); font-size: 0.85rem; }
+    .pin-back:hover { text-decoration: underline; }
+
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+    @keyframes fadeOut { to { opacity: 0; } }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+    /* ═══ LAYOUT ═══ */
+    .editor { display: none; }
+    .editor-header {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 1.5rem;
+      background: var(--panel); border-bottom: 1px solid var(--border);
+    }
+    .editor-header-left { display: flex; align-items: center; gap: 1rem; }
+    .editor-header-left img { width: 36px; height: 36px; border-radius: 50%; }
+    .editor-header-left h1 { font-size: 1.1rem; font-weight: 600; }
+    .editor-header-right { display: flex; gap: 0.5rem; }
+
+    .editor-body {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      height: calc(100vh - 57px);
+    }
+
+    @media (max-width: 900px) {
+      .editor-body { grid-template-columns: 1fr; }
+      .edit-panel { position: fixed; inset: 0; z-index: 200; overflow-y: auto; }
+      .edit-panel.hidden { display: none; }
+    }
+
+    /* ═══ SIDEBAR (MODEL LIST) ═══ */
+    .sidebar {
+      border-right: 1px solid var(--border);
+      overflow-y: auto; background: var(--bg);
+      contain: layout style;
+    }
+    .sidebar-search {
+      position: sticky; top: 0; z-index: 10;
+      padding: 0.75rem; background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-search input {
+      width: 100%; padding: 0.6rem 0.85rem;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--panel); color: var(--text);
+      font-size: 0.85rem; outline: none;
+    }
+    .sidebar-search input:focus { border-color: var(--franklin-green); }
+
+    .model-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer; transition: background-color var(--transition);
+    }
+    .model-item:hover { background: var(--panel-hover); }
+    .model-item.active { background: var(--panel); box-shadow: inset 3px 0 0 var(--franklin-green); }
+
+    .model-item-thumb {
+      width: 48px; height: 48px; border-radius: 8px;
+      object-fit: cover; flex-shrink: 0;
+      background: var(--bg-secondary);
+    }
+    .model-item-info { flex: 1; min-width: 0; }
+    .model-item-name {
+      font-size: 0.85rem; font-weight: 600;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .model-item-meta {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.7rem; color: var(--text-muted); margin-top: 0.15rem;
+    }
+    .badge {
+      display: inline-block; padding: 0.1rem 0.4rem; border-radius: 4px;
+      font-size: 0.65rem; font-weight: 600; text-transform: uppercase;
+    }
+    .badge-sale { background: #e8f5e9; color: #2e7d32; }
+    .badge-hidden { background: #fff3e0; color: #e65100; }
+    @media (prefers-color-scheme: dark) {
+      .badge-sale { background: rgba(46, 125, 50, 0.25); color: #81c784; }
+      .badge-hidden { background: rgba(230, 81, 0, 0.25); color: #ffb74d; }
+    }
+
+    /* ═══ EDIT PANEL ═══ */
+    .edit-panel {
+      overflow-y: auto; background: var(--bg-secondary); padding: 2rem;
+      contain: layout style;
+    }
+    .edit-panel.hidden { display: flex; align-items: center; justify-content: center; }
+    .edit-empty { text-align: center; color: var(--text-muted); }
+    .edit-empty p { font-size: 1.1rem; }
+
+    .edit-form { max-width: 720px; margin: 0 auto; }
+    .edit-form-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.5rem; gap: 1rem; flex-wrap: wrap;
+    }
+    .edit-form-header h2 {
+      font-family: 'DM Serif Display', serif; font-size: 1.4rem;
+    }
+
+    .field { margin-bottom: 1.25rem; }
+    .field label {
+      display: block; font-size: 0.8rem; font-weight: 600;
+      margin-bottom: 0.35rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .field input[type="text"],
+    .field textarea,
+    .field select {
+      width: 100%; padding: 0.65rem 0.85rem;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--panel); color: var(--text);
+      font-family: inherit; font-size: 0.9rem; outline: none;
+      transition: border-color var(--transition);
+    }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      border-color: var(--franklin-green);
+    }
+    .field textarea { resize: vertical; min-height: 80px; }
+
+    .field-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    @media (max-width: 500px) { .field-row { grid-template-columns: 1fr; } }
+
+    .field-check {
+      display: flex; align-items: center; gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .field-check input[type="checkbox"] {
+      width: 18px; height: 18px; accent-color: var(--franklin-green);
+      cursor: pointer;
+    }
+    .field-check label {
+      font-size: 0.85rem; font-weight: 500;
+      color: var(--text); cursor: pointer;
+      margin: 0; text-transform: none; letter-spacing: 0;
+    }
+
+    /* ═══ LIST EDITOR (features, gallery) ═══ */
+    .list-editor { margin-top: 0.35rem; }
+    .list-item {
+      display: flex; align-items: center; gap: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+    .list-item input {
+      flex: 1; padding: 0.5rem 0.7rem;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--panel); color: var(--text);
+      font-family: inherit; font-size: 0.85rem; outline: none;
+    }
+    .list-item input:focus { border-color: var(--franklin-green); }
+    .list-item-preview {
+      width: 36px; height: 36px; border-radius: 6px;
+      object-fit: cover; flex-shrink: 0; background: var(--bg);
+    }
+    .list-btn-remove {
+      width: 28px; height: 28px; border: none; border-radius: 6px;
+      background: transparent; color: var(--danger); cursor: pointer;
+      font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+      transition: background-color var(--transition); flex-shrink: 0;
+    }
+    .list-btn-remove:hover { background: rgba(199, 91, 91, 0.1); }
+
+    .btn-add {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      padding: 0.4rem 0.8rem; margin-top: 0.3rem;
+      border: 1px dashed var(--border); border-radius: var(--radius);
+      background: transparent; color: var(--text-muted);
+      font-size: 0.8rem; cursor: pointer; transition: border-color var(--transition), color var(--transition);
+    }
+    .btn-add:hover { border-color: var(--franklin-green); color: var(--franklin-green); }
+
+    /* ═══ THUMBNAIL PREVIEW ═══ */
+    .thumb-preview {
+      margin-top: 0.5rem; display: flex; align-items: center; gap: 0.75rem;
+    }
+    .thumb-preview img {
+      width: 80px; height: 80px; border-radius: 8px;
+      object-fit: cover; background: var(--bg);
+    }
+
+    /* ═══ SECTION DIVIDER ═══ */
+    .section-divider {
+      margin: 1.5rem 0; padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .section-divider h3 {
+      font-size: 0.85rem; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+
+    /* ═══ BUTTONS ═══ */
+    .btn {
+      padding: 0.6rem 1.2rem; border: none; border-radius: var(--radius);
+      font-family: inherit; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+    }
+    .btn-primary { background: var(--franklin-green); color: #fff; }
+    .btn-primary:hover { background: var(--accent-light); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-ghost {
+      background: transparent; color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--border-hover); color: var(--text); }
+    .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+    .btn-danger:hover { background: var(--danger); color: #fff; }
+
+    /* ═══ TOAST ═══ */
+    .toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9000;
+      padding: 0.75rem 1.25rem; border-radius: var(--radius);
+      font-size: 0.85rem; font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      animation: slideUp 0.3s ease;
+    }
+    .toast-success { background: var(--franklin-green); color: #fff; }
+    .toast-error { background: var(--danger); color: #fff; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+    /* ═══ MOBILE BACK ═══ */
+    .mobile-back {
+      display: none; margin-bottom: 1rem;
+    }
+    @media (max-width: 900px) {
+      .mobile-back { display: inline-flex; }
+    }
+
+    /* ═══ READONLY INFO ═══ */
+    .readonly-value {
+      padding: 0.65rem 0.85rem;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--bg); color: var(--text-muted);
+      font-size: 0.85rem; font-family: 'SF Mono', 'Monaco', monospace;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PIN GATE ═══ -->
+<div id="pin-gate" class="pin-gate">
+  <div class="pin-inner">
+    <img src="assets/global_graphics/LCTF Profile.png" alt="LC Timberframes" class="pin-logo" />
+    <div class="pin-badge">Admin Access</div>
+    <h1 class="pin-title">Model Editor</h1>
+    <p class="pin-sub">Enter your PIN to access the manifest editor. Changes are saved directly to your local files.</p>
+    <div class="pin-wrap">
+      <input id="pin-input" type="password" inputmode="numeric" maxlength="6" placeholder="••••" autocomplete="off" data-lpignore="true" />
+      <button id="pin-submit" class="pin-btn">Unlock</button>
+    </div>
+    <p id="pin-error" class="pin-error">Incorrect PIN. Please try again.</p>
+    <a href="index.html" class="pin-back">&larr; Back to Catalog</a>
+  </div>
+</div>
+
+<!-- ═══ EDITOR ═══ -->
+<div id="editor" class="editor">
+  <header class="editor-header">
+    <div class="editor-header-left">
+      <img src="assets/global_graphics/LCTF Profile.png" alt="Logo" />
+      <h1>Model Editor</h1>
+    </div>
+    <div class="editor-header-right">
+      <button id="btn-save-all" class="btn btn-primary" disabled>Save Changes</button>
+      <button id="btn-logout" class="btn btn-ghost">Lock</button>
+    </div>
+  </header>
+
+  <div class="editor-body">
+    <!-- Sidebar: model list -->
+    <div class="sidebar">
+      <div class="sidebar-search">
+        <input id="search" type="text" placeholder="Search models..." autocomplete="off" data-lpignore="true" />
+      </div>
+      <div id="model-list"></div>
+    </div>
+
+    <!-- Edit panel -->
+    <div id="edit-panel" class="edit-panel hidden">
+      <div class="edit-empty">
+        <p>Select a model from the list to start editing.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const EDITOR_PIN = '1027';
+  const SESSION_KEY = 'lctf_editor_auth';
+  const MANIFEST_URL = './assets/manifest.json';
+  const SAVE_URL = '/api/save-manifest';
+
+  let manifest = null;
+  let selectedModelId = null;
+  let dirty = false;
+
+  const TAGS = ['Barns', 'Entries', 'Pavilion/Pergola', 'Decorative', 'Other'];
+
+  // ═══ DOM ═══
+  const pinGate = document.getElementById('pin-gate');
+  const pinInput = document.getElementById('pin-input');
+  const pinSubmit = document.getElementById('pin-submit');
+  const pinError = document.getElementById('pin-error');
+  const editorEl = document.getElementById('editor');
+  const modelList = document.getElementById('model-list');
+  const editPanel = document.getElementById('edit-panel');
+  const searchInput = document.getElementById('search');
+  const btnSave = document.getElementById('btn-save-all');
+  const btnLogout = document.getElementById('btn-logout');
+
+  // ═══ UTILS ═══
+  function esc(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function toast(msg, type) {
+    const el = document.createElement('div');
+    el.className = 'toast toast-' + (type || 'success');
+    el.textContent = msg;
+    document.body.appendChild(el);
+    setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity 0.3s'; }, 2500);
+    setTimeout(() => el.remove(), 2800);
+  }
+
+  function markDirty() {
+    dirty = true;
+    btnSave.disabled = false;
+    btnSave.textContent = 'Save Changes *';
+  }
+
+  function markClean() {
+    dirty = false;
+    btnSave.disabled = true;
+    btnSave.textContent = 'Save Changes';
+  }
+
+  function thumbUrl(path) {
+    if (!path) return 'assets/global_graphics/Small%20Logo%20Cropped.png';
+    return path.replace(/ /g, '%20');
+  }
+
+  // ═══ PIN GATE ═══
+  function checkSession() {
+    if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+      showEditor();
+      return true;
+    }
+    return false;
+  }
+
+  function showEditor() {
+    pinGate.classList.add('exiting');
+    setTimeout(() => { pinGate.style.display = 'none'; editorEl.style.display = 'block'; }, 400);
+    loadManifest();
+  }
+
+  function handlePin() {
+    if (pinInput.value.trim() === EDITOR_PIN) {
+      sessionStorage.setItem(SESSION_KEY, 'true');
+      pinError.style.display = 'none';
+      showEditor();
+    } else {
+      pinError.style.display = 'block';
+      pinInput.value = '';
+      pinInput.focus();
+      pinError.style.animation = 'none';
+      pinError.offsetHeight;
+      pinError.style.animation = '';
+    }
+  }
+
+  pinSubmit.addEventListener('click', handlePin);
+  pinInput.addEventListener('keydown', e => { if (e.key === 'Enter') handlePin(); });
+  btnLogout.addEventListener('click', () => {
+    if (dirty && !confirm('You have unsaved changes. Lock anyway?')) return;
+    sessionStorage.removeItem(SESSION_KEY);
+    window.location.reload();
+  });
+
+  // ═══ LOAD MANIFEST ═══
+  async function loadManifest() {
+    try {
+      const res = await fetch(MANIFEST_URL + '?t=' + Date.now());
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      manifest = await res.json();
+      renderList();
+      markClean();
+    } catch (err) {
+      toast('Failed to load manifest: ' + err.message, 'error');
+    }
+  }
+
+  // ═══ SAVE MANIFEST ═══
+  async function saveManifest() {
+    if (!manifest) return;
+    btnSave.disabled = true;
+    btnSave.textContent = 'Saving...';
+    try {
+      const res = await fetch(SAVE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(manifest)
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || 'HTTP ' + res.status);
+      }
+      markClean();
+      toast('Manifest saved successfully');
+    } catch (err) {
+      toast('Save failed: ' + err.message, 'error');
+      btnSave.disabled = false;
+      btnSave.textContent = 'Save Changes *';
+    }
+  }
+
+  btnSave.addEventListener('click', saveManifest);
+
+  // ═══ RENDER MODEL LIST ═══
+  function renderList() {
+    if (!manifest || !manifest.models) return;
+    const q = searchInput.value.trim().toLowerCase();
+    modelList.innerHTML = '';
+
+    const filtered = manifest.models.filter(m => {
+      if (!q) return true;
+      const hay = ((m.name||'') + ' ' + (m.id||'') + ' ' + (m.tag||'') + ' ' + (m.description||'')).toLowerCase();
+      return hay.includes(q);
+    });
+
+    filtered.forEach(m => {
+      const div = document.createElement('div');
+      div.className = 'model-item' + (m.id === selectedModelId ? ' active' : '');
+      div.setAttribute('data-id', m.id);
+
+      let badges = '';
+      if (m.onSale) badges += '<span class="badge badge-sale">Sale</span>';
+      if (m.hidden) badges += '<span class="badge badge-hidden">Hidden</span>';
+
+      div.innerHTML = `
+        <img class="model-item-thumb" src="${thumbUrl(m.thumbnail)}"
+             onerror="this.src='assets/global_graphics/Small%20Logo%20Cropped.png'" loading="lazy" />
+        <div class="model-item-info">
+          <div class="model-item-name">${esc(m.name || m.id)}</div>
+          <div class="model-item-meta">
+            <span>${esc(m.tag || 'No tag')}</span>
+            <span>&middot;</span>
+            <span>${esc(m.price || '—')}</span>
+            ${badges}
+          </div>
+        </div>
+      `;
+      div.addEventListener('click', () => selectModel(m.id));
+      modelList.appendChild(div);
+    });
+  }
+
+  let _rlTimer;
+  function debouncedRenderList() { clearTimeout(_rlTimer); _rlTimer = setTimeout(renderList, 250); }
+
+  function updateListItem(id, model) {
+    const el = modelList.querySelector('[data-id="' + id + '"]');
+    if (!el) return;
+    const nameEl = el.querySelector('.model-item-name');
+    if (nameEl) nameEl.textContent = model.name || model.id;
+    const metaSpans = el.querySelectorAll('.model-item-meta > span');
+    if (metaSpans[0]) metaSpans[0].textContent = model.tag || 'No tag';
+    if (metaSpans[2]) metaSpans[2].textContent = model.price || '—';
+    const thumb = el.querySelector('.model-item-thumb');
+    if (thumb && model.thumbnail) thumb.src = thumbUrl(model.thumbnail);
+    let badges = '';
+    if (model.onSale) badges += '<span class="badge badge-sale">Sale</span>';
+    if (model.hidden) badges += '<span class="badge badge-hidden">Hidden</span>';
+    el.querySelectorAll('.badge').forEach(b => b.remove());
+    const meta = el.querySelector('.model-item-meta');
+    if (meta) meta.insertAdjacentHTML('beforeend', badges);
+  }
+
+  searchInput.addEventListener('input', debouncedRenderList);
+
+  // ═══ SELECT MODEL ═══
+  function selectModel(id) {
+    selectedModelId = id;
+    renderList();
+    renderEditPanel();
+  }
+
+  // ═══ GET MODEL BY ID ═══
+  function getModel(id) {
+    return manifest.models.find(m => m.id === id);
+  }
+
+  // ═══ RENDER EDIT PANEL ═══
+  function renderEditPanel() {
+    const model = getModel(selectedModelId);
+    if (!model) {
+      editPanel.className = 'edit-panel hidden';
+      editPanel.innerHTML = '<div class="edit-empty"><p>Select a model from the list to start editing.</p></div>';
+      return;
+    }
+
+    editPanel.className = 'edit-panel';
+
+    const tagOptions = TAGS.map(t =>
+      `<option value="${esc(t)}" ${model.tag === t ? 'selected' : ''}>${esc(t)}</option>`
+    ).join('');
+
+    const featuresHTML = (model.features || []).map((f, i) => `
+      <div class="list-item">
+        <input type="text" value="${esc(f)}" data-field="features" data-index="${i}" autocomplete="off" data-lpignore="true" />
+        <button class="list-btn-remove" data-action="remove-feature" data-index="${i}" title="Remove">&times;</button>
+      </div>
+    `).join('');
+
+    const galleryHTML = (model.gallery || []).map((g, i) => `
+      <div class="list-item">
+        <img class="list-item-preview" src="${thumbUrl(g)}"
+             onerror="this.style.display='none'" />
+        <input type="text" value="${esc(g)}" data-field="gallery" data-index="${i}" autocomplete="off" data-lpignore="true" />
+        <button class="list-btn-remove" data-action="remove-gallery" data-index="${i}" title="Remove">&times;</button>
+      </div>
+    `).join('');
+
+    editPanel.innerHTML = `
+      <div class="edit-form" autocomplete="off" data-lpignore="true" data-form-type="other">
+        <button class="btn btn-ghost mobile-back" id="btn-mobile-back">&larr; Back to list</button>
+        <div class="edit-form-header">
+          <h2>${esc(model.name || model.id)}</h2>
+        </div>
+
+        <!-- Read-only fields -->
+        <div class="field">
+          <label>ID</label>
+          <div class="readonly-value">${esc(model.id)}</div>
+        </div>
+        <div class="field">
+          <label>Type</label>
+          <div class="readonly-value">${esc(model.type)}</div>
+        </div>
+        <div class="field">
+          <label>Viewer Path</label>
+          <div class="readonly-value">${esc(model.href || '(none)')}</div>
+        </div>
+
+        <div class="section-divider"><h3>Basic Info</h3></div>
+
+        <div class="field">
+          <label for="ed-name">Name</label>
+          <input type="text" id="ed-name" value="${esc(model.name)}" data-field="name" autocomplete="off" data-lpignore="true" />
+        </div>
+
+        <div class="field">
+          <label for="ed-desc">Description</label>
+          <textarea id="ed-desc" data-field="description" autocomplete="off" data-lpignore="true">${esc(model.description)}</textarea>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="ed-tag">Category</label>
+            <select id="ed-tag" data-field="tag">${tagOptions}</select>
+          </div>
+          <div class="field">
+            <label for="ed-price">Price</label>
+            <input type="text" id="ed-price" value="${esc(model.price)}" data-field="price" placeholder="$XX,XXX" autocomplete="off" data-lpignore="true" />
+          </div>
+        </div>
+
+        <div class="section-divider"><h3>Sale Settings</h3></div>
+
+        <div class="field-check">
+          <input type="checkbox" id="ed-onsale" ${model.onSale ? 'checked' : ''} data-field="onSale" />
+          <label for="ed-onsale">On Sale</label>
+        </div>
+
+        <div class="field" id="original-price-field" style="${model.onSale ? '' : 'display:none'}">
+          <label for="ed-original-price">Original Price</label>
+          <input type="text" id="ed-original-price" value="${esc(model.originalPrice || '')}" data-field="originalPrice" placeholder="$XX,XXX" autocomplete="off" data-lpignore="true" />
+        </div>
+
+        <div class="section-divider"><h3>Visibility</h3></div>
+
+        <div class="field-check">
+          <input type="checkbox" id="ed-hidden" ${model.hidden ? 'checked' : ''} data-field="hidden" />
+          <label for="ed-hidden">Hidden from catalog</label>
+        </div>
+
+        <div class="section-divider"><h3>Thumbnail</h3></div>
+
+        <div class="field">
+          <label for="ed-thumb">Thumbnail Path</label>
+          <input type="text" id="ed-thumb" value="${esc(model.thumbnail || '')}" data-field="thumbnail" placeholder="assets/Models/.../Cover.webp" autocomplete="off" data-lpignore="true" />
+          <div class="thumb-preview">
+            <img id="thumb-img" src="${thumbUrl(model.thumbnail)}"
+                 onerror="this.src='assets/global_graphics/Small%20Logo%20Cropped.png'" />
+          </div>
+        </div>
+
+        <div class="section-divider"><h3>Features</h3></div>
+
+        <div class="list-editor" id="features-list">
+          ${featuresHTML}
+        </div>
+        <button class="btn-add" data-action="add-feature">+ Add feature</button>
+
+        <div class="section-divider"><h3>Gallery Images</h3></div>
+
+        <div class="list-editor" id="gallery-list">
+          ${galleryHTML}
+        </div>
+        <button class="btn-add" data-action="add-gallery">+ Add image path</button>
+
+        <div style="height: 4rem"></div>
+      </div>
+    `;
+
+    bindEditEvents(model);
+  }
+
+  // ═══ BIND EDIT EVENTS ═══
+  function bindEditEvents(model) {
+    const panel = editPanel;
+
+    // Simple text/textarea/select fields
+    panel.querySelectorAll('[data-field]').forEach(el => {
+      if (el.tagName === 'INPUT' && el.type === 'checkbox') return;
+      if (el.type === 'text' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
+        el.addEventListener('input', () => {
+          const field = el.dataset.field;
+          if (field === 'features' || field === 'gallery') return;
+          model[field] = el.value;
+          markDirty();
+
+          if (field === 'name') {
+            const header = panel.querySelector('.edit-form-header h2');
+            if (header) header.textContent = el.value || model.id;
+          }
+          if (field === 'thumbnail') {
+            const img = document.getElementById('thumb-img');
+            if (img) img.src = thumbUrl(el.value);
+          }
+          updateListItem(model.id, model);
+        });
+      }
+    });
+
+    // On Sale checkbox
+    const onSaleCheck = document.getElementById('ed-onsale');
+    const origPriceField = document.getElementById('original-price-field');
+    if (onSaleCheck) {
+      onSaleCheck.addEventListener('change', () => {
+        model.onSale = onSaleCheck.checked;
+        origPriceField.style.display = onSaleCheck.checked ? '' : 'none';
+        if (!onSaleCheck.checked) {
+          delete model.originalPrice;
+          const origInput = document.getElementById('ed-original-price');
+          if (origInput) origInput.value = '';
+        }
+        markDirty();
+        renderList();
+      });
+    }
+
+    // Hidden checkbox
+    const hiddenCheck = document.getElementById('ed-hidden');
+    if (hiddenCheck) {
+      hiddenCheck.addEventListener('change', () => {
+        if (hiddenCheck.checked) {
+          model.hidden = true;
+        } else {
+          delete model.hidden;
+        }
+        markDirty();
+        renderList();
+      });
+    }
+
+    // Feature list inputs
+    panel.querySelectorAll('[data-field="features"]').forEach(input => {
+      input.addEventListener('input', () => {
+        const idx = parseInt(input.dataset.index, 10);
+        if (!model.features) model.features = [];
+        model.features[idx] = input.value;
+        markDirty();
+      });
+    });
+
+    // Gallery list inputs
+    panel.querySelectorAll('[data-field="gallery"]').forEach(input => {
+      input.addEventListener('input', () => {
+        const idx = parseInt(input.dataset.index, 10);
+        if (!model.gallery) model.gallery = [];
+        model.gallery[idx] = input.value;
+        markDirty();
+        const preview = input.parentElement.querySelector('.list-item-preview');
+        if (preview) { preview.src = thumbUrl(input.value); preview.style.display = ''; }
+      });
+    });
+
+    // Remove feature buttons
+    panel.querySelectorAll('[data-action="remove-feature"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.index, 10);
+        model.features.splice(idx, 1);
+        markDirty();
+        renderEditPanel();
+      });
+    });
+
+    // Remove gallery buttons
+    panel.querySelectorAll('[data-action="remove-gallery"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.index, 10);
+        model.gallery.splice(idx, 1);
+        markDirty();
+        renderEditPanel();
+      });
+    });
+
+    // Add feature
+    panel.querySelector('[data-action="add-feature"]')?.addEventListener('click', () => {
+      if (!model.features) model.features = [];
+      model.features.push('');
+      markDirty();
+      renderEditPanel();
+      const items = editPanel.querySelectorAll('#features-list input');
+      if (items.length) items[items.length - 1].focus();
+    });
+
+    // Add gallery
+    panel.querySelector('[data-action="add-gallery"]')?.addEventListener('click', () => {
+      if (!model.gallery) model.gallery = [];
+      model.gallery.push('');
+      markDirty();
+      renderEditPanel();
+      const items = editPanel.querySelectorAll('#gallery-list input');
+      if (items.length) items[items.length - 1].focus();
+    });
+
+    // Mobile back
+    const mobileBack = document.getElementById('btn-mobile-back');
+    if (mobileBack) {
+      mobileBack.addEventListener('click', () => {
+        selectedModelId = null;
+        editPanel.className = 'edit-panel hidden';
+        editPanel.innerHTML = '<div class="edit-empty"><p>Select a model from the list to start editing.</p></div>';
+        renderList();
+      });
+    }
+  }
+
+  // ═══ KEYBOARD SHORTCUTS ═══
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+      e.preventDefault();
+      if (dirty) saveManifest();
+    }
+  });
+
+  // ═══ WARN ON UNLOAD ═══
+  window.addEventListener('beforeunload', e => {
+    if (dirty) { e.preventDefault(); e.returnValue = ''; }
+  });
+
+  // ═══ INIT ═══
+  if (!checkSession()) {
+    pinInput.focus();
+  }
+})();
+</script>
+</body>
+</html>
