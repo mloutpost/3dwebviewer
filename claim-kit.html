@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claim Your 16x24 Pavilion Kit | Shop Timber Frame Kits</title>
     <meta name="description" content="Secure your Nashville Festival Pavilion kit at the special sale price of $33,999. Limited inventory available.">
-    <link rel="icon" type="image/png" href="assets/global_graphics/LCTF Profile.png">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="stylesheet" href="assets/payment-methods.css">
+    <link rel="dns-prefetch" href="https://js.stripe.com">
+    <link rel="preconnect" href="https://js.stripe.com" crossorigin>
     <style>
         * {
             margin: 0;
@@ -398,6 +401,40 @@
             display: none;
         }
 
+        .pay-deposit-row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pay-deposit-btn {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: transparent;
+            border: 2px solid var(--accent);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .pay-deposit-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .pay-deposit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .pay-deposit-note {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
         /* Footer */
         .footer {
             text-align: center;
@@ -421,6 +458,9 @@
             }
         }
     </style>
+    <script src="assets/stripe-config.js"></script>
+    <script src="assets/stripe-checkout.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="https://app.metricslite.com/tracker-1.0.js" data-site-id="7a184184-bbf4-4ec1-81ba-8d738decb242"></script>
 </head>
 <body>
@@ -433,7 +473,6 @@
                 </svg>
                 Back
             </a>
-            <img src="assets/global_graphics/LCTF Profile.png" alt="Shop Timber Frame Kits" class="logo">
         </header>
 
         <!-- Hero -->
@@ -458,6 +497,22 @@
                 <span class="feature-tag">Mortise & Tenon</span>
                 <span class="feature-tag">White Oak Pegs</span>
             </div>
+            <section class="payment-methods" aria-label="Accepted payment methods">
+              <span class="payment-methods-label">We accept</span>
+              <div class="payment-methods-icons">
+                <span class="pm-badge" title="Visa">Visa</span>
+                <span class="pm-badge" title="Mastercard">Mastercard</span>
+                <span class="pm-badge" title="American Express">Amex</span>
+                <span class="pm-badge" title="Discover">Discover</span>
+                <span class="pm-badge" title="ACH Bank Transfer">ACH</span>
+                <span class="pm-badge" title="Apple Pay">Apple Pay</span>
+                <span class="pm-badge" title="Google Pay">Google Pay</span>
+              </div>
+              <div class="payment-methods-stripe">
+                <svg viewBox="0 0 60 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M59.64 14.28h-8.06c.19 1.93 1.6 2.55 3.2 2.55 1.64 0 2.96-.37 2.96-.37.36-.14.5-.42.48-.66l.35-2.84c.02-.22-.15-.52-.6-.4 0 0-1.86.6-3.92.6-3.9 0-6.34-2.86-6.34-7.1 0-3.75 2.14-6.6 5.62-6.6 3.26 0 5.15 2.2 5.15 5.34 0 2.2-.5 3.9-1.1 5.1l-.12.3zm-5.92-5.5c0 1.7-.7 3.28-2.6 3.28-1.44 0-2.32-1.3-2.32-3.28 0-1.6.66-3.2 2.4-3.2 1.5 0 2.3 1.4 2.3 3.2z" fill="#6772E5"/><path d="M38.32 7.7c-1.2 0-2.18.37-2.9 1.04l-.12-.8h-3.6v19.2h3.9v-7.42c0-1.75.66-2.9 2.2-2.9 1.33 0 1.96 1 1.96 2.5v7.82h3.9v-8.36c0-2.5-1.33-4.08-3.14-4.08z" fill="#6772E5"/><path d="M28.3 7.7c-1.23 0-2.2.37-2.9 1.04l-.12-.8h-3.6v19.2h3.9v-7.42c0-1.75.66-2.9 2.2-2.9 1.33 0 1.96 1 1.96 2.5v7.82h3.9v-8.36c0-2.5-1.34-4.08-3.14-4.08z" fill="#6772E5"/><path d="M19.4 7.7c-1.2 0-2.2.37-2.9 1.04l-.12-.8H12v19.2h3.9v-7.42c0-1.75.66-2.9 2.2-2.9 1.33 0 1.96 1 1.96 2.5v7.82h3.9v-8.36c0-2.5-1.34-4.08-3.14-4.08z" fill="#6772E5"/><path d="M9.5 4.18L6.2 17.9h3.9l1.1-5.62h4.9l.63-5.62H11.6l.43-2.48H3.9L9.5 4.18zm.9 7.1l1.5-7.1h4.2l-1.5 7.1h-4.2z" fill="#6772E5"/></svg>
+                <span>Secure payments powered by Stripe</span>
+              </div>
+            </section>
         </div>
 
         <!-- Form Section -->
@@ -477,7 +532,14 @@
             <!-- Form Content -->
             <div class="form-content" id="formContent">
                 <h2 class="form-title">Reserve Your Kit</h2>
-                <p class="form-subtitle">Fill out the form and we'll reach out to finalize your order</p>
+                <p class="form-subtitle">Fill out the form and we'll reach out to finalize your order, or pay a deposit now to secure your kit.</p>
+
+                <div class="pay-deposit-row" style="margin-bottom: 1rem;">
+                  <button type="button" class="pay-deposit-btn" id="payDepositBtn">
+                    Pay $500 deposit now
+                  </button>
+                  <span class="pay-deposit-note">Credit card, ACH, Apple Pay &amp; Google Pay</span>
+                </div>
 
                 <div class="form-message" id="formMessage"></div>
 
@@ -669,8 +731,35 @@
             }
         });
 
-        // Auto-focus first field
-        document.getElementById('firstName').focus();
+        // Check for payment success redirect
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('payment') === 'success') {
+            formContent.classList.add('hidden');
+            successView.classList.add('visible');
+            successView.querySelector('p').textContent = 'Thank you! Your deposit has been received. We\'ll be in touch shortly to discuss your Nashville Festival Pavilion kit.';
+        } else {
+            document.getElementById('firstName').focus();
+        }
+
+        // Pay deposit button - redirects to Stripe Checkout when backend is configured
+        document.getElementById('payDepositBtn').addEventListener('click', async function() {
+            const btn = this;
+            btn.disabled = true;
+            btn.textContent = 'Redirecting...';
+            const ok = await window.redirectToStripeCheckout({
+                amount: 50000, // $500 in cents
+                productId: 'lctf-pf17',
+                productName: 'Nashville Festival Pavilion - $500 Deposit',
+                successUrl: window.location.origin + '/claim-kit.html?payment=success',
+                cancelUrl: window.location.href
+            });
+            if (!ok) {
+                btn.disabled = false;
+                btn.textContent = 'Pay $500 deposit now';
+                formMessage.textContent = 'Online payment coming soon. Please submit the form and we\'ll contact you.';
+                formMessage.className = 'form-message error';
+            }
+        });
     </script>
 </body>
 </html>

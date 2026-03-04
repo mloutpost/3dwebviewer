@@ -27,9 +27,12 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Pre-Cut Timber Frame Kits | Shop Timber Frame Kits" />
   <meta name="twitter:description" content="Browse pre-engineered timber frame kits. Interactive 3D models, mortise & tenon construction, ships nationwide." />
-  <link rel="icon" type="image/png" href="assets/global_graphics/LCTF Profile.png">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="dns-prefetch" href="//docs.google.com">
+  <link rel="dns-prefetch" href="https://js.stripe.com">
   <link rel="preconnect" href="//docs.google.com" crossorigin>
+  <link rel="preconnect" href="https://js.stripe.com" crossorigin>
+  <link rel="stylesheet" href="assets/payment-methods.css">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebSite","name":"Shop Timber Frame Kits","url":"https://shoptimberframekits.com","description":"Pre-engineered timber frame kits for pavilions, pergolas, barns, and entryways. Pre-cut, mortise & tenon, ships nationwide."}
   </script>
@@ -139,18 +142,6 @@
     }
 
     .header-left { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
-    .theme-toggle {
-      width: 40px; height: 40px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      background: var(--panel);
-      color: var(--text-muted);
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-      transition: var(--transition);
-    }
-    .theme-toggle:hover { border-color: var(--border-hover); color: var(--text); }
 
     .logo {
       height: 60px;
@@ -1265,13 +1256,11 @@
   <div class="wrap">
     <header>
       <div class="header-left">
-        <img src="assets/global_graphics/LCTF Profile.png" alt="Shop Timber Frame Kits" class="logo">
         <div class="title">
-          <h1>The Bones of Your Next Build</h1>
-          <p>Pre-cut, pre-engineered timber frame kits &mdash; the structural skeleton for your dream project. Ships nationwide.</p>
+          <h1>Pre-Cut Timber Frame Kits</h1>
+        <p>Pavilions, pergolas, barns &amp; entryways &mdash; the structural skeleton for your dream project. Mortise &amp; tenon, ships nationwide.</p>
         </div>
       </div>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark/light mode">&#x263E;</button>
     </header>
 
     <!-- Trust signals -->
@@ -1442,6 +1431,23 @@
         <code id="status">loading…</code>
       </div>
     </div>
+
+    <section class="payment-methods" aria-label="Accepted payment methods">
+      <span class="payment-methods-label">We accept</span>
+      <div class="payment-methods-icons">
+        <span class="pm-badge" title="Visa">Visa</span>
+        <span class="pm-badge" title="Mastercard">Mastercard</span>
+        <span class="pm-badge" title="American Express">Amex</span>
+        <span class="pm-badge" title="Discover">Discover</span>
+        <span class="pm-badge" title="ACH Bank Transfer">ACH</span>
+        <span class="pm-badge" title="Apple Pay">Apple Pay</span>
+        <span class="pm-badge" title="Google Pay">Google Pay</span>
+      </div>
+      <div class="payment-methods-stripe">
+        <svg viewBox="0 0 60 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M59.64 14.28h-8.06c.19 1.93 1.6 2.55 3.2 2.55 1.64 0 2.96-.37 2.96-.37.36-.14.5-.42.48-.66l.35-2.84c.02-.22-.15-.52-.6-.4 0 0-1.86.6-3.92.6-3.9 0-6.34-2.86-6.34-7.1 0-3.75 2.14-6.6 5.62-6.6 3.26 0 5.15 2.2 5.15 5.34 0 2.2-.5 3.9-1.1 5.1l-.12.3zm-5.92-5.5c0 1.7-.7 3.28-2.6 3.28-1.44 0-2.32-1.3-2.32-3.28 0-1.6.66-3.2 2.4-3.2 1.5 0 2.3 1.4 2.3 3.2z" fill="#6772E5"/><path d="M38.32 7.7c-1.2 0-2.18.37-2.9 1.04l-.12-.8h-3.6v19.2h3.9v-7.42c0-1.75.66-2.9 2.2-2.9 1.33 0 1.96 1 1.96 2.5v7.82h3.9v-8.36c0-2.5-1.33-4.08-3.14-4.08z" fill="#6772E5"/><path d="M28.3 7.7c-1.23 0-2.2.37-2.9 1.04l-.12-.8h-3.6v19.2h3.9v-7.42c0-1.75.66-2.9 2.2-2.9 1.33 0 1.96 1 1.96 2.5v7.82h3.9v-8.36c0-2.5-1.34-4.08-3.14-4.08z" fill="#6772E5"/><path d="M19.4 7.7c-1.2 0-2.2.37-2.9 1.04l-.12-.8H12v19.2h3.9v-7.42c0-1.75.66-2.9 2.2-2.9 1.33 0 1.96 1 1.96 2.5v7.82h3.9v-8.36c0-2.5-1.34-4.08-3.14-4.08z" fill="#6772E5"/><path d="M9.5 4.18L6.2 17.9h3.9l1.1-5.62h4.9l.63-5.62H11.6l.43-2.48H3.9L9.5 4.18zm.9 7.1l1.5-7.1h4.2l-1.5 7.1h-4.2z" fill="#6772E5"/></svg>
+        <span>Secure payments powered by Stripe</span>
+      </div>
+    </section>
 
     <footer>
       <span>Shop Timber Frame Kits &bull; <code>shoptimberframekits.com</code></span>
@@ -1954,6 +1960,29 @@
         manifest = json;
         if (manifest && Array.isArray(manifest.models)) {
           populateTypes(manifest.models);
+          var visible = manifest.models.filter(function(m) { return !m.hidden; });
+          var itemList = {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": "Timber Frame Kits",
+            "description": "Pre-cut timber frame kits for pavilions, pergolas, barns, and entryways.",
+            "numberOfItems": visible.length,
+            "itemListElement": visible.slice(0, 20).map(function(m, i) {
+              return {
+                "@type": "ListItem",
+                "position": i + 1,
+                "url": "https://shoptimberframekits.com/detail.html?id=" + encodeURIComponent(m.id),
+                "name": m.name || m.id
+              };
+            })
+          };
+          var old = document.getElementById("itemlist-schema");
+          if (old) old.remove();
+          var s = document.createElement("script");
+          s.id = "itemlist-schema";
+          s.type = "application/ld+json";
+          s.textContent = JSON.stringify(itemList);
+          document.head.appendChild(s);
         }
         currentPage = 1; // Reset to first page when loading new manifest
         render();
@@ -2016,35 +2045,6 @@
       updateTimer();
       setInterval(updateTimer, 60000); // Update every minute
     }
-
-    (function() {
-      var KEY = 'stfk_theme';
-      var btn = document.getElementById('theme-toggle');
-      function isDark() {
-        var t = document.documentElement.getAttribute('data-theme');
-        if (t === 'dark') return true;
-        if (t === 'light') return false;
-        return window.matchMedia('(prefers-color-scheme: dark)').matches;
-      }
-      function apply(t) {
-        if (t) document.documentElement.setAttribute('data-theme', t);
-        else document.documentElement.removeAttribute('data-theme');
-        btn.textContent = isDark() ? '\u2600' : '\u263E';
-        btn.setAttribute('aria-label', isDark() ? 'Switch to light mode' : 'Switch to dark mode');
-      }
-      function init() {
-        var saved = localStorage.getItem(KEY);
-        if (saved) { apply(saved); return; }
-        apply('');
-      }
-      btn.addEventListener('click', function() {
-        var next = isDark() ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem(KEY, next);
-        apply(next);
-      });
-      init();
-    })();
 
     loadManifest();
     updateHeroCountdown();

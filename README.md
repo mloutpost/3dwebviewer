@@ -4,13 +4,26 @@ This repo is published as a static site at [shoptimberframekits.com](https://sho
 
 ## Deployment
 
-Work and commit from this repo as usual. When you need to publish changes, run:
-
+**Option A: Manual**
 ```bash
-cd "/Users/lynch/Documents/LCTF Web Builds/lctf_clients" && firebase deploy --only hosting:viewer
+./deploy.sh
 ```
 
-The site content is synced to `lctf_clients` for deployment; this repo is the source of truth for development.
+**Option B: Automatic (on push to main)**  
+A GitHub Action deploys when you push to `main`. Requires two secrets in this repo:
+
+1. **GOOGLE_APPLICATION_CREDENTIALS_JSON** — Firebase service account JSON (copy from lctf_clients)
+2. **GH_PAT** — Personal Access Token with `repo` scope (to checkout lctf_clients)
+
+Add at: **Settings → Secrets and variables → Actions**
+
+## SEO
+
+After adding or removing models in `assets/manifest.json`, regenerate the sitemap:
+
+```bash
+python3 generate_sitemap.py
+```
 
 ## Splash page (model picker)
 
