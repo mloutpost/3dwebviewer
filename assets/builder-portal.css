@@ -1,23 +1,19 @@
 /* ═══════════ BUILDER PORTAL CSS ═══════════ */
 :root {
-  --franklin-green: #2C3E2F;
-  --slab-blue: #CDE3F2;
-  --forest-brown: #4F423A;
-  --pebble-grey: #DEDBCE;
-  --ivory-white: #F7F7F7;
-  --bg: #f4f1ec;
-  --bg-secondary: #e8e4dc;
+  --bg: #faf9f6;
+  --bg-secondary: #f2f0eb;
   --panel: #ffffff;
-  --panel-hover: #faf9f6;
-  --text: #2a231e;
-  --text-muted: #6b6358;
-  --text-secondary: #8b8477;
-  --border: rgba(79, 66, 58, 0.14);
-  --border-hover: rgba(79, 66, 58, 0.28);
-  --shadow: 0 2px 12px rgba(79, 66, 58, 0.06);
-  --shadow-lg: 0 8px 32px rgba(79, 66, 58, 0.10);
-  --accent: #2C3E2F;
-  --accent-light: #3a7d44;
+  --panel-hover: #f8f7f4;
+  --text: #2d2a26;
+  --text-muted: #6b6560;
+  --text-secondary: #8a8580;
+  --border: rgba(45, 42, 38, 0.1);
+  --border-hover: rgba(45, 42, 38, 0.2);
+  --shadow: 0 2px 12px rgba(45, 42, 38, 0.06);
+  --shadow-lg: 0 8px 32px rgba(45, 42, 38, 0.1);
+  --accent: #4a7c59;
+  --accent-light: #5a9c69;
+  --slab-blue: #7ba88a;
   --gold: #b8860b;
   --gold-light: #f5e6c4;
   --radius: 12px;
@@ -27,20 +23,20 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Dark theme with Franklin palette */
-    --bg: var(--forest-brown);
-    --bg-secondary: #3a352f;
-    --panel: #5c554c;
-    --panel-hover: #6a645c;
-    --text: var(--ivory-white);
-    --text-muted: #e0dbd0;
-    --text-secondary: #c8c3b8;
-    --border: rgba(247, 247, 247, 0.18);
-    --border-hover: rgba(247, 247, 247, 0.3);
+    --bg: #1e1c1a;
+    --bg-secondary: #2a2725;
+    --panel: #34312e;
+    --panel-hover: #403d39;
+    --text: #f5f3ef;
+    --text-muted: #b8b4ae;
+    --text-secondary: #d4d0c8;
+    --border: rgba(245, 243, 239, 0.12);
+    --border-hover: rgba(245, 243, 239, 0.2);
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.6);
-    --accent: var(--franklin-green);
-    --accent-light: #3a7d44;
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.5);
+    --accent: #6b9b7a;
+    --accent-light: #7eb58d;
+    --slab-blue: #8fb89c;
     --gold: #d4a574;
     --gold-light: #4a3d30;
   }

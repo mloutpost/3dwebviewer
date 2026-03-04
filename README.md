@@ -1,6 +1,16 @@
-# build.lctimberframes.com — 3D model viewer
+# Shop Timber Frame Kits — 3D model viewer
 
-This repo is published as a static site at `build.lctimberframes.com`.
+This repo is published as a static site at [shoptimberframekits.com](https://shoptimberframekits.com) via Firebase Hosting.
+
+## Deployment
+
+Work and commit from this repo as usual. When you need to publish changes, run:
+
+```bash
+cd "/Users/lynch/Documents/LCTF Web Builds/lctf_clients" && firebase deploy --only hosting:viewer
+```
+
+The site content is synced to `lctf_clients` for deployment; this repo is the source of truth for development.
 
 ## Splash page (model picker)
 

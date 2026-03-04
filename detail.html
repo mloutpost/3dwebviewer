@@ -13,7 +13,7 @@
     }
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Model Details • LC Timberframes</title>
+  <title>Model Details • Shop Timber Frame Kits</title>
   <meta name="description" content="View details for this timber frame model." />
   <link rel="icon" type="image/png" href="assets/global_graphics/LCTF Profile.png">
   <link rel="dns-prefetch" href="//docs.google.com">
@@ -866,7 +866,7 @@
       }
 
       function renderModel(model) {
-        document.title = model.name + " • LC Timberframes";
+        document.title = model.name + " • Shop Timber Frame Kits";
         document.getElementById("header-title").textContent = model.name;
         document.getElementById("model-name").textContent = model.name;
         document.getElementById("model-tag").textContent = model.tag || "Model";
@@ -934,7 +934,7 @@
           };
         } else {
           purchaseBtn.onclick = () => {
-            window.location.href = "https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=3dviewer&utm_campaign=" + encodeURIComponent(model.id || model.name);
+            window.location.href = "inquiry.html?utm_source=website&utm_medium=3dviewer&utm_campaign=" + encodeURIComponent(model.id || model.name);
           };
         }
 

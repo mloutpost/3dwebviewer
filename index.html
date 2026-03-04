@@ -14,62 +14,84 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light dark" />
-  <title>Visualize Your Timber Frame</title>
-  <meta name="description" content="Select a 3D model to view." />
+  <title>Pre-Cut Timber Frame Kits | Shop Timber Frame Kits</title>
+  <meta name="description" content="Browse pre-engineered timber frame kits for pavilions, pergolas, barns, and entryways. Interactive 3D models, mortise & tenon construction, ships nationwide. Starting at $12,999." />
+  <meta name="keywords" content="timber frame kits, pre-cut timber frames, pavilion kits, pergola kits, barn kits, mortise and tenon, timber frame construction" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://shoptimberframekits.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Pre-Cut Timber Frame Kits | Shop Timber Frame Kits" />
+  <meta property="og:description" content="Browse pre-engineered timber frame kits. Interactive 3D models, mortise & tenon construction, ships nationwide." />
+  <meta property="og:url" content="https://shoptimberframekits.com/" />
+  <meta property="og:site_name" content="Shop Timber Frame Kits" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Pre-Cut Timber Frame Kits | Shop Timber Frame Kits" />
+  <meta name="twitter:description" content="Browse pre-engineered timber frame kits. Interactive 3D models, mortise & tenon construction, ships nationwide." />
   <link rel="icon" type="image/png" href="assets/global_graphics/LCTF Profile.png">
   <link rel="dns-prefetch" href="//docs.google.com">
   <link rel="preconnect" href="//docs.google.com" crossorigin>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"Shop Timber Frame Kits","url":"https://shoptimberframekits.com","description":"Pre-engineered timber frame kits for pavilions, pergolas, barns, and entryways. Pre-cut, mortise & tenon, ships nationwide."}
+  </script>
   <style>
     :root {
-      /* Franklin Timberframes Color Palette */
-      --franklin-green: #2C3E2F;
-      --slab-blue: #CDE3F2;
-      --forest-brown: #4F423A;
-      --pebble-grey: #DEDBCE;
-      --ivory-white: #F7F7F7;
-
-      /* Light theme (default) */
-      --bg: var(--ivory-white);
-      --bg-secondary: var(--pebble-grey);
-      --panel: var(--ivory-white);
-      --panel-hover: #f0ede6;
-      --text: var(--forest-brown);
-      --text-muted: #6b6358;
-      --text-secondary: #8b8477;
-      --border: rgba(79, 66, 58, 0.2);
-      --border-hover: rgba(79, 66, 58, 0.3);
-      --shadow: 0 4px 20px rgba(79, 66, 58, 0.08);
-      --shadow-hover: 0 8px 30px rgba(79, 66, 58, 0.12);
-      --accent: var(--franklin-green);
-      --accent-hover: #3a7d44;
-      --success: var(--franklin-green);
+      /* Light theme (default) — soft, airy palette */
+      --bg: #faf9f6;
+      --bg-secondary: #f2f0eb;
+      --panel: #ffffff;
+      --panel-hover: #f8f7f4;
+      --text: #2d2a26;
+      --text-muted: #6b6560;
+      --text-secondary: #8a8580;
+      --border: rgba(45, 42, 38, 0.1);
+      --border-hover: rgba(45, 42, 38, 0.2);
+      --shadow: 0 2px 12px rgba(45, 42, 38, 0.06);
+      --shadow-hover: 0 6px 24px rgba(45, 42, 38, 0.1);
+      --accent: #4a7c59;
+      --accent-hover: #5a9c69;
+      --accent-muted: #7ba88a;
+      --success: #2f855a;
       --warning: #d4a574;
       --danger: #c75b5b;
       --radius-sm: 6px;
       --radius-md: 12px;
       --radius-lg: 16px;
-      --transition: all 0.3s ease;
+      --transition: all 0.25s ease;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1e1c1a;
+      --bg-secondary: #2a2725;
+      --panel: #34312e;
+      --panel-hover: #403d39;
+      --text: #f5f3ef;
+      --text-muted: #b8b4ae;
+      --text-secondary: #d4d0c8;
+      --border: rgba(245, 243, 239, 0.12);
+      --border-hover: rgba(245, 243, 239, 0.2);
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.5);
+      --accent: #6b9b7a;
+      --accent-hover: #7eb58d;
+      --accent-muted: #8fb89c;
     }
 
     @media (prefers-color-scheme: dark) {
-      :root {
-        /* Dark theme with Franklin palette */
-        --bg: var(--forest-brown);
-        --bg-secondary: #3a352f;
-        --panel: #4a443c;
-        --panel-hover: #5a544c;
-        --text: var(--ivory-white);
-        --text-muted: var(--pebble-grey);
-        --text-secondary: #e8e3d8;
-        --border: rgba(247, 247, 247, 0.2);
-        --border-hover: rgba(247, 247, 247, 0.3);
+      :root:not([data-theme="light"]) {
+        --bg: #1e1c1a;
+        --bg-secondary: #2a2725;
+        --panel: #34312e;
+        --panel-hover: #403d39;
+        --text: #f5f3ef;
+        --text-muted: #b8b4ae;
+        --text-secondary: #d4d0c8;
+        --border: rgba(245, 243, 239, 0.12);
+        --border-hover: rgba(245, 243, 239, 0.2);
         --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.6);
-        --accent: var(--slab-blue);
-        --accent-hover: #a8c8e8;
-        --success: var(--franklin-green);
-        --warning: #d4a574;
-        --danger: #c75b5b;
+        --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.5);
+        --accent: #6b9b7a;
+        --accent-hover: #7eb58d;
+        --accent-muted: #8fb89c;
       }
     }
 
@@ -108,13 +130,27 @@
     header {
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: space-between;
       gap: 1rem;
       flex-wrap: wrap;
       margin-bottom: 2rem;
       padding-bottom: 1rem;
       border-bottom: 1px solid var(--border);
     }
+
+    .header-left { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .theme-toggle {
+      width: 40px; height: 40px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--panel);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      transition: var(--transition);
+    }
+    .theme-toggle:hover { border-color: var(--border-hover); color: var(--text); }
 
     .logo {
       height: 60px;
@@ -193,7 +229,7 @@
 
     .input:focus,
     .select:focus {
-      border-color: var(--franklin-green);
+      border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(44, 62, 47, 0.15);
     }
 
@@ -226,8 +262,8 @@
     }
 
     .btn.primary {
-      border-color: var(--franklin-green);
-      background: var(--franklin-green);
+      border-color: var(--accent);
+      background: var(--accent);
       color: var(--ivory-white);
     }
 
@@ -263,7 +299,7 @@
 
     .card:hover {
       transform: translateY(-4px);
-      border-color: var(--franklin-green);
+      border-color: var(--accent);
       background: var(--panel-hover);
       box-shadow: var(--shadow-hover);
     }
@@ -526,7 +562,7 @@
 
     .promo-banner .btn {
       background: var(--ivory-white);
-      color: var(--franklin-green);
+      color: var(--accent);
       border-color: var(--ivory-white);
       font-weight: 600;
       padding: 0.75rem 2rem;
@@ -541,7 +577,7 @@
 
     /* Sale hero - Clean, sleek design */
     .sale-hero {
-      background-image: url('assets/Models/LCTF PF17 - Simple Pavilion 16x24 3.1.1/renders/IMG_2976.webp');
+      background-image: url('assets/Models/LCTF PF17 - Simple Pavilion 16x24 3.1.1/Cover.webp');
       background-size: cover;
       background-position: center;
       border-radius: var(--radius-lg);
@@ -560,7 +596,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(43, 61, 47, 0.60) 0%, rgba(43, 61, 47, 0.45) 50%, rgba(0, 0, 0, 0.55) 100%);
+      background: linear-gradient(135deg, rgba(45, 42, 38, 0.55) 0%, rgba(45, 42, 38, 0.4) 50%, rgba(0, 0, 0, 0.6) 100%);
       pointer-events: none;
     }
 
@@ -588,7 +624,7 @@
       align-items: center;
       gap: 0.5rem;
       background: white;
-      color: var(--franklin-green);
+      color: var(--accent);
       border-radius: 999px;
       padding: 0.5rem 1rem;
       font-size: 0.8rem;
@@ -663,7 +699,7 @@
 
     .sale-cta {
       width: 100%;
-      background: var(--franklin-green);
+      background: var(--accent);
       color: white;
       border: none;
       border-radius: 10px;
@@ -687,7 +723,7 @@
     .sale-view-btn {
       display: inline-block;
       background: rgba(255, 255, 255, 0.95);
-      color: var(--franklin-green);
+      color: var(--accent);
       border: none;
       border-radius: 10px;
       padding: 0.75rem 1.75rem;
@@ -728,7 +764,7 @@
       justify-content: center;
       width: 20px;
       height: 20px;
-      background: var(--franklin-green);
+      background: var(--accent);
       color: white;
       border-radius: 50%;
       font-weight: 700;
@@ -842,7 +878,7 @@
     }
 
     footer a {
-      color: var(--franklin-green);
+      color: var(--accent);
       text-decoration: none;
       transition: var(--transition);
     }
@@ -856,7 +892,7 @@
       position: fixed;
       top: 20px;
       right: 20px;
-      background: var(--franklin-green);
+      background: var(--accent);
       color: var(--ivory-white);
       padding: 16px 20px;
       border-radius: 8px;
@@ -890,7 +926,7 @@
 
     .notification.info {
       background: var(--slab-blue);
-      color: var(--forest-brown);
+      color: var(--text);
     }
 
     @media (max-width: 768px) {
@@ -964,7 +1000,7 @@
       left: 0;
       right: 0;
       z-index: 900;
-      background: var(--franklin-green);
+      background: var(--accent);
       color: #fff;
       padding: 1rem 1.5rem;
       box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.2);
@@ -1034,6 +1070,169 @@
       .bones-banner-text h4 { font-size: 0.9rem; }
       .bones-banner-text p { font-size: 0.75rem; }
     }
+
+    /* ═══ TRUST SIGNALS BAR ═══ */
+    .trust-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin: 2.5rem 0 1rem;
+    }
+    .trust-item {
+      text-align: center;
+      padding: 1.25rem 0.75rem;
+      border-radius: var(--radius);
+      background: var(--panel);
+      border: 1px solid var(--border);
+    }
+    .trust-num {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+    .trust-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+      font-weight: 500;
+    }
+    @media (max-width: 768px) {
+      .trust-bar { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+    }
+
+    /* ═══ CUSTOM DESIGN CTA ═══ */
+    .custom-cta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      margin: 3rem 0;
+      box-shadow: var(--shadow);
+    }
+    .custom-cta-text h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+    .custom-cta-text p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .custom-cta-price {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 999px;
+      padding: 0.4rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+    }
+    .custom-cta-features {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .custom-cta-feat {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .custom-cta-feat::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .custom-cta-action { text-align: center; }
+    .custom-cta-action .btn {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border-radius: 999px;
+      width: 100%;
+      max-width: 300px;
+    }
+    .custom-cta-action p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+    }
+    @media (max-width: 768px) {
+      .custom-cta { grid-template-columns: 1fr; padding: 1.5rem; }
+    }
+
+    /* ═══ FAQ SECTION ═══ */
+    .faq-section {
+      margin: 3rem 0;
+    }
+    .faq-section h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      text-align: center;
+    }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .faq-item {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .faq-q {
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      user-select: none;
+    }
+    .faq-q::after {
+      content: '+';
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-q::after {
+      content: '−';
+    }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-item.open .faq-a {
+      max-height: 500px;
+      padding: 0 1.25rem 1rem;
+    }
+    .faq-a p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    @media (max-width: 768px) {
+      .faq-grid { grid-template-columns: 1fr; }
+    }
   </style>
   <script src="https://app.metricslite.com/tracker-1.0.js" data-site-id="7a184184-bbf4-4ec1-81ba-8d738decb242"></script>
 </head>
@@ -1065,13 +1264,35 @@
 
   <div class="wrap">
     <header>
-      <img src="assets/global_graphics/LCTF Profile.png" alt="LC Timberframes Logo" class="logo">
-      <div class="title">
-        <h1>Visualize Your Timber Frame</h1>
-        <p>Click on a model below to visualize our carefully designed pre-fabricated structures. Kits are pre-fabricated
-          and ready to ship</p>
+      <div class="header-left">
+        <img src="assets/global_graphics/LCTF Profile.png" alt="Shop Timber Frame Kits" class="logo">
+        <div class="title">
+          <h1>The Bones of Your Next Build</h1>
+          <p>Pre-cut, pre-engineered timber frame kits &mdash; the structural skeleton for your dream project. Ships nationwide.</p>
+        </div>
       </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark/light mode">&#x263E;</button>
     </header>
+
+    <!-- Trust signals -->
+    <div class="trust-bar">
+      <div class="trust-item">
+        <div class="trust-num">24+</div>
+        <div class="trust-label">Kit Designs Available</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num">100%</div>
+        <div class="trust-label">Mortise &amp; Tenon Joinery</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num">Pre-Cut</div>
+        <div class="trust-label">Ships Ready to Assemble</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num">USA</div>
+        <div class="trust-label">Ships Nationwide</div>
+      </div>
+    </div>
 
     <!-- Sale hero: clean, sleek design -->
     <section class="sale-hero" aria-label="16x24 Kit sale">
@@ -1133,11 +1354,23 @@
       </div>
     </section>
 
-    <div class="promo-banner">
-      <h3>Don't see your perfect dimensions?</h3>
-      <p>Get a custom timber frame design for just $500! We'll create an interactive 3D model tailored to your exact
-        specifications.</p>
-      <button class="btn" onclick="window.location.href='custom-design.html'">Get Your $500 Design</button>
+    <!-- Custom Design CTA -->
+    <div class="custom-cta">
+      <div class="custom-cta-text">
+        <div class="custom-cta-price">$500 Custom Design</div>
+        <h3>Don't See Your Perfect Dimensions?</h3>
+        <p>We'll design a custom timber frame kit to your exact specifications &mdash; complete with an interactive 3D model you can walk through before committing.</p>
+        <div class="custom-cta-features">
+          <div class="custom-cta-feat">Custom dimensions tailored to your build site</div>
+          <div class="custom-cta-feat">Interactive 3D model to visualize before you buy</div>
+          <div class="custom-cta-feat">Full engineering with PE-stamped plans available</div>
+          <div class="custom-cta-feat">$500 design fee applies toward your kit purchase</div>
+        </div>
+      </div>
+      <div class="custom-cta-action">
+        <button class="btn primary" onclick="window.location.href='custom-design.html'" style="padding:1rem 2rem;font-size:1rem;border-radius:999px">Start Your Custom Design</button>
+        <p>Most designs completed in 2&ndash;3 weeks</p>
+      </div>
     </div>
 
     <div class="controls">
@@ -1160,9 +1393,48 @@
     <div style="margin-top: 40px; text-align: center;">
       <button id="main-purchase-btn" class="btn primary"
         style="padding: 16px 32px; font-size: 18px; border-radius: 999px;">
-        Purchase Now
+        Inquire About a Kit
       </button>
     </div>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <div class="faq-q">What's included in a timber frame kit?</div>
+          <div class="faq-a"><p>Every kit includes all pre-cut, pre-engineered timber frame components: posts, beams, plates, rafters, braces, and traditional joinery hardware (white oak pegs, steel connectors where needed). You receive a complete structural skeleton ready for assembly. Roofing, siding, and finishing materials are not included &mdash; we supply the bones, you build the dream.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">What is the lead time after ordering?</div>
+          <div class="faq-a"><p>Standard lead time is 8&ndash;12 weeks from order confirmation to delivery. Custom designs add 2&ndash;3 weeks for the design phase. We'll provide an exact timeline when you place your order, and keep you updated throughout production.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How does shipping work?</div>
+          <div class="faq-a"><p>We ship nationwide via flatbed freight. Kits are carefully palletized and strapped for transit. Delivery is curbside to your build site. For most locations in the continental US, freight is included in the kit price. Remote locations may have a delivery surcharge &mdash; we'll quote that upfront.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Do I need PE-stamped engineering plans?</div>
+          <div class="faq-a"><p>Most jurisdictions require PE-stamped structural plans for a building permit. We offer PE-stamped engineering packages as an add-on for your specific state and locality. Let us know where you're building and we'll confirm what's needed.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Can I install the kit myself?</div>
+          <div class="faq-a"><p>Yes. Our kits are designed for assembly by a competent builder or experienced DIYer with a crew. All joints are pre-cut and numbered, and we provide detailed assembly documentation. Many customers work with a local general contractor or timber frame assembly crew. We can recommend assembly partners in your area if needed.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">What wood species are available?</div>
+          <div class="faq-a"><p>Our standard kits are cut in Eastern White Pine &mdash; a proven timber framing species that's strong, workable, and cost-effective. We also offer Douglas Fir and White Oak upgrades for projects that need additional strength or a different aesthetic. Sale prices shown are for Eastern White Pine.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">What happens after I claim a kit or inquire?</div>
+          <div class="faq-a"><p>After you submit your inquiry, a member of our team will reach out within 1 business day to discuss your project, confirm specifications, answer questions, and provide a detailed quote. There's no commitment &mdash; we want to make sure the kit is right for your build before you order.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Can I customize a standard kit design?</div>
+          <div class="faq-a"><p>Absolutely. Most of our kits can be modified &mdash; adjusted dimensions, different pitch, added bays, or other structural changes. For $500, we'll create a fully custom design with an interactive 3D model. The design fee applies as a credit toward your kit purchase.</p></div>
+        </div>
+      </div>
+    </section>
 
     <div style="margin-top: 2rem; text-align: center;">
       <div class="pill">
@@ -1172,7 +1444,7 @@
     </div>
 
     <footer>
-      <span>LC Timberframes • <code>build.lctimberframes.com</code></span>
+      <span>Shop Timber Frame Kits &bull; <code>shoptimberframekits.com</code></span>
       <a href="builder-portal.html" style="font-size:0.8rem;opacity:0.6">Builder Login</a>
     </footer>
   </div>
@@ -1714,7 +1986,7 @@
     document.getElementById("next-page").addEventListener("click", () => changePage(1));
 
     document.getElementById("main-purchase-btn").addEventListener("click", () => {
-      window.open("https://www.lctimberframes.com/inquire/?utm_source=website&utm_medium=build.lc&utm_campaign=3Dkit&utm_term=motivated", "_blank");
+      window.location.href = "inquiry.html?utm_source=website&utm_medium=catalog&utm_campaign=3Dkit&utm_term=motivated";
     });
 
     // Countdown Timer for Urgency Hero
@@ -1745,8 +2017,45 @@
       setInterval(updateTimer, 60000); // Update every minute
     }
 
+    (function() {
+      var KEY = 'stfk_theme';
+      var btn = document.getElementById('theme-toggle');
+      function isDark() {
+        var t = document.documentElement.getAttribute('data-theme');
+        if (t === 'dark') return true;
+        if (t === 'light') return false;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+      }
+      function apply(t) {
+        if (t) document.documentElement.setAttribute('data-theme', t);
+        else document.documentElement.removeAttribute('data-theme');
+        btn.textContent = isDark() ? '\u2600' : '\u263E';
+        btn.setAttribute('aria-label', isDark() ? 'Switch to light mode' : 'Switch to dark mode');
+      }
+      function init() {
+        var saved = localStorage.getItem(KEY);
+        if (saved) { apply(saved); return; }
+        apply('');
+      }
+      btn.addEventListener('click', function() {
+        var next = isDark() ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem(KEY, next);
+        apply(next);
+      });
+      init();
+    })();
+
     loadManifest();
     updateHeroCountdown();
+
+    // FAQ toggle
+    document.querySelectorAll('.faq-q').forEach(function(q) {
+      q.addEventListener('click', function() {
+        var item = q.parentElement;
+        item.classList.toggle('open');
+      });
+    });
   </script>
 
 </body>
