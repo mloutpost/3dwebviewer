@@ -4,18 +4,9 @@ This repo is published as a static site at [shoptimberframekits.com](https://sho
 
 ## Deployment
 
-**Option A: Manual**
 ```bash
 ./deploy.sh
 ```
-
-**Option B: Automatic (on push to main)**  
-A GitHub Action deploys when you push to `main`. Requires two secrets in this repo:
-
-1. **GOOGLE_APPLICATION_CREDENTIALS_JSON** — Firebase service account JSON (copy from lctf_clients)
-2. **GH_PAT** — Personal Access Token with `repo` scope (to checkout lctf_clients)
-
-Add at: **Settings → Secrets and variables → Actions**
 
 ## SEO
 
